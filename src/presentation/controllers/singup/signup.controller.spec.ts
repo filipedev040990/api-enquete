@@ -131,9 +131,13 @@ describe('SignupController', () => {
     const response = await sut.execute(request)
     expect(response.statusCode).toBe(200)
     expect(response.body).toHaveProperty('id')
+    expect(response.body.id).not.toBeNull()
     expect(response.body).toHaveProperty('name')
+    expect(response.body.name).not.toBeNull()
     expect(response.body).toHaveProperty('email')
+    expect(response.body.email).not.toBeNull()
     expect(response.body).toHaveProperty('password')
+    expect(response.body.password).not.toBeNull()
   })
 
   test('should return 500 if AddAcountUseCase throw an exception', async () => {
