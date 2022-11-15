@@ -4,10 +4,10 @@ import { HttpRequest, HttpResponse } from '../interfaces/http'
 
 export default class SignupController {
   async execute (request: HttpRequest): Promise<HttpResponse> {
-    const requiredFields = ['name']
+    const requiredFields = ['name', 'email']
     for (const field of requiredFields) {
       if (!request.body[field]) {
-        return badRequest(new MissinParamError('name'))
+        return badRequest(new MissinParamError(field))
       }
     }
   }
