@@ -1,6 +1,4 @@
-import { AccountModel } from '../../../domain/models/account.model'
-import { AddAccountInterface, AddAccountRequest } from '../../../domain/use-cases/signup/add-account.interface'
-import { EncrypterAdapterInterface } from '../../interfaces/encrypter-adapter.interface'
+import { AccountModel, AddAccountInterface, AddAccountRequest, EncrypterAdapterInterface } from './'
 
 export class AddAccountUseCase implements AddAccountInterface {
   constructor (

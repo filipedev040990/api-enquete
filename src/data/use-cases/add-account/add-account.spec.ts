@@ -1,5 +1,4 @@
-import { AddAccountRequest } from '../../../domain/use-cases/signup/add-account.interface'
-import { EncrypterAdapterInterface } from '../../interfaces/encrypter-adapter.interface'
+import { AddAccountRequest, EncrypterAdapterInterface } from './'
 import { AddAccountUseCase } from './add-account'
 
 type SutType = {
