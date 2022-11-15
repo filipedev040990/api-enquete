@@ -9,14 +9,14 @@ import SignupController from './signup.controller'
 interface SutType {
   sut: SignupController
   emailValidatorStub: EmailValidatorInterface
-  addAccountStub: AddAccountInterface
+  addAccountStubUseCase: AddAccountInterface
 }
 
 const makeSut = (): SutType => {
   const emailValidatorStub = makeEmailValidatorStub()
-  const addAccountStub = makeAddAccountStub()
-  const sut = new SignupController(emailValidatorStub, addAccountStub)
-  return { sut, emailValidatorStub, addAccountStub }
+  const addAccountStubUseCase = makeAddAccountStub()
+  const sut = new SignupController(emailValidatorStub, addAccountStubUseCase)
+  return { sut, emailValidatorStub, addAccountStubUseCase }
 }
 
 const makeEmailValidatorStub = (): EmailValidatorInterface => {
@@ -115,9 +115,9 @@ describe('SignupController', () => {
     expect(response).toEqual(serverError())
   })
 
-  test('should call AddAcount with correct values', async () => {
-    const { sut, addAccountStub } = makeSut()
-    const spy = jest.spyOn(addAccountStub, 'execute')
+  test('should call AddAcountUseCase with correct values', async () => {
+    const { sut, addAccountStubUseCase } = makeSut()
+    const spy = jest.spyOn(addAccountStubUseCase, 'execute')
     await sut.execute(request)
     expect(spy).toHaveBeenCalledWith({
       name: 'anyName',
@@ -134,5 +134,14 @@ describe('SignupController', () => {
     expect(response.body).toHaveProperty('name')
     expect(response.body).toHaveProperty('email')
     expect(response.body).toHaveProperty('password')
+  })
+
+  test('should return 500 if AddAcountUseCase throw an exception', async () => {
+    const { sut, addAccountStubUseCase } = makeSut()
+    jest.spyOn(addAccountStubUseCase, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.execute(request)
+    expect(response).toEqual(serverError())
   })
 })
