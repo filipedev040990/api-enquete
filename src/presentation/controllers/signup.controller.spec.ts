@@ -29,7 +29,6 @@ describe('SignupController', () => {
     const { sut } = makeSut()
     request.body.name = null
     const response = await sut.execute(request)
-    expect(response.statusCode).toBe(400)
-    expect(response.body).toEqual(badRequest(new MissinParamError('name')))
+    expect(response).toEqual(badRequest(new MissinParamError('name')))
   })
 })
