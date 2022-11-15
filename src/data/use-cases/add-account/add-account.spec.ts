@@ -80,4 +80,13 @@ describe('DbAddAccountUseCase', () => {
     expect(response.email).toBe(accountData.email)
     expect(response.name).toBe(accountData.name)
   })
+
+  test('should return server error if AccountRepository throw an exception', async () => {
+    const { sut, accountRepositoryStub } = makeSut()
+    jest.spyOn(accountRepositoryStub, 'create').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute(accountData)
+    await expect(response).rejects.toThrow()
+  })
 })
