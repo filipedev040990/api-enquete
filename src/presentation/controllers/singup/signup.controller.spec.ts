@@ -1,6 +1,5 @@
 import InvalidParamError from '../../errors/invalid-param.error'
 import MissinParamError from '../../errors/missing-param.error'
-import ServerError from '../../errors/server.error'
 import { badRequest, serverError } from '../../helpers/http.helper'
 import { EmailValidatorInterface } from '../../interfaces/email-validator.interface'
 import SignupController from './signup.controller'
@@ -94,6 +93,6 @@ describe('SignupController', () => {
       throw new Error()
     })
     const response = await sut.execute(request)
-    expect(response).toEqual(serverError(new ServerError()))
+    expect(response).toEqual(serverError())
   })
 })
