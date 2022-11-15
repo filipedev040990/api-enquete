@@ -37,7 +37,7 @@ const makeAddAccountStub = (): AddAccountInterface => {
         email: 'anyEmail@email.com',
         password: 'hashedPassword'
       }
-      return fakeAccount
+      return await Promise.resolve(fakeAccount)
     }
   }
   return new AddAccountStub()
@@ -124,5 +124,15 @@ describe('SignupController', () => {
       email: 'anyEmail@email.com',
       password: 'anyPassword'
     })
+  })
+
+  test('should return an account on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute(request)
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toHaveProperty('id')
+    expect(response.body).toHaveProperty('name')
+    expect(response.body).toHaveProperty('email')
+    expect(response.body).toHaveProperty('password')
   })
 })

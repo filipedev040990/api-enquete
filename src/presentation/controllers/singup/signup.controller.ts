@@ -1,6 +1,6 @@
 import { AddAccountInterface } from '../../../domain/use-cases/signup/add-account.interface'
 import { InvalidParamError, MissinParamError } from '../../errors'
-import { badRequest, serverError } from '../../helpers/http.helper'
+import { badRequest, serverError, success } from '../../helpers/http.helper'
 import { ControllerInterface, EmailValidatorInterface, HttpRequest, HttpResponse } from '../../interfaces'
 
 export default class SignupController implements ControllerInterface {
@@ -29,11 +29,13 @@ export default class SignupController implements ControllerInterface {
         return badRequest(new InvalidParamError('email'))
       }
 
-      await this.addAccount.execute({
+      const account = await this.addAccount.execute({
         name,
         email,
         password
       })
+
+      return success(account)
     } catch (error) {
       return serverError()
     }
