@@ -38,4 +38,11 @@ describe('SignupController', () => {
     const response = await sut.execute(request)
     expect(response).toEqual(badRequest(new MissinParamError('email')))
   })
+
+  test('should return 400 if password is not provided', async () => {
+    const { sut } = makeSut()
+    request.body.password = null
+    const response = await sut.execute(request)
+    expect(response).toEqual(badRequest(new MissinParamError('password')))
+  })
 })
