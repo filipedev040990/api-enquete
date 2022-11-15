@@ -79,4 +79,11 @@ describe('SignupController', () => {
     await sut.execute(request)
     expect(spy).toHaveBeenCalledWith(request.body.email)
   })
+
+  test('should return 400 if EmailValidator return false', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'execute').mockReturnValueOnce(Promise.resolve(false))
+    const response = await sut.execute(request)
+    expect(response).toEqual(badRequest(new InvalidParamError('email')))
+  })
 })
