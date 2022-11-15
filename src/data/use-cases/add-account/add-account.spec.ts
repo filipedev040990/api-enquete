@@ -71,4 +71,13 @@ describe('DbAddAccountUseCase', () => {
     accountData.password = 'hashedPassword'
     expect(spy).toHaveBeenCalledWith(accountData)
   })
+
+  test('should return an account', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute(accountData)
+    expect(response).not.toBeNull()
+    expect(response).toHaveProperty('id')
+    expect(response.email).toBe(accountData.email)
+    expect(response.name).toBe(accountData.name)
+  })
 })
