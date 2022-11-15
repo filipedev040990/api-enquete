@@ -1,6 +1,12 @@
 import { BcryptAdapter } from './bcrypt-adapter'
 import bcrypt from 'bcrypt'
 
+jest.mock('bcrypt', () => ({
+  async hash (value: string, salt: number): Promise<string> {
+    return await Promise.resolve('hashedPassword')
+  }
+}))
+
 type SutType = {
   sut: BcryptAdapter
 }
@@ -16,5 +22,11 @@ describe('BcryptAdapter', () => {
     const spy = jest.spyOn(bcrypt, 'hash')
     await sut.hash('anyPassword')
     expect(spy).toHaveBeenCalledWith('anyPassword', salt)
+  })
+
+  test('should return a hashed value', async () => {
+    const { sut } = makeSut()
+    const response = await sut.hash('anyPassword')
+    expect(response).toBe('hashedPassword')
   })
 })
