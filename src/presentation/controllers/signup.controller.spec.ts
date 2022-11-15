@@ -1,3 +1,4 @@
+import InvalidParamError from '../errors/invalid-param-error'
 import MissinParamError from '../errors/missing-param-error'
 import { badRequest } from '../helpers/http-helper'
 import SignupController from './signup.controller'
@@ -51,5 +52,12 @@ describe('SignupController', () => {
     request.body.passwordConfirmation = null
     const response = await sut.execute(request)
     expect(response).toEqual(badRequest(new MissinParamError('passwordConfirmation')))
+  })
+
+  test('should return 400 if password confirmation failed', async () => {
+    const { sut } = makeSut()
+    request.body.passwordConfirmation = 'anotherPassword'
+    const response = await sut.execute(request)
+    expect(response).toEqual(badRequest(new InvalidParamError('password confirmation failed')))
   })
 })
