@@ -1,4 +1,5 @@
 import MissinParamError from '../errors/missing-param-error'
+import { badRequest } from '../helpers/http-helper'
 import SignupController from './signup.controller'
 
 interface SutType {
@@ -29,6 +30,6 @@ describe('SignupController', () => {
     request.body.name = null
     const response = await sut.execute(request)
     expect(response.statusCode).toBe(400)
-    expect(response.body).toEqual(new MissinParamError('name'))
+    expect(response.body).toEqual(badRequest(new MissinParamError('name')))
   })
 })
