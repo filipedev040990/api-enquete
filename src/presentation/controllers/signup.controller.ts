@@ -1,7 +1,7 @@
-import InvalidParamError from '../errors/invalid-param-error'
-import MissinParamError from '../errors/missing-param-error'
-import { badRequest } from '../helpers/http-helper'
-import { HttpRequest, HttpResponse } from '../interfaces/http'
+import InvalidParamError from '../errors/invalid-param.error'
+import MissinParamError from '../errors/missing-param.error'
+import { badRequest } from '../helpers/http.helper'
+import { HttpRequest, HttpResponse } from '../interfaces/http.interface'
 
 export default class SignupController {
   async execute (request: HttpRequest): Promise<HttpResponse> {

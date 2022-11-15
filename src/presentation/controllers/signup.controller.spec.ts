@@ -1,6 +1,6 @@
-import InvalidParamError from '../errors/invalid-param-error'
-import MissinParamError from '../errors/missing-param-error'
-import { badRequest } from '../helpers/http-helper'
+import InvalidParamError from '../errors/invalid-param.error'
+import MissinParamError from '../errors/missing-param.error'
+import { badRequest } from '../helpers/http.helper'
 import SignupController from './signup.controller'
 
 interface SutType {
