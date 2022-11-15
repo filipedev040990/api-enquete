@@ -1,15 +1,27 @@
 import InvalidParamError from '../errors/invalid-param.error'
 import MissinParamError from '../errors/missing-param.error'
 import { badRequest } from '../helpers/http.helper'
+import { EmailValidatorInterface } from '../interfaces/email-validator.interface'
 import SignupController from './signup.controller'
 
 interface SutType {
   sut: SignupController
+  emailValidatorStub: EmailValidatorInterface
 }
 
 const makeSut = (): SutType => {
-  const sut = new SignupController()
-  return { sut }
+  const emailValidatorStub = makeEmailValidatorStub()
+  const sut = new SignupController(emailValidatorStub)
+  return { sut, emailValidatorStub }
+}
+
+const makeEmailValidatorStub = (): EmailValidatorInterface => {
+  class EmailValidatorStub implements EmailValidatorInterface {
+    async execute (email: string): Promise<boolean> {
+      return await Promise.resolve(true)
+    }
+  }
+  return new EmailValidatorStub()
 }
 
 let request
@@ -59,5 +71,12 @@ describe('SignupController', () => {
     request.body.passwordConfirmation = 'anotherPassword'
     const response = await sut.execute(request)
     expect(response).toEqual(badRequest(new InvalidParamError('password confirmation failed')))
+  })
+
+  test('should call EmailValidator with correct email', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    const spy = jest.spyOn(emailValidatorStub, 'execute')
+    await sut.execute(request)
+    expect(spy).toHaveBeenCalledWith(request.body.email)
   })
 })
