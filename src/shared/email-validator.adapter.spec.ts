@@ -31,4 +31,13 @@ describe('', () => {
     const response = await sut.execute('anyEmail@email.com')
     expect(response).toBeFalsy()
   })
+
+  test('should return server error if validator throw an exception', async () => {
+    const sut = makeSut()
+    jest.spyOn(validator, 'isEmail').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute('anyEmail@email.com')
+    await expect(response).rejects.toThrow()
+  })
 })
