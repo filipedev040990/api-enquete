@@ -39,4 +39,13 @@ describe('DbAddAccountUseCase', () => {
     await sut.execute(accountData)
     expect(spy).toHaveBeenCalledWith(accountData.password)
   })
+
+  test('should return server error if Encrypter.hash throw an exception', async () => {
+    const { sut, encrypterStub } = makeSut()
+    jest.spyOn(encrypterStub, 'hash').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute(accountData)
+    await expect(response).rejects.toThrow()
+  })
 })
