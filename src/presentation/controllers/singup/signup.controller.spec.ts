@@ -1,5 +1,5 @@
 
-import { AccountModel } from '../../../domain/use-cases/models/account.model'
+import { AccountModel } from '../../../domain/models/account.model'
 import { AddAccountInterface, AddAccountRequest } from '../../../domain/use-cases/signup/add-account.interface'
 import { InvalidParamError, MissinParamError } from '../../errors'
 import { badRequest, serverError } from '../../helpers/http.helper'
