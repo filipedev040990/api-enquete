@@ -1,15 +1,18 @@
-import { AddAccountRequest, EncrypterAdapterInterface } from './'
+import { AccountRepositoryInterface } from '../../interfaces/account-repository.interface'
+import { AccountModel, AddAccountRequest, EncrypterAdapterInterface } from './'
 import { AddAccountUseCase } from './add-account'
 
 type SutType = {
   sut: AddAccountUseCase
   encrypterStub: EncrypterAdapterInterface
+  accountRepositoryStub: AccountRepositoryInterface
 }
 
 const makeSut = (): SutType => {
   const encrypterStub = makeEncrypter()
-  const sut = new AddAccountUseCase(encrypterStub)
-  return { sut, encrypterStub }
+  const accountRepositoryStub = makeAccountRepositoryStub()
+  const sut = new AddAccountUseCase(encrypterStub, accountRepositoryStub)
+  return { sut, encrypterStub, accountRepositoryStub }
 }
 
 const makeEncrypter = (): EncrypterAdapterInterface => {
@@ -19,6 +22,19 @@ const makeEncrypter = (): EncrypterAdapterInterface => {
     }
   }
   return new EncrypterStub()
+}
+
+const makeAccountRepositoryStub = (): AccountRepositoryInterface => {
+  class AccountRepositoryStub implements AccountRepositoryInterface {
+    async create (account: AddAccountRequest): Promise<AccountModel> {
+      const fakeAccount = {
+        id: 'anyId',
+        ...account
+      }
+      return await Promise.resolve(fakeAccount)
+    }
+  }
+  return new AccountRepositoryStub()
 }
 
 let accountData: AddAccountRequest
@@ -46,5 +62,13 @@ describe('DbAddAccountUseCase', () => {
     })
     const response = sut.execute(accountData)
     await expect(response).rejects.toThrow()
+  })
+
+  test('should call AccountRepository with correct values', async () => {
+    const { sut, accountRepositoryStub } = makeSut()
+    const spy = jest.spyOn(accountRepositoryStub, 'create')
+    await sut.execute(accountData)
+    accountData.password = 'hashedPassword'
+    expect(spy).toHaveBeenCalledWith(accountData)
   })
 })
