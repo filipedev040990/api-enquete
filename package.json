@@ -24,8 +24,10 @@
   },
   "homepage": "https://github.com/filipedev040990/template#readme",
   "devDependencies": {
+    "@shelf/jest-mongodb": "^4.1.3",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^28.1.6",
+    "@types/mongodb": "^4.0.7",
     "@types/node": "^18.6.3",
     "@types/validator": "^13.7.10",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
