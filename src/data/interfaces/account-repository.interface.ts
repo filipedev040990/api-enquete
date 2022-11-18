@@ -2,5 +2,5 @@ import { AddAccountRequest } from '../../domain/use-cases/signup/add-account.int
 import { AccountModel } from '../../domain/models/account.model'
 
 export interface AccountRepositoryInterface {
-  create (account: AddAccountRequest): Promise<AccountModel>
+  create (accountData: AddAccountRequest): Promise<AccountModel>
 }
