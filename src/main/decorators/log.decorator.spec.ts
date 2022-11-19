@@ -34,7 +34,7 @@ const makeSignupControllerStub = (): ControllerInterface => {
 
 const makeLogRepository = (): LogRepositoryInterface => {
   class LogRepositoryStub implements LogRepositoryInterface {
-    async log (stack: string): Promise<void> {
+    async logError (stack: string): Promise<void> {
 
     }
   }
@@ -85,7 +85,7 @@ describe('LogController Decorator', () => {
     error.stack = 'anyStack'
 
     jest.spyOn(singupControllerStub, 'execute').mockReturnValueOnce(Promise.resolve(serverError(error)))
-    const spy = jest.spyOn(logRepositoryStub, 'log')
+    const spy = jest.spyOn(logRepositoryStub, 'logError')
 
     const httpRequest = {
       body: {
