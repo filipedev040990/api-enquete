@@ -1,0 +1,47 @@
+import { ControllerInterface, HttpRequest, HttpResponse } from '../../presentation/interfaces'
+import { LogControllerDecorator } from './log.decorator'
+
+type SutType = {
+  sut: LogControllerDecorator
+  singupControllerStub: ControllerInterface
+}
+
+const makeSut = (): SutType => {
+  const singupControllerStub = makeSignupControllerStub()
+  const sut = new LogControllerDecorator(singupControllerStub)
+  return { sut, singupControllerStub }
+}
+
+const makeSignupControllerStub = (): ControllerInterface => {
+  class SignupControllerStub implements ControllerInterface {
+    async execute (request: HttpRequest): Promise<HttpResponse> {
+      return {
+        statusCode: 200,
+        body: {
+          email: 'anyEmail@email.com',
+          name: 'anyName',
+          password: 'anyPassword',
+          id: 'anyId'
+        }
+      }
+    }
+  }
+  return new SignupControllerStub()
+}
+
+describe('LogController Decorator', () => {
+  test('should call controller.execute with correct values', async () => {
+    const { sut, singupControllerStub } = makeSut()
+    const spy = jest.spyOn(singupControllerStub, 'execute')
+    const httpRequest = {
+      body: {
+        email: 'anyEmail@email.com',
+        name: 'anyName',
+        password: 'anyPassword',
+        passwordConfirmation: 'anyPassword'
+      }
+    }
+    await sut.execute(httpRequest)
+    expect(spy).toHaveBeenCalledWith(httpRequest)
+  })
+})
