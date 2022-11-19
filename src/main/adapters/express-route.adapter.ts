@@ -8,6 +8,7 @@ export const adaptRoute = (controller: ControllerInterface) => {
     }
 
     const httpResponse: HttpResponse = await controller.execute(httpRequest)
-    res.status(httpResponse.statusCode).json(httpResponse.body)
+    const bodyResponse = httpResponse.statusCode === 500 ? { error: httpResponse.body.message } : httpResponse.body
+    res.status(httpResponse.statusCode).json(bodyResponse)
   }
 }
