@@ -20,8 +20,7 @@ const makeSignupControllerStub = (): ControllerInterface => {
         body: {
           email: 'anyEmail@email.com',
           name: 'anyName',
-          password: 'anyPassword',
-          id: 'anyId'
+          password: 'anyPassword'
         }
       }
     }
@@ -43,5 +42,26 @@ describe('LogController Decorator', () => {
     }
     await sut.execute(httpRequest)
     expect(spy).toHaveBeenCalledWith(httpRequest)
+  })
+
+  test('should return the same result of controller', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        email: 'anyEmail@email.com',
+        name: 'anyName',
+        password: 'anyPassword',
+        passwordConfirmation: 'anyPassword'
+      }
+    }
+    const response = await sut.execute(httpRequest)
+    expect(response).toEqual({
+      statusCode: 200,
+      body: {
+        email: 'anyEmail@email.com',
+        name: 'anyName',
+        password: 'anyPassword'
+      }
+    })
   })
 })

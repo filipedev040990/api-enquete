@@ -3,7 +3,6 @@ import { ControllerInterface, HttpRequest, HttpResponse } from '../../presentati
 export class LogControllerDecorator implements ControllerInterface {
   constructor (private readonly controller: ControllerInterface) {}
   async execute (request: HttpRequest): Promise<HttpResponse> {
-    await this.controller.execute(request)
-    return null
+    return await this.controller.execute(request)
   }
 }
