@@ -6,7 +6,7 @@ module.exports = {
     '!<rootDir>/src/**/*Helper.ts',
     '!<rootDir>/src/**/index.ts',
     '!<rootDir>/src/**/app.ts',
-    '!<rootDir>/src/**/server.ts',
+    '!<rootDir>/src/**/main/**',
     '!**/interfaces/**'
   ],
   coverageDirectory: 'coverage',
