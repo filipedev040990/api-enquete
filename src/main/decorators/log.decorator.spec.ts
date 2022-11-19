@@ -1,15 +1,19 @@
+import { LogRepositoryInterface } from '../../data/interfaces/log-repository.interface'
+import { serverError } from '../../presentation/helpers/http.helper'
 import { ControllerInterface, HttpRequest, HttpResponse } from '../../presentation/interfaces'
 import { LogControllerDecorator } from './log.decorator'
 
 type SutType = {
   sut: LogControllerDecorator
   singupControllerStub: ControllerInterface
+  logRepositoryStub: LogRepositoryInterface
 }
 
 const makeSut = (): SutType => {
   const singupControllerStub = makeSignupControllerStub()
-  const sut = new LogControllerDecorator(singupControllerStub)
-  return { sut, singupControllerStub }
+  const logRepositoryStub = makeLogRepository()
+  const sut = new LogControllerDecorator(singupControllerStub, logRepositoryStub)
+  return { sut, singupControllerStub, logRepositoryStub }
 }
 
 const makeSignupControllerStub = (): ControllerInterface => {
@@ -26,6 +30,15 @@ const makeSignupControllerStub = (): ControllerInterface => {
     }
   }
   return new SignupControllerStub()
+}
+
+const makeLogRepository = (): LogRepositoryInterface => {
+  class LogRepositoryStub implements LogRepositoryInterface {
+    async log (stack: string): Promise<void> {
+
+    }
+  }
+  return new LogRepositoryStub()
 }
 
 describe('LogController Decorator', () => {
@@ -63,5 +76,26 @@ describe('LogController Decorator', () => {
         password: 'anyPassword'
       }
     })
+  })
+
+  test('should call LogRepository if controller.execute return server error', async () => {
+    const { sut, singupControllerStub, logRepositoryStub } = makeSut()
+
+    const error = new Error()
+    error.stack = 'anyStack'
+
+    jest.spyOn(singupControllerStub, 'execute').mockReturnValueOnce(Promise.resolve(serverError(error)))
+    const spy = jest.spyOn(logRepositoryStub, 'log')
+
+    const httpRequest = {
+      body: {
+        email: 'anyEmail@email.com',
+        name: 'anyName',
+        password: 'anyPassword',
+        passwordConfirmation: 'anyPassword'
+      }
+    }
+    await sut.execute(httpRequest)
+    expect(spy).toHaveBeenCalledWith('anyStack')
   })
 })
