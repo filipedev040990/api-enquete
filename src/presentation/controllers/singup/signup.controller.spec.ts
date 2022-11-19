@@ -112,7 +112,7 @@ describe('SignupController', () => {
       throw new Error()
     })
     const response = await sut.execute(request)
-    expect(response).toEqual(serverError())
+    expect(response).toEqual(serverError(new Error()))
   })
 
   test('should call AddAcountUseCase with correct values', async () => {
@@ -143,9 +143,9 @@ describe('SignupController', () => {
   test('should return 500 if AddAcountUseCase throw an exception', async () => {
     const { sut, addAccountStubUseCase } = makeSut()
     jest.spyOn(addAccountStubUseCase, 'execute').mockImplementationOnce(() => {
-      throw new Error()
+      throw new Error('failed')
     })
     const response = await sut.execute(request)
-    expect(response).toEqual(serverError())
+    expect(response).toEqual(serverError(new Error()))
   })
 })
