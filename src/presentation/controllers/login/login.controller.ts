@@ -1,10 +1,12 @@
+import { AuthenticationUseCaseInterface } from '../../../domain/use-cases/authentication/authentication.interface'
 import { InvalidParamError, MissinParamError } from '../../errors'
 import { badRequest } from '../../helpers/http.helper'
 import { ControllerInterface, EmailValidatorInterface, HttpRequest, HttpResponse } from '../../interfaces'
 
 export class LoginController implements ControllerInterface {
   constructor (
-    private readonly emailValidator: EmailValidatorInterface
+    private readonly emailValidator: EmailValidatorInterface,
+    private readonly authenticationUseCase: AuthenticationUseCaseInterface
   ) {}
 
   async execute (request: HttpRequest): Promise<HttpResponse> {
@@ -14,12 +16,14 @@ export class LoginController implements ControllerInterface {
         return badRequest(new MissinParamError(field))
       }
     }
-    const { email } = request.body
+    const { email, password } = request.body
 
     const isValidEmail = await this.emailValidator.execute(email)
     if (!isValidEmail) {
       return badRequest(new InvalidParamError('email'))
     }
+
+    await this.authenticationUseCase.execute({ email, password })
 
     return null
   }

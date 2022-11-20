@@ -1,3 +1,4 @@
+import { AuthenticationUseCaseInterface, AuthenticationRequest } from '../../../domain/use-cases/authentication/authentication.interface'
 import { InvalidParamError, MissinParamError } from '../../errors'
 import { badRequest } from '../../helpers/http.helper'
 import { EmailValidatorInterface, HttpRequest } from '../../interfaces'
@@ -6,12 +7,14 @@ import { LoginController } from './login.controller'
 type SutType = {
   sut: LoginController
   emailValidatorStub: EmailValidatorInterface
+  authenticationUseCaseStub: AuthenticationUseCaseInterface
 }
 
 const makeSut = (): SutType => {
+  const authenticationUseCaseStub = makeAuthenticationUseCaseStub()
   const emailValidatorStub = makeEmailValidatorStub()
-  const sut = new LoginController(emailValidatorStub)
-  return { sut, emailValidatorStub }
+  const sut = new LoginController(emailValidatorStub, authenticationUseCaseStub)
+  return { sut, emailValidatorStub, authenticationUseCaseStub }
 }
 
 const makeEmailValidatorStub = (): EmailValidatorInterface => {
@@ -21,6 +24,15 @@ const makeEmailValidatorStub = (): EmailValidatorInterface => {
     }
   }
   return new EmailValidatorStub()
+}
+
+const makeAuthenticationUseCaseStub = (): AuthenticationUseCaseInterface => {
+  class AuthenticationUseCaseStub implements AuthenticationUseCaseInterface {
+    async execute (request: AuthenticationRequest): Promise<string> {
+      return await Promise.resolve('anyToken')
+    }
+  }
+  return new AuthenticationUseCaseStub()
 }
 
 let httpRequest: HttpRequest
@@ -61,5 +73,12 @@ describe('', () => {
     jest.spyOn(emailValidatorStub, 'execute').mockReturnValueOnce(Promise.resolve(false))
     const response = await sut.execute(httpRequest)
     expect(response).toEqual(badRequest(new InvalidParamError('email')))
+  })
+
+  test('should call AuthenticationUseCase with correct values', async () => {
+    const { sut, authenticationUseCaseStub } = makeSut()
+    const spy = jest.spyOn(authenticationUseCaseStub, 'execute')
+    await sut.execute(httpRequest)
+    expect(spy).toHaveBeenCalledWith(httpRequest.body)
   })
 })
