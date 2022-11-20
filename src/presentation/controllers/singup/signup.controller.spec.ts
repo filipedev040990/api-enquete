@@ -129,7 +129,7 @@ describe('SignupController', () => {
   test('should return an account on success', async () => {
     const { sut } = makeSut()
     const response = await sut.execute(request)
-    expect(response.statusCode).toBe(200)
+    expect(response.statusCode).toBe(201)
     expect(response.body).toHaveProperty('id')
     expect(response.body.id).not.toBeNull()
     expect(response.body).toHaveProperty('name')

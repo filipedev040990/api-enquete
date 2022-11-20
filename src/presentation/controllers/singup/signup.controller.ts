@@ -35,7 +35,7 @@ export default class SignupController implements ControllerInterface {
         password
       })
 
-      return success(account)
+      return success(account, 201)
     } catch (error) {
       return serverError(error)
     }
