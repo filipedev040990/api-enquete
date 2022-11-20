@@ -1,6 +1,6 @@
 import { AuthenticationUseCaseInterface } from '../../../domain/use-cases/authentication/authentication.interface'
 import { InvalidParamError, MissinParamError } from '../../errors'
-import { badRequest, unauthorized } from '../../helpers/http.helper'
+import { badRequest, success, unauthorized } from '../../helpers/http.helper'
 import { ControllerInterface, EmailValidatorInterface, HttpRequest, HttpResponse } from '../../interfaces'
 
 export class LoginController implements ControllerInterface {
@@ -27,5 +27,6 @@ export class LoginController implements ControllerInterface {
     if (!accessToken) {
       return unauthorized()
     }
+    return success(accessToken)
   }
 }

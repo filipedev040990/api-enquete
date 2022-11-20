@@ -1,6 +1,6 @@
 import { AuthenticationUseCaseInterface, AuthenticationRequest } from '../../../domain/use-cases/authentication/authentication.interface'
 import { InvalidParamError, MissinParamError } from '../../errors'
-import { badRequest, unauthorized } from '../../helpers/http.helper'
+import { badRequest, success, unauthorized } from '../../helpers/http.helper'
 import { EmailValidatorInterface, HttpRequest } from '../../interfaces'
 import { LoginController } from './login.controller'
 
@@ -87,5 +87,11 @@ describe('', () => {
     jest.spyOn(authenticationUseCaseStub, 'execute').mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.execute(httpRequest)
     expect(response).toEqual(unauthorized())
+  })
+
+  test('should return an access token on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute(httpRequest)
+    expect(response).toEqual(success('anyToken'))
   })
 })
