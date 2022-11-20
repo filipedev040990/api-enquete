@@ -1,6 +1,6 @@
 import { AccountRepositoryInterface } from '../../interfaces/account-repository.interface'
-import { AccountModel, AddAccountRequest, EncrypterAdapterInterface } from './'
-import { AddAccountUseCase } from './add-account'
+import { AccountModel, AddAccountRequest, EncrypterAdapterInterface } from '.'
+import { AddAccountUseCase } from './add-account.usecase'
 
 type SutType = {
   sut: AddAccountUseCase
