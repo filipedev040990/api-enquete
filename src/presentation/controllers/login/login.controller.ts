@@ -1,4 +1,4 @@
-import { MissinParamError } from '../../errors'
+import { InvalidParamError, MissinParamError } from '../../errors'
 import { badRequest } from '../../helpers/http.helper'
 import { ControllerInterface, EmailValidatorInterface, HttpRequest, HttpResponse } from '../../interfaces'
 
@@ -15,7 +15,12 @@ export class LoginController implements ControllerInterface {
       }
     }
     const { email } = request.body
-    await this.emailValidator.execute(email)
+
+    const isValidEmail = await this.emailValidator.execute(email)
+    if (!isValidEmail) {
+      return badRequest(new InvalidParamError('email'))
+    }
+
     return null
   }
 }
