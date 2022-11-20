@@ -75,6 +75,15 @@ describe('', () => {
     expect(response).toEqual(badRequest(new InvalidParamError('email')))
   })
 
+  test('should return 500 EmailValidator throw an exception', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.execute(httpRequest)
+    expect(response).toEqual(serverError(new Error()))
+  })
+
   test('should call AuthenticationUseCase with correct values', async () => {
     const { sut, authenticationUseCaseStub } = makeSut()
     const spy = jest.spyOn(authenticationUseCaseStub, 'execute')
