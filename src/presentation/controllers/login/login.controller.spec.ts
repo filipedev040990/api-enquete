@@ -1,6 +1,6 @@
 import { AuthenticationUseCaseInterface, AuthenticationRequest } from '../../../domain/use-cases/authentication/authentication.interface'
 import { InvalidParamError, MissinParamError } from '../../errors'
-import { badRequest, success, unauthorized } from '../../helpers/http.helper'
+import { badRequest, serverError, success, unauthorized } from '../../helpers/http.helper'
 import { EmailValidatorInterface, HttpRequest } from '../../interfaces'
 import { LoginController } from './login.controller'
 
@@ -93,5 +93,14 @@ describe('', () => {
     const { sut } = makeSut()
     const response = await sut.execute(httpRequest)
     expect(response).toEqual(success('anyToken'))
+  })
+
+  test('should return 500 AuthenticationUseCase throw an exception', async () => {
+    const { sut, authenticationUseCaseStub } = makeSut()
+    jest.spyOn(authenticationUseCaseStub, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.execute(httpRequest)
+    expect(response).toEqual(serverError(new Error()))
   })
 })
