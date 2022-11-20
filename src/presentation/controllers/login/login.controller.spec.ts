@@ -23,10 +23,18 @@ describe('', () => {
       }
     }
   })
+
   test('should return 400 if email is not provided', async () => {
     const { sut } = makeSut()
     httpRequest.body.email = null
     const response = await sut.execute(httpRequest)
     expect(response).toEqual(badRequest(new MissinParamError('email')))
+  })
+
+  test('should return 400 if password is not provided', async () => {
+    const { sut } = makeSut()
+    httpRequest.body.password = null
+    const response = await sut.execute(httpRequest)
+    expect(response).toEqual(badRequest(new MissinParamError('password')))
   })
 })
