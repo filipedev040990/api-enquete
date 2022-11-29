@@ -16,7 +16,7 @@ const makeSut = (): SutType => {
   const authenticationUseCaseStub = makeAuthenticationUseCaseStub()
   const emailValidatorStub = makeEmailValidatorStub()
   const validationStub = makeValidation()
-  const sut = new LoginController(emailValidatorStub, authenticationUseCaseStub, validationStub)
+  const sut = new LoginController(authenticationUseCaseStub, validationStub)
   return { sut, emailValidatorStub, authenticationUseCaseStub, validationStub }
 }
 
