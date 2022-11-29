@@ -69,13 +69,6 @@ describe('SignupController', () => {
     }
   })
 
-  test('should return 400 if password confirmation failed', async () => {
-    const { sut } = makeSut()
-    request.body.passwordConfirmation = 'anotherPassword'
-    const response = await sut.execute(request)
-    expect(response).toEqual(badRequest(new InvalidParamError('password confirmation failed')))
-  })
-
   test('should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
     const spy = jest.spyOn(emailValidatorStub, 'execute')
