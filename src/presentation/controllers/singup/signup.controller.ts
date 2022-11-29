@@ -1,5 +1,5 @@
 import { AddAccountInterface } from '../../../domain/use-cases/signup/add-account.interface'
-import { InvalidParamError, MissinParamError } from '../../errors'
+import { InvalidParamError } from '../../errors'
 import { badRequest, serverError, success } from '../../helpers/http.helper'
 import { ControllerInterface, EmailValidatorInterface, HttpRequest, HttpResponse } from '../../interfaces'
 import { ValidationInterface } from '../../validators/validation.interface'
@@ -16,12 +16,6 @@ export default class SignupController implements ControllerInterface {
       const error = await this.validation.validate(request.body)
       if (error) {
         return badRequest(error)
-      }
-      const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
-      for (const field of requiredFields) {
-        if (!request.body[field]) {
-          return badRequest(new MissinParamError(field))
-        }
       }
 
       const { name, password, passwordConfirmation, email } = request.body
