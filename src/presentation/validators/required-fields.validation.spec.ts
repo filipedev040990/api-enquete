@@ -16,4 +16,10 @@ describe('Required Fields Validation', () => {
     const error = await sut.validate({ anotherField: 'anyValue' })
     expect(error).toEqual(new MissinParamError('email'))
   })
+
+  test('should not return if validation succeeds', async () => {
+    const { sut } = makeSut()
+    const error = await sut.validate({ email: 'email@email.com' })
+    expect(error).toBeFalsy()
+  })
 })
