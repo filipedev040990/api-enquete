@@ -13,7 +13,10 @@ export default class SignupController implements ControllerInterface {
 
   async execute (request: HttpRequest): Promise<HttpResponse> {
     try {
-      await this.validation.validate(request.body)
+      const error = await this.validation.validate(request.body)
+      if (error) {
+        return badRequest(error)
+      }
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
       for (const field of requiredFields) {
         if (!request.body[field]) {

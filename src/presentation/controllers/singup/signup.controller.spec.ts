@@ -172,4 +172,11 @@ describe('SignupController', () => {
       passwordConfirmation: 'anyPassword'
     })
   })
+
+  test('should return 400 if Validation fails', async () => {
+    const { sut, validationStub } = makeSut()
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissinParamError('anyField'))
+    const response = await sut.execute(request)
+    expect(response).toEqual(badRequest(new MissinParamError('anyField')))
+  })
 })
