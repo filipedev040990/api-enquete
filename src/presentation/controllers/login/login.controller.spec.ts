@@ -1,5 +1,5 @@
 import { AuthenticationUseCaseInterface, AuthenticationRequest } from '../../../domain/use-cases/authentication/authentication.interface'
-import { InvalidParamError, MissinParamError } from '../../errors'
+import { InvalidParamError, MissingParamError } from '../../errors'
 import { badRequest, serverError, success, unauthorized } from '../../helpers/http.helper'
 import { EmailValidatorInterface, HttpRequest } from '../../interfaces'
 import { LoginController } from './login.controller'
@@ -51,14 +51,14 @@ describe('', () => {
     const { sut } = makeSut()
     httpRequest.body.email = null
     const response = await sut.execute(httpRequest)
-    expect(response).toEqual(badRequest(new MissinParamError('email')))
+    expect(response).toEqual(badRequest(new MissingParamError('email')))
   })
 
   test('should return 400 if password is not provided', async () => {
     const { sut } = makeSut()
     httpRequest.body.password = null
     const response = await sut.execute(httpRequest)
-    expect(response).toEqual(badRequest(new MissinParamError('password')))
+    expect(response).toEqual(badRequest(new MissingParamError('password')))
   })
 
   test('should call EmailValidator with correct email', async () => {

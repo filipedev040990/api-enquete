@@ -1,7 +1,7 @@
 
 import { AccountModel } from '../../../domain/models/account.model'
 import { AddAccountInterface, AddAccountRequest } from '../../../domain/use-cases/signup/add-account.interface'
-import { MissinParamError } from '../../errors'
+import { MissingParamError } from '../../errors'
 import { badRequest, serverError } from '../../helpers/http.helper'
 import { ValidationInterface } from '../../validators/validation.interface'
 import SignupController from './signup.controller'
@@ -105,8 +105,8 @@ describe('SignupController', () => {
 
   test('should return 400 if Validation fails', async () => {
     const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissinParamError('anyField'))
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('anyField'))
     const response = await sut.execute(request)
-    expect(response).toEqual(badRequest(new MissinParamError('anyField')))
+    expect(response).toEqual(badRequest(new MissingParamError('anyField')))
   })
 })
