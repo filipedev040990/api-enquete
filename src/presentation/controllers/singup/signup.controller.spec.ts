@@ -4,19 +4,22 @@ import { AddAccountInterface, AddAccountRequest } from '../../../domain/use-case
 import { InvalidParamError, MissinParamError } from '../../errors'
 import { badRequest, serverError } from '../../helpers/http.helper'
 import { EmailValidatorInterface } from '../../interfaces/email-validator.interface'
+import { ValidationInterface } from '../../validators/validation.interface'
 import SignupController from './signup.controller'
 
 interface SutType {
   sut: SignupController
   emailValidatorStub: EmailValidatorInterface
   addAccountStubUseCase: AddAccountInterface
+  validationStub: ValidationInterface
 }
 
 const makeSut = (): SutType => {
   const emailValidatorStub = makeEmailValidatorStub()
   const addAccountStubUseCase = makeAddAccountStub()
-  const sut = new SignupController(emailValidatorStub, addAccountStubUseCase)
-  return { sut, emailValidatorStub, addAccountStubUseCase }
+  const validationStub = makeValidation()
+  const sut = new SignupController(emailValidatorStub, addAccountStubUseCase, validationStub)
+  return { sut, emailValidatorStub, addAccountStubUseCase, validationStub }
 }
 
 const makeEmailValidatorStub = (): EmailValidatorInterface => {
@@ -41,6 +44,15 @@ const makeAddAccountStub = (): AddAccountInterface => {
     }
   }
   return new AddAccountStub()
+}
+
+const makeValidation = (): ValidationInterface => {
+  class ValidationStub implements ValidationInterface {
+    validate (input: any): Error {
+      return null
+    }
+  }
+  return new ValidationStub()
 }
 
 let request
@@ -147,5 +159,17 @@ describe('SignupController', () => {
     })
     const response = await sut.execute(request)
     expect(response).toEqual(serverError(new Error()))
+  })
+
+  test('should call Validation with correct values', async () => {
+    const { sut, validationStub } = makeSut()
+    const spy = jest.spyOn(validationStub, 'validate')
+    await sut.execute(request)
+    expect(spy).toHaveBeenCalledWith({
+      name: 'anyName',
+      email: 'anyEmail@email.com',
+      password: 'anyPassword',
+      passwordConfirmation: 'anyPassword'
+    })
   })
 })

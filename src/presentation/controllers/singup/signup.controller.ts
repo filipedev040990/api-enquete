@@ -2,15 +2,18 @@ import { AddAccountInterface } from '../../../domain/use-cases/signup/add-accoun
 import { InvalidParamError, MissinParamError } from '../../errors'
 import { badRequest, serverError, success } from '../../helpers/http.helper'
 import { ControllerInterface, EmailValidatorInterface, HttpRequest, HttpResponse } from '../../interfaces'
+import { ValidationInterface } from '../../validators/validation.interface'
 
 export default class SignupController implements ControllerInterface {
   constructor (
     private readonly emailValidator: EmailValidatorInterface,
-    private readonly addAccount: AddAccountInterface
+    private readonly addAccount: AddAccountInterface,
+    private readonly validation: ValidationInterface
   ) {}
 
   async execute (request: HttpRequest): Promise<HttpResponse> {
     try {
+      await this.validation.validate(request.body)
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
       for (const field of requiredFields) {
         if (!request.body[field]) {
