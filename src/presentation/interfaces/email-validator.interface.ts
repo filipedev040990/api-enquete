@@ -1,3 +1,3 @@
 export interface EmailValidatorInterface {
-  execute (email: string): Promise<boolean>
+  execute (email: string): boolean
 }

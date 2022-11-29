@@ -19,8 +19,8 @@ const makeSut = (): SutType => {
 
 const makeEmailValidatorStub = (): EmailValidatorInterface => {
   class EmailValidatorStub implements EmailValidatorInterface {
-    async execute (email: string): Promise<boolean> {
-      return await Promise.resolve(true)
+    execute (email: string): boolean {
+      return true
     }
   }
   return new EmailValidatorStub()
@@ -70,7 +70,7 @@ describe('', () => {
 
   test('should return 400 if EmailValidator return false', async () => {
     const { sut, emailValidatorStub } = makeSut()
-    jest.spyOn(emailValidatorStub, 'execute').mockReturnValueOnce(Promise.resolve(false))
+    jest.spyOn(emailValidatorStub, 'execute').mockReturnValueOnce(false)
     const response = await sut.execute(httpRequest)
     expect(response).toEqual(badRequest(new InvalidParamError('email')))
   })

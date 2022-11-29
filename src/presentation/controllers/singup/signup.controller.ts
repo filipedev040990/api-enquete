@@ -1,12 +1,10 @@
 import { AddAccountInterface } from '../../../domain/use-cases/signup/add-account.interface'
-import { InvalidParamError } from '../../errors'
 import { badRequest, serverError, success } from '../../helpers/http.helper'
-import { ControllerInterface, EmailValidatorInterface, HttpRequest, HttpResponse } from '../../interfaces'
+import { ControllerInterface, HttpRequest, HttpResponse } from '../../interfaces'
 import { ValidationInterface } from '../../validators/validation.interface'
 
 export default class SignupController implements ControllerInterface {
   constructor (
-    private readonly emailValidator: EmailValidatorInterface,
     private readonly addAccount: AddAccountInterface,
     private readonly validation: ValidationInterface
   ) {}
@@ -19,12 +17,6 @@ export default class SignupController implements ControllerInterface {
       }
 
       const { name, password, email } = request.body
-
-      const emailIsValid = await this.emailValidator.execute(email)
-      if (!emailIsValid) {
-        return badRequest(new InvalidParamError('email'))
-      }
-
       const account = await this.addAccount.execute({
         name,
         email,
