@@ -1,7 +1,7 @@
 import { InvalidParamError } from '../errors'
 import { EmailValidatorInterface } from '../interfaces'
 import { EmailValidation } from './email.validation'
-import { ValidationInterface } from './validation.interface'
+import { ValidationInterface } from '../interfaces/validation.interface'
 
 interface SutType {
   sut: ValidationInterface

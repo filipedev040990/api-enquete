@@ -2,7 +2,7 @@ import { AuthenticationUseCaseInterface, AuthenticationRequest } from '../../../
 import { MissingParamError } from '../../errors'
 import { badRequest, serverError, success, unauthorized } from '../../helpers/http.helper'
 import { EmailValidatorInterface, HttpRequest } from '../../interfaces'
-import { ValidationInterface } from '../../validators/validation.interface'
+import { ValidationInterface } from '../../interfaces/validation.interface'
 import { LoginController } from './login.controller'
 
 type SutType = {

@@ -3,7 +3,7 @@ import { AccountModel } from '../../../domain/models/account.model'
 import { AddAccountInterface, AddAccountRequest } from '../../../domain/use-cases/signup/add-account.interface'
 import { MissingParamError } from '../../errors'
 import { badRequest, serverError } from '../../helpers/http.helper'
-import { ValidationInterface } from '../../validators/validation.interface'
+import { ValidationInterface } from '../../interfaces/validation.interface'
 import SignupController from './signup.controller'
 
 interface SutType {

@@ -1,7 +1,7 @@
 import { AuthenticationUseCaseInterface } from '../../../domain/use-cases/authentication/authentication.interface'
 import { badRequest, serverError, success, unauthorized } from '../../helpers/http.helper'
 import { ControllerInterface, HttpRequest, HttpResponse } from '../../interfaces'
-import { ValidationInterface } from '../../validators/validation.interface'
+import { ValidationInterface } from '../../interfaces/validation.interface'
 
 export class LoginController implements ControllerInterface {
   constructor (
