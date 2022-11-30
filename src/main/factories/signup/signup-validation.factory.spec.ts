@@ -4,13 +4,13 @@ import { RequiredFieldsValidation } from '../../../presentation/validators/requi
 import { ValidationComposite } from '../../../presentation/validators/validation.composite'
 import { ValidationInterface } from '../../../presentation/validators/validation.interface'
 import { EmailValidatorAdapter } from '../../../shared/email-validator.adapter'
-import { makeSignupControler } from './signup.factory'
+import { makeSignupValidationComposite } from './signup-validation.factory'
 
 jest.mock('../../../presentation/validators/validation.composite')
 
 describe('Signup Validation Factory', () => {
   test('should call Validation with all validations', async () => {
-    makeSignupControler()
+    makeSignupValidationComposite()
     const validations: ValidationInterface [] = []
     for (const fieldName of ['name', 'email', 'password', 'passwordConfirmation']) {
       validations.push(new RequiredFieldsValidation(fieldName))
