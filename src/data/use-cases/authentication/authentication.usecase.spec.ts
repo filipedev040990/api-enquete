@@ -55,4 +55,13 @@ describe('AuthenticationUseCase', () => {
     const response = await sut.execute(accountRequest)
     expect(response).toBeNull()
   })
+
+  test('should throw if AccountRepository.getByEmail throws', async () => {
+    const { sut, accountRepositoryStub } = makeSut()
+    jest.spyOn(accountRepositoryStub, 'getByEmail').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute(accountRequest)
+    await expect(response).rejects.toThrow()
+  })
 })
