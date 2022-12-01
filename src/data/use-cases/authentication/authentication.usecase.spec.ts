@@ -146,4 +146,10 @@ describe('AuthenticationUseCase', () => {
     const response = sut.execute(accountRequest)
     await expect(response).rejects.toThrow()
   })
+
+  test('should return an token on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute(accountRequest)
+    await expect(response).toBe('anyToken')
+  })
 })

@@ -21,6 +21,7 @@ export class AuthenticationUseCase implements AuthenticationUseCaseInterface {
           account_id: account.id,
           token
         })
+        return token
       }
     }
     return null
