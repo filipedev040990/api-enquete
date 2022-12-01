@@ -17,25 +17,31 @@ const makeSut = (): SutType => {
 }
 
 describe('BcryptAdapter', () => {
-  test('should call BcryptAdapter with correct values', async () => {
-    const { sut } = makeSut()
-    const spy = jest.spyOn(bcrypt, 'hash')
-    await sut.hash('anyPassword')
-    expect(spy).toHaveBeenCalledWith('anyPassword', salt)
-  })
-
-  test('should return a hashed value', async () => {
-    const { sut } = makeSut()
-    const response = await sut.hash('anyPassword')
-    expect(response).toBe('hashedPassword')
-  })
-
-  test('should return server error if bcrypt  throw an exception', async () => {
-    const { sut } = makeSut()
-    jest.spyOn(bcrypt, 'hash').mockImplementationOnce(() => {
-      throw new Error()
+  describe('hash', () => {
+    test('should call BcryptAdapter with correct values', async () => {
+      const { sut } = makeSut()
+      const spy = jest.spyOn(bcrypt, 'hash')
+      await sut.hash('anyPassword')
+      expect(spy).toHaveBeenCalledWith('anyPassword', salt)
     })
-    const response = sut.hash('anyPassword')
-    await expect(response).rejects.toThrow()
+
+    test('should return a hashed value', async () => {
+      const { sut } = makeSut()
+      const response = await sut.hash('anyPassword')
+      expect(response).toBe('hashedPassword')
+    })
+
+    test('should return server error if bcrypt  throw an exception', async () => {
+      const { sut } = makeSut()
+      jest.spyOn(bcrypt, 'hash').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      const response = sut.hash('anyPassword')
+      await expect(response).rejects.toThrow()
+    })
+  })
+
+  describe('compare', () => {
+
   })
 })

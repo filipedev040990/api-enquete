@@ -1,5 +1,6 @@
 export * from '../../../domain/use-cases/authentication/authentication.interface'
 export * from '../../interfaces/account-repository.interface'
 export * from '../../interfaces/encrypter.adapter.interface'
-export * from '../../interfaces/hasher-adapter.interface'
+export * from '../../interfaces/hasher-hash-adapter.interface'
+export * from '../../interfaces/hasher-compare-adapter.interface'
 export * from '../../interfaces/token-repository.interface'

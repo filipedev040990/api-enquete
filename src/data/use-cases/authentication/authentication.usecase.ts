@@ -1,8 +1,8 @@
-import { AuthenticationRequest, AuthenticationUseCaseInterface, AccountRepositoryInterface, EncrypterAdapterInterface, HasherAdapterInterface, TokenRepositoryInterface } from './'
+import { AuthenticationRequest, AuthenticationUseCaseInterface, AccountRepositoryInterface, EncrypterAdapterInterface, TokenRepositoryInterface, HasherCompareAdapterInterface } from './'
 export class AuthenticationUseCase implements AuthenticationUseCaseInterface {
   constructor (
     private readonly accountRepository: AccountRepositoryInterface,
-    private readonly hasher: HasherAdapterInterface,
+    private readonly hasher: HasherCompareAdapterInterface,
     private readonly encrypter: EncrypterAdapterInterface,
     private readonly tokenRepository: TokenRepositoryInterface
   ) {}

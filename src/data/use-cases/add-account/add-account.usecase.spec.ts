@@ -1,10 +1,10 @@
 import { AccountRepositoryInterface } from '../../interfaces/account-repository.interface'
-import { AccountModel, AddAccountRequest, HasherAdapterInterface } from '.'
+import { AccountModel, AddAccountRequest, HasherHashAdapterInterface } from '.'
 import { AddAccountUseCase } from './add-account.usecase'
 
 type SutType = {
   sut: AddAccountUseCase
-  hasherStub: HasherAdapterInterface
+  hasherStub: HasherHashAdapterInterface
   accountRepositoryStub: AccountRepositoryInterface
 }
 
@@ -15,12 +15,8 @@ const makeSut = (): SutType => {
   return { sut, hasherStub, accountRepositoryStub }
 }
 
-const makeHasher = (): HasherAdapterInterface => {
-  class HasherStub implements HasherAdapterInterface {
-    async compare (value: string, valueToCompare: string): Promise<boolean> {
-      return await Promise.resolve(true)
-    }
-
+const makeHasher = (): HasherHashAdapterInterface => {
+  class HasherStub implements HasherHashAdapterInterface {
     async hash (value: string): Promise<string> {
       return await Promise.resolve('hashedPassword')
     }
