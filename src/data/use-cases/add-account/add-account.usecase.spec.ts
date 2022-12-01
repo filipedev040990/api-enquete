@@ -26,6 +26,10 @@ const makeHasher = (): HasherAdapterInterface => {
 
 const makeAccountRepositoryStub = (): AccountRepositoryInterface => {
   class AccountRepositoryStub implements AccountRepositoryInterface {
+    async getByEmail (email: string): Promise<AccountModel> {
+      return null
+    }
+
     async create (account: AddAccountRequest): Promise<AccountModel> {
       const fakeAccount = {
         id: 'anyId',

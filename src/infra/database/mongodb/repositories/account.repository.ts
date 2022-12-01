@@ -5,6 +5,10 @@ import { MongoHelper } from '../helpers/mongo.helper'
 import { map } from '../helpers/mapping.helper'
 
 export class AccountRepository implements AccountRepositoryInterface {
+  async getByEmail (email: string): Promise<AccountModel> {
+    return null
+  }
+
   async create (accountData: AddAccountRequest): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     const result = await accountCollection.insertOne(accountData)

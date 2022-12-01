@@ -3,4 +3,5 @@ import { AccountModel } from '../../domain/models/account.model'
 
 export interface AccountRepositoryInterface {
   create (accountData: AddAccountRequest): Promise<AccountModel>
+  getByEmail (email: string): Promise<AccountModel>
 }
