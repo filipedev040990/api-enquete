@@ -1,11 +1,11 @@
-import { AccountRepositoryInterface } from '../../interfaces/account-repository.interface'
+import { AddAccountRepositoryInterface } from '../../interfaces/add-account-repository.interface'
 import { AccountModel, AddAccountRequest, HasherHashAdapterInterface } from '.'
 import { AddAccountUseCase } from './add-account.usecase'
 
 type SutType = {
   sut: AddAccountUseCase
   hasherStub: HasherHashAdapterInterface
-  accountRepositoryStub: AccountRepositoryInterface
+  accountRepositoryStub: AddAccountRepositoryInterface
 }
 
 const makeSut = (): SutType => {
@@ -24,8 +24,8 @@ const makeHasher = (): HasherHashAdapterInterface => {
   return new HasherStub()
 }
 
-const makeAccountRepositoryStub = (): AccountRepositoryInterface => {
-  class AccountRepositoryStub implements AccountRepositoryInterface {
+const makeAccountRepositoryStub = (): AddAccountRepositoryInterface => {
+  class AccountRepositoryStub implements AddAccountRepositoryInterface {
     async getByEmail (email: string): Promise<AccountModel> {
       return null
     }

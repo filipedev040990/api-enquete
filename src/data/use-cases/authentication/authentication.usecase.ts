@@ -1,14 +1,14 @@
-import { AuthenticationRequest, AuthenticationUseCaseInterface, AccountRepositoryInterface, EncrypterAdapterInterface, TokenRepositoryInterface, HasherCompareAdapterInterface } from './'
+import { AuthenticationRequest, AuthenticationUseCaseInterface, GetAccountByEmailRepositoryInterface, EncrypterAdapterInterface, TokenRepositoryInterface, HasherCompareAdapterInterface } from './'
 export class AuthenticationUseCase implements AuthenticationUseCaseInterface {
   constructor (
-    private readonly accountRepository: AccountRepositoryInterface,
+    private readonly getAccountByEmailRepository: GetAccountByEmailRepositoryInterface,
     private readonly hasher: HasherCompareAdapterInterface,
     private readonly encrypter: EncrypterAdapterInterface,
     private readonly tokenRepository: TokenRepositoryInterface
   ) {}
 
   async execute (request: AuthenticationRequest): Promise<string> {
-    const account = await this.accountRepository.getByEmail(request.email)
+    const account = await this.getAccountByEmailRepository.getByEmail(request.email)
     if (account) {
       const isValidPassword = await this.hasher.compare(request.password, account.password)
       if (isValidPassword) {

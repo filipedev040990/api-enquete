@@ -1,10 +1,10 @@
-import { AccountRepositoryInterface } from '../../../../data/interfaces/account-repository.interface'
+import { AddAccountRepositoryInterface } from '../../../../data/interfaces/add-account-repository.interface'
 import { AddAccountRequest } from '../../../../data/use-cases/add-account'
 import { AccountModel } from '../../../../domain/models/account.model'
 import { MongoHelper } from '../helpers/mongo.helper'
 import { map } from '../helpers/mapping.helper'
 
-export class AccountRepository implements AccountRepositoryInterface {
+export class AccountRepository implements AddAccountRepositoryInterface {
   async getByEmail (email: string): Promise<AccountModel> {
     return null
   }

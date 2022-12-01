@@ -1,11 +1,11 @@
 import { AccountModel } from '../../../domain/models/account.model'
-import { AddAccountRequest } from '../../../domain/use-cases/signup/add-account.interface'
-import { AccountRepositoryInterface, EncrypterAdapterInterface, TokenRepositoryInterface, TokenRepositoryProps, HasherCompareAdapterInterface } from './'
+import { GetAccountByEmailRepositoryInterface } from '../../interfaces/get-account-by-email-repository.interface'
+import { EncrypterAdapterInterface, TokenRepositoryInterface, TokenRepositoryProps, HasherCompareAdapterInterface } from './'
 import { AuthenticationUseCase } from './authentication.usecase'
 
 type SutType = {
   sut: AuthenticationUseCase
-  accountRepositoryStub: AccountRepositoryInterface
+  accountRepositoryStub: GetAccountByEmailRepositoryInterface
   hasherStub: HasherCompareAdapterInterface
   encrypterStub: EncrypterAdapterInterface
   tokenRepositoryStub: TokenRepositoryInterface
@@ -20,12 +20,8 @@ const makeSut = (): SutType => {
   return { sut, accountRepositoryStub, hasherStub, encrypterStub, tokenRepositoryStub }
 }
 
-const makeAccountRepositoryStub = (): AccountRepositoryInterface => {
-  class AccountRepositoryStub implements AccountRepositoryInterface {
-    async create (accountData: AddAccountRequest): Promise<AccountModel> {
-      return null
-    }
-
+const makeAccountRepositoryStub = (): GetAccountByEmailRepositoryInterface => {
+  class AccountRepositoryStub implements GetAccountByEmailRepositoryInterface {
     async getByEmail (email: string): Promise<AccountModel> {
       const fakeAccount = {
         id: 'anyId',
