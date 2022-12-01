@@ -4,5 +4,5 @@ export type TokenRepositoryProps = {
 }
 
 export interface TokenRepositoryInterface {
-  save (props: TokenRepositoryProps): Promise<void>
+  createOrUpdate (props: TokenRepositoryProps): Promise<void>
 }

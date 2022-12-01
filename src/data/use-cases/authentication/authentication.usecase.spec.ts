@@ -63,7 +63,7 @@ const makeEncrypterStub = (): EncrypterAdapterInterface => {
 }
 const makeTokenRepositoryStub = (): TokenRepositoryInterface => {
   class TokenRepositoryStub implements TokenRepositoryInterface {
-    async save (props: TokenRepositoryProps): Promise<void> {
+    async createOrUpdate (props: TokenRepositoryProps): Promise<void> {
       return null
     }
   }
@@ -129,12 +129,21 @@ describe('AuthenticationUseCase', () => {
 
   test('should call TokenRepository once and with correct values', async () => {
     const { sut, tokenRepositoryStub } = makeSut()
-    const spy = jest.spyOn(tokenRepositoryStub, 'save')
+    const spy = jest.spyOn(tokenRepositoryStub, 'createOrUpdate')
     await sut.execute(accountRequest)
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith({
       account_id: 'anyId',
       token: 'anyToken'
     })
+  })
+
+  test('should throw if TokenRepository throws', async () => {
+    const { sut, tokenRepositoryStub } = makeSut()
+    jest.spyOn(tokenRepositoryStub, 'createOrUpdate').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute(accountRequest)
+    await expect(response).rejects.toThrow()
   })
 })

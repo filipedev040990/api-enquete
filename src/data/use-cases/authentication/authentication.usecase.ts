@@ -17,7 +17,7 @@ export class AuthenticationUseCase implements AuthenticationUseCaseInterface {
       const isValidPassword = await this.hasher.compare(request.password, account.password)
       if (isValidPassword) {
         const token = await this.encrypter.encrypt(account.id)
-        await this.tokenRepository.save({
+        await this.tokenRepository.createOrUpdate({
           account_id: account.id,
           token
         })
