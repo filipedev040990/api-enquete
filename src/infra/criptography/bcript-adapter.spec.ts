@@ -60,5 +60,11 @@ describe('BcryptAdapter', () => {
       const response = await sut.compare('anyPassword', 'hashedPassword')
       expect(response).toBeFalsy()
     })
+
+    test('should return true when compare succeeds', async () => {
+      const { sut } = makeSut()
+      const response = await sut.compare('anyPassword', 'hashedPassword')
+      expect(response).toBe(true)
+    })
   })
 })

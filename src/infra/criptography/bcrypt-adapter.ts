@@ -5,8 +5,7 @@ import { HasherCompareAdapterInterface } from '../../data/interfaces/hasher-comp
 export class BcryptAdapter implements HasherHashAdapterInterface, HasherCompareAdapterInterface {
   constructor (private readonly salt: number) {}
   async compare (value: string, valueToCompare: string): Promise<boolean> {
-    await bcrypt.compare(value, valueToCompare)
-    return null
+    return await bcrypt.compare(value, valueToCompare)
   }
 
   async hash (value: string): Promise<string> {
