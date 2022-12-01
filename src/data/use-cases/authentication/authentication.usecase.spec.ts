@@ -48,4 +48,11 @@ describe('AuthenticationUseCase', () => {
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith(accountRequest.email)
   })
+
+  test('should return null if AccountRepository.getByEmail returns null', async () => {
+    const { sut, accountRepositoryStub } = makeSut()
+    jest.spyOn(accountRepositoryStub, 'getByEmail').mockReturnValueOnce(null)
+    const response = await sut.execute(accountRequest)
+    expect(response).toBeNull()
+  })
 })
