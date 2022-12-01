@@ -51,5 +51,14 @@ describe('BcryptAdapter', () => {
       await sut.compare('anyPassword', 'hashedPassword')
       expect(spy).toHaveBeenCalledWith('anyPassword', 'hashedPassword')
     })
+
+    test('should return false if compare fails', async () => {
+      const { sut } = makeSut()
+      jest.spyOn(bcrypt, 'compare').mockImplementationOnce(async () => {
+        return await Promise.resolve(false)
+      })
+      const response = await sut.compare('anyPassword', 'hashedPassword')
+      expect(response).toBeFalsy()
+    })
   })
 })
