@@ -10,9 +10,9 @@ import { makeSignupValidationComposite } from './signup-validation.factory'
 
 export const makeSignupControler = (): ControllerInterface => {
   const salt = 12
-  const encrypter = new BcryptAdapter(salt)
+  const hasher = new BcryptAdapter(salt)
   const accountRepository = new AccountRepository()
-  const addAccount = new AddAccountUseCase(encrypter, accountRepository)
+  const addAccount = new AddAccountUseCase(hasher, accountRepository)
   const signupController = new SignupController(addAccount, makeSignupValidationComposite())
   const logRepository = new LogRepository()
   return new LogControllerDecorator(signupController, logRepository)
