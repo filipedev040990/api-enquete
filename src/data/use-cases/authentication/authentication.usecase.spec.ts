@@ -1,4 +1,5 @@
 import { AccountRepositoryInterface } from '../../interfaces/account-repository.interface'
+import { EncrypterAdapterInterface } from '../../interfaces/encrypter.adapter.interface'
 import { AddAccountRequest, AccountModel, HasherAdapterInterface } from '../add-account'
 import { AuthenticationUseCase } from './authentication.usecase'
 
@@ -6,13 +7,15 @@ type SutType = {
   sut: AuthenticationUseCase
   accountRepositoryStub: AccountRepositoryInterface
   hasherStub: HasherAdapterInterface
+  encrypterStub: EncrypterAdapterInterface
 }
 
 const makeSut = (): SutType => {
   const accountRepositoryStub = makeAccountRepositoryStub()
   const hasherStub = makeHasherStub()
-  const sut = new AuthenticationUseCase(accountRepositoryStub, hasherStub)
-  return { sut, accountRepositoryStub, hasherStub }
+  const encrypterStub = makeEncrypterStub()
+  const sut = new AuthenticationUseCase(accountRepositoryStub, hasherStub, encrypterStub)
+  return { sut, accountRepositoryStub, hasherStub, encrypterStub }
 }
 
 const makeAccountRepositoryStub = (): AccountRepositoryInterface => {
@@ -47,6 +50,14 @@ const makeHasherStub = (): HasherAdapterInterface => {
   return new HasherStub()
 }
 
+const makeEncrypterStub = (): EncrypterAdapterInterface => {
+  class EncrypterStub implements EncrypterAdapterInterface {
+    async encrypt (value: string): Promise<string> {
+      return await Promise.resolve('anyToken')
+    }
+  }
+  return new EncrypterStub()
+}
 let accountRequest
 
 describe('AuthenticationUseCase', () => {
@@ -79,11 +90,27 @@ describe('AuthenticationUseCase', () => {
     const response = sut.execute(accountRequest)
     await expect(response).rejects.toThrow()
   })
+
   test('should call Hasher.compare once and with correct values', async () => {
     const { sut, hasherStub } = makeSut()
     const spy = jest.spyOn(hasherStub, 'compare')
     await sut.execute(accountRequest)
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('anyPassword', 'hashedPassword')
+  })
+
+  test('should return null if Hasher.compare return false', async () => {
+    const { sut, hasherStub } = makeSut()
+    jest.spyOn(hasherStub, 'compare').mockReturnValueOnce(Promise.resolve(false))
+    const response = await sut.execute(accountRequest)
+    expect(response).toBeNull()
+  })
+
+  test('should call Encrypter.encrypt once and with correct value', async () => {
+    const { sut, encrypterStub } = makeSut()
+    const spy = jest.spyOn(encrypterStub, 'encrypt')
+    await sut.execute(accountRequest)
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith('anyId')
   })
 })
