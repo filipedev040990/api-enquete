@@ -1,7 +1,6 @@
-import { AccountRepositoryInterface } from '../../interfaces/account-repository.interface'
-import { EncrypterAdapterInterface } from '../../interfaces/encrypter.adapter.interface'
-import { TokenRepositoryInterface, TokenRepositoryProps } from '../../interfaces/token-repository.interface'
-import { AddAccountRequest, AccountModel, HasherAdapterInterface } from '../add-account'
+import { AccountModel } from '../../../domain/models/account.model'
+import { AddAccountRequest } from '../../../domain/use-cases/signup/add-account.interface'
+import { AccountRepositoryInterface, EncrypterAdapterInterface, HasherAdapterInterface, TokenRepositoryInterface, TokenRepositoryProps } from './'
 import { AuthenticationUseCase } from './authentication.usecase'
 
 type SutType = {

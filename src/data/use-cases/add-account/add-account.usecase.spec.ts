@@ -17,6 +17,10 @@ const makeSut = (): SutType => {
 
 const makeHasher = (): HasherAdapterInterface => {
   class HasherStub implements HasherAdapterInterface {
+    async compare (value: string, valueToCompare: string): Promise<boolean> {
+      return await Promise.resolve(true)
+    }
+
     async hash (value: string): Promise<string> {
       return await Promise.resolve('hashedPassword')
     }
