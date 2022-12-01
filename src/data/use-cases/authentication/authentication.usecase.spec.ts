@@ -1,5 +1,6 @@
 import { AccountRepositoryInterface } from '../../interfaces/account-repository.interface'
 import { EncrypterAdapterInterface } from '../../interfaces/encrypter.adapter.interface'
+import { TokenRepositoryInterface, TokenRepositoryProps } from '../../interfaces/token-repository.interface'
 import { AddAccountRequest, AccountModel, HasherAdapterInterface } from '../add-account'
 import { AuthenticationUseCase } from './authentication.usecase'
 
@@ -8,14 +9,16 @@ type SutType = {
   accountRepositoryStub: AccountRepositoryInterface
   hasherStub: HasherAdapterInterface
   encrypterStub: EncrypterAdapterInterface
+  tokenRepositoryStub: TokenRepositoryInterface
 }
 
 const makeSut = (): SutType => {
   const accountRepositoryStub = makeAccountRepositoryStub()
   const hasherStub = makeHasherStub()
   const encrypterStub = makeEncrypterStub()
-  const sut = new AuthenticationUseCase(accountRepositoryStub, hasherStub, encrypterStub)
-  return { sut, accountRepositoryStub, hasherStub, encrypterStub }
+  const tokenRepositoryStub = makeTokenRepositoryStub()
+  const sut = new AuthenticationUseCase(accountRepositoryStub, hasherStub, encrypterStub, tokenRepositoryStub)
+  return { sut, accountRepositoryStub, hasherStub, encrypterStub, tokenRepositoryStub }
 }
 
 const makeAccountRepositoryStub = (): AccountRepositoryInterface => {
@@ -58,6 +61,15 @@ const makeEncrypterStub = (): EncrypterAdapterInterface => {
   }
   return new EncrypterStub()
 }
+const makeTokenRepositoryStub = (): TokenRepositoryInterface => {
+  class TokenRepositoryStub implements TokenRepositoryInterface {
+    async save (props: TokenRepositoryProps): Promise<void> {
+      return null
+    }
+  }
+  return new TokenRepositoryStub()
+}
+
 let accountRequest
 
 describe('AuthenticationUseCase', () => {
@@ -67,6 +79,7 @@ describe('AuthenticationUseCase', () => {
       password: 'anyPassword'
     }
   })
+
   test('should call AccountRepository.getByEmail with correct email', async () => {
     const { sut, accountRepositoryStub } = makeSut()
     const spy = jest.spyOn(accountRepositoryStub, 'getByEmail')
@@ -112,5 +125,16 @@ describe('AuthenticationUseCase', () => {
     await sut.execute(accountRequest)
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('anyId')
+  })
+
+  test('should call TokenRepository once and with correct values', async () => {
+    const { sut, tokenRepositoryStub } = makeSut()
+    const spy = jest.spyOn(tokenRepositoryStub, 'save')
+    await sut.execute(accountRequest)
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith({
+      account_id: 'anyId',
+      token: 'anyToken'
+    })
   })
 })
