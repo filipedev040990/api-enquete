@@ -13,7 +13,7 @@ import { TokenRepository } from '../../../infra/database/mongodb/repositories/to
 export const makeAuthenticationController = (): ControllerInterface => {
   const accountRepository = new AccountRepository()
   const hasher = new BcryptAdapter(env.hasher.salt)
-  const encrypter = new JwtAdapter(env.encrypter.secretKey)
+  const encrypter = new JwtAdapter(env.encrypter.secretKey, env.encrypter.expiresIn)
   const tokenRepository = new TokenRepository()
   const authenticationUseCase = new AuthenticationUseCase(accountRepository, hasher, encrypter, tokenRepository)
   const authenticationController = new AuthenticationController(authenticationUseCase, makeAuthenticationValidationComposite())

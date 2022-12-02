@@ -50,7 +50,7 @@ const makeHasherStub = (): HasherCompareAdapterInterface => {
 
 const makeEncrypterStub = (): EncrypterAdapterInterface => {
   class EncrypterStub implements EncrypterAdapterInterface {
-    async encrypt (value: string): Promise<string> {
+    async encrypt (payload: object): Promise<string> {
       return await Promise.resolve('anyToken')
     }
   }
@@ -119,7 +119,7 @@ describe('AuthenticationUseCase', () => {
     const spy = jest.spyOn(encrypterStub, 'encrypt')
     await sut.execute(accountRequest)
     expect(spy).toHaveBeenCalledTimes(1)
-    expect(spy).toHaveBeenCalledWith('anyId')
+    expect(spy).toHaveBeenCalledWith({ account_id: 'anyId' })
   })
 
   test('should call TokenRepository once and with correct values', async () => {

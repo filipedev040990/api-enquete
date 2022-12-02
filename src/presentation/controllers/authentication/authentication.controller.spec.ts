@@ -1,4 +1,5 @@
 import { AuthenticationUseCaseInterface, AuthenticationRequest } from '../../../domain/use-cases/authentication/authentication.interface'
+import env from '../../../main/env'
 import { MissingParamError } from '../../errors'
 import { badRequest, serverError, success, unauthorized } from '../../helpers/http.helper'
 import { EmailValidatorInterface, HttpRequest } from '../../interfaces'
@@ -76,7 +77,7 @@ describe('', () => {
   test('should return an access token on success', async () => {
     const { sut } = makeSut()
     const response = await sut.execute(httpRequest)
-    expect(response).toEqual(success('anyToken'))
+    expect(response).toEqual(success({ token: 'anyToken', expiresIn: env.encrypter.expiresIn }))
   })
 
   test('should return 500 AuthenticationUseCase throw an exception', async () => {

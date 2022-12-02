@@ -6,7 +6,8 @@ export default {
     salt: 12
   },
   encrypter: {
-    secretKey: '90dec2258e9adf40b9b73903018306da'
+    secretKey: '90dec2258e9adf40b9b73903018306da',
+    expiresIn: '1d'
   },
   server: {
     port: 5050

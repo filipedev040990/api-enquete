@@ -1,4 +1,5 @@
 import { AuthenticationUseCaseInterface } from '../../../domain/use-cases/authentication/authentication.interface'
+import env from '../../../main/env'
 import { badRequest, serverError, success, unauthorized } from '../../helpers/http.helper'
 import { ControllerInterface, HttpRequest, HttpResponse } from '../../interfaces'
 import { ValidationInterface } from '../../interfaces/validation.interface'
@@ -21,7 +22,7 @@ export class AuthenticationController implements ControllerInterface {
       if (!accessToken) {
         return unauthorized()
       }
-      return success(accessToken)
+      return success({ token: accessToken, expiresIn: env.encrypter.expiresIn })
     } catch (error) {
       return serverError(error)
     }

@@ -1,3 +1,3 @@
 export interface EncrypterAdapterInterface {
-  encrypt (value: string): Promise<string>
+  encrypt (payload: object): Promise<string>
 }
