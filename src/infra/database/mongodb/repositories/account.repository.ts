@@ -6,6 +6,11 @@ import { map } from '../helpers/mapping.helper'
 
 export class AccountRepository implements AddAccountRepositoryInterface {
   async getByEmail (email: string): Promise<AccountModel> {
+    const accountCollection = await MongoHelper.getCollection('accounts')
+    const account = await accountCollection.findOne({ email })
+    if (account) {
+      return map(account)
+    }
     return null
   }
 
