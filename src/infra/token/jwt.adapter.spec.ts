@@ -19,4 +19,11 @@ describe('', () => {
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('anyId', secretKey)
   })
+
+  test('should throw if JwtAdapter throws', async () => {
+    const { sut } = makeSut()
+    jest.spyOn(jwt, 'sign').mockImplementationOnce(() => { throw new Error() })
+    const response = sut.encrypt('anyId')
+    await expect(response).rejects.toThrow()
+  })
 })
