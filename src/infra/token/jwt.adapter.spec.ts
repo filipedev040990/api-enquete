@@ -20,11 +20,18 @@ const makeSut = (): SutType => {
 }
 
 describe('', () => {
-  test('should call JwtAdapter with correct values', async () => {
+  test('should call JwtAdapter with correct values and expiresIn in constructor', async () => {
     const { sut } = makeSut()
     const spy = jest.spyOn(jwt, 'sign')
     await sut.encrypt({ account_id: 'anyId' })
     expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith({ account_id: 'anyId' }, secretKey, { expiresIn })
+  })
+
+  test('should call JwtAdapter with correct values and without expiresIn in constructor', async () => {
+    const sut = new JwtAdapter(secretKey)
+    const spy = jest.spyOn(jwt, 'sign')
+    await sut.encrypt({ account_id: 'anyId' })
     expect(spy).toHaveBeenCalledWith({ account_id: 'anyId' }, secretKey, { expiresIn })
   })
 
