@@ -3,8 +3,9 @@ import { AddAccountRequest } from '../../../../data/use-cases/add-account'
 import { AccountModel } from '../../../../domain/models/account.model'
 import { MongoHelper } from '../helpers/mongo.helper'
 import { map } from '../helpers/mapping.helper'
+import { GetAccountByEmailRepositoryInterface } from '../../../../data/interfaces/get-account-by-email-repository.interface'
 
-export class AccountRepository implements AddAccountRepositoryInterface {
+export class AccountRepository implements AddAccountRepositoryInterface, GetAccountByEmailRepositoryInterface {
   async getByEmail (email: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     const account = await accountCollection.findOne({ email })
