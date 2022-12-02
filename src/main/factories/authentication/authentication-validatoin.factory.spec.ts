@@ -1,4 +1,4 @@
-import { makeLoginValidationComposite } from './login-validatoin.factory'
+import { makeLoginValidationComposite } from './authentication-validatoin.factory'
 import { ValidationComposite, RequiredFieldsValidation, EmailValidation } from '../../../presentation/validators'
 import { ValidationInterface } from '../../../presentation/interfaces/validation.interface'
 import { EmailValidatorAdapter } from '../../../shared/email-validator.adapter'
