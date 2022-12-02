@@ -3,10 +3,10 @@ import { MissingParamError } from '../../errors'
 import { badRequest, serverError, success, unauthorized } from '../../helpers/http.helper'
 import { EmailValidatorInterface, HttpRequest } from '../../interfaces'
 import { ValidationInterface } from '../../interfaces/validation.interface'
-import { LoginController } from './login.controller'
+import { AuthenticationController } from './authentication.controller'
 
 type SutType = {
-  sut: LoginController
+  sut: AuthenticationController
   emailValidatorStub: EmailValidatorInterface
   authenticationUseCaseStub: AuthenticationUseCaseInterface
   validationStub: ValidationInterface
@@ -16,7 +16,7 @@ const makeSut = (): SutType => {
   const authenticationUseCaseStub = makeAuthenticationUseCaseStub()
   const emailValidatorStub = makeEmailValidatorStub()
   const validationStub = makeValidation()
-  const sut = new LoginController(authenticationUseCaseStub, validationStub)
+  const sut = new AuthenticationController(authenticationUseCaseStub, validationStub)
   return { sut, emailValidatorStub, authenticationUseCaseStub, validationStub }
 }
 

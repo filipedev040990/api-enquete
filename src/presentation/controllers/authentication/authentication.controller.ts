@@ -3,7 +3,7 @@ import { badRequest, serverError, success, unauthorized } from '../../helpers/ht
 import { ControllerInterface, HttpRequest, HttpResponse } from '../../interfaces'
 import { ValidationInterface } from '../../interfaces/validation.interface'
 
-export class LoginController implements ControllerInterface {
+export class AuthenticationController implements ControllerInterface {
   constructor (
     private readonly authenticationUseCase: AuthenticationUseCaseInterface,
     private readonly validation: ValidationInterface

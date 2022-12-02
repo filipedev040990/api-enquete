@@ -1,11 +1,11 @@
 import express from 'express'
 import cors from 'cors'
-import SetupRoute from './routes'
+import { router } from './routes'
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
-SetupRoute(app)
+app.use('/api', router)
 
 export { app }

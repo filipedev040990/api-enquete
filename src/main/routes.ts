@@ -1,8 +1,9 @@
-import { Express, Router } from 'express'
-import fg from 'fast-glob'
+import { Router } from 'express'
+import { adaptRoute } from './adapters/express-route.adapter'
+import { makeSignupControler } from './factories/signup/signup.factory'
 
-export default (app: Express): void => {
-  const router = Router()
-  app.use('/api', router)
-  fg.sync('**/src/main/routes/**routes.ts').map(async file => (await import(`../../${file}`)).default(router))
-}
+const router = Router()
+
+router.post('/signup', adaptRoute(makeSignupControler()))
+
+export { router }
