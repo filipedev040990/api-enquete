@@ -5,7 +5,8 @@ import env from './env'
 const start = async (): Promise<any> => {
   try {
     await MongoHelper.connect(env.mongodb.mongoUrl)
-    app.listen(env.server.port || 5050, () => console.log('Server running at http://localhost:5050'))
+    const port = env.server.port || 3000
+    app.listen(port, () => console.log(`Server running at http://localhost:${port}`))
   } catch (error) {
     console.log(error)
   }

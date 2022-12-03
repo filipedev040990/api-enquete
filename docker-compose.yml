@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  app:
+    container_name: 'app-api-enquete'
+    image: node:16
+    restart: always
+    working_dir: /app
+    ports:
+      - 3000:3000
+    volumes:
+      - ./dist/:/app/dist/
+      - ./package.json:/app/package.json
+    command: bash -c "npm install --omit=dev --force && npm run start"
+    depends_on:
+      - mongo
+      - mongo-express
+  mongo:
+    container_name: 'mongo'
+    image: "mongo"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 05Ad00sp*
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/db:/data/db
+  mongo-express:
+    container_name: 'mongo-express'
+    image: "mongo-express"
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 05Ad00sp*
+      ME_CONFIG_MONGODB_URL: mongodb://root:05Ad00sp*@mongo:27017/
+networks:
+  default:
+    name: local
