@@ -4,7 +4,9 @@
   "description": "Template for Node.js projects",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev src/main/server.ts",
+    "start": "node dist/main/server.js",
+    "build": "rimraf dist && tsc",
+    "dev": "ts-node-dev src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
@@ -43,6 +45,7 @@
     "husky": "^8.0.2",
     "jest": "^29.3.1",
     "lint-staged": "^13.0.3",
+    "rimraf": "^3.0.2",
     "supertest": "^6.3.1",
     "ts-jest": "^28.0.7",
     "ts-node": "^10.9.1",

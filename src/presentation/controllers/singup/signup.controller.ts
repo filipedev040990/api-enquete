@@ -1,7 +1,6 @@
 import { AddAccountInterface } from '../../../domain/use-cases/signup/add-account.interface'
 import { badRequest, serverError, success } from '../../helpers/http.helper'
-import { ControllerInterface, HttpRequest, HttpResponse } from '../../interfaces'
-import { ValidationInterface } from '../../interfaces/validation.interface'
+import { ControllerInterface, HttpRequest, HttpResponse, ValidationInterface } from '../../interfaces'
 
 export default class SignupController implements ControllerInterface {
   constructor (
@@ -22,7 +21,6 @@ export default class SignupController implements ControllerInterface {
         email,
         password
       })
-
       return success(account, 201)
     } catch (error) {
       return serverError(error)
