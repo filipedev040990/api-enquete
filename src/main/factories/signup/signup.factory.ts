@@ -1,5 +1,6 @@
 
 import { AddAccountUseCase } from '../../../data/use-cases/add-account/add-account.usecase'
+import { GetAccountByEmailUseCase } from '../../../data/use-cases/add-account/get-account-by-email.usecase'
 import { BcryptAdapter } from '../../../infra/criptography/bcrypt-adapter'
 import { AccountRepository } from '../../../infra/database/mongodb/repositories/account.repository'
 import { LogRepository } from '../../../infra/database/mongodb/repositories/log.repository'
@@ -13,7 +14,8 @@ export const makeSignupControler = (): ControllerInterface => {
   const hasher = new BcryptAdapter(salt)
   const accountRepository = new AccountRepository()
   const addAccount = new AddAccountUseCase(hasher, accountRepository)
-  const signupController = new SignupController(addAccount, makeSignupValidationComposite())
+  const getAccountByEmail = new GetAccountByEmailUseCase(accountRepository)
+  const signupController = new SignupController(addAccount, makeSignupValidationComposite(), getAccountByEmail)
   const logRepository = new LogRepository()
   return new LogControllerDecorator(signupController, logRepository)
 }
