@@ -69,7 +69,7 @@ describe('', () => {
 
   test('should return 401 if authentication failed', async () => {
     const { sut, authenticationUseCaseStub } = makeSut()
-    jest.spyOn(authenticationUseCaseStub, 'execute').mockReturnValueOnce(Promise.resolve(null))
+    jest.spyOn(authenticationUseCaseStub, 'execute').mockReturnValueOnce(null)
     const response = await sut.execute(httpRequest)
     expect(response).toEqual(unauthorized())
   })
