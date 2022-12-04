@@ -36,10 +36,21 @@ describe('GetAccountByEmailUseCase', () => {
     await sut.execute('anyEmail@email.com')
     expect(spy).toHaveBeenCalledWith('anyEmail@email.com')
   })
+
   test('should return null if GetAccountByEmailRepository returns null', async () => {
     const { sut, getAccountByEmailRepository } = makeSut()
     jest.spyOn(getAccountByEmailRepository, 'getByEmail').mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.execute('anyEmail@email.com')
     expect(response).toBeNull()
+  })
+
+  test('should return an account', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute('anyEmail@email.com')
+    expect(response).toBeTruthy()
+    expect(response?.id).toBe('anyId')
+    expect(response?.name).toBe('anyName')
+    expect(response?.email).toBe('anyEmail@email.com')
+    expect(response?.password).toBe('hashedPassword')
   })
 })
