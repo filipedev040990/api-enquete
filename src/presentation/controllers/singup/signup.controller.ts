@@ -20,6 +20,7 @@ export default class SignupController implements ControllerInterface {
       const { name, password, email } = request.body
 
       const accountExists = await this.getAccountByEmail.execute(email)
+
       if (accountExists) {
         return resourceConflict('This email already in use')
       }

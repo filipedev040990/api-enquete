@@ -4,8 +4,8 @@ import { GetAccountByEmailRepositoryInterface } from '../authentication'
 
 export class GetAccountByEmailUseCase implements GetAccountByEmailInterface {
   constructor (private readonly getAccountByEmailRepository: GetAccountByEmailRepositoryInterface) {}
-  async execute (email: string): Promise<AccountModel | null> {
+  async execute (email: string): Promise<AccountModel> {
     const account = await this.getAccountByEmailRepository.getByEmail(email)
-    return account || null
+    return account
   }
 }
