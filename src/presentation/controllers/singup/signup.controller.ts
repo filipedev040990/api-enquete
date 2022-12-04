@@ -1,6 +1,6 @@
 import { AddAccountInterface } from '../../../domain/use-cases/signup/add-account.interface'
 import { GetAccountByEmailInterface } from '../../../domain/use-cases/signup/get-account-by-email.interface'
-import { badRequest, serverError, success } from '../../helpers/http.helper'
+import { badRequest, resourceConflict, serverError, success } from '../../helpers/http.helper'
 import { ControllerInterface, HttpRequest, HttpResponse, ValidationInterface } from '../../interfaces'
 
 export default class SignupController implements ControllerInterface {
@@ -19,14 +19,17 @@ export default class SignupController implements ControllerInterface {
 
       const { name, password, email } = request.body
 
-      await this.getAccountByEmail.execute(email)
+      const accountExists = await this.getAccountByEmail.execute(email)
+      if (accountExists) {
+        return resourceConflict('This email already in use')
+      }
 
-      const account = await this.addAccount.execute({
+      const newAccount = await this.addAccount.execute({
         name,
         email,
         password
       })
-      return success(account, 201)
+      return success(newAccount, 201)
     } catch (error) {
       return serverError(error)
     }

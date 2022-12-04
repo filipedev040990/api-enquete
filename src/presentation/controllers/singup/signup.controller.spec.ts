@@ -2,7 +2,7 @@
 import { AccountModel } from '../../../domain/models/account.model'
 import { AddAccountInterface, AddAccountRequest } from '../../../domain/use-cases/signup/add-account.interface'
 import { MissingParamError } from '../../errors'
-import { badRequest, serverError } from '../../helpers/http.helper'
+import { badRequest, resourceConflict, serverError } from '../../helpers/http.helper'
 import { ValidationInterface } from '../../interfaces/validation.interface'
 import SignupController from './signup.controller'
 import { GetAccountByEmailInterface } from '../../../domain/use-cases/signup/get-account-by-email.interface'
@@ -22,15 +22,15 @@ const makeSut = (): SutType => {
   return { sut, addAccountStubUseCase, validationStub, getAccountByEmailStub }
 }
 
+const fakeAccount = {
+  id: 'anyId',
+  name: 'anyName',
+  email: 'anyEmail@email.com',
+  password: 'hashedPassword'
+}
 const makeAddAccountStub = (): AddAccountInterface => {
   class AddAccountStub implements AddAccountInterface {
     async execute (account: AddAccountRequest): Promise<AccountModel> {
-      const fakeAccount = {
-        id: 'anyId',
-        name: 'anyName',
-        email: 'anyEmail@email.com',
-        password: 'hashedPassword'
-      }
       return await Promise.resolve(fakeAccount)
     }
   }
@@ -127,5 +127,12 @@ describe('SignupController', () => {
     const spy = jest.spyOn(getAccountByEmailStub, 'execute')
     await sut.execute(request)
     expect(spy).toHaveBeenCalledWith(request.body.email)
+  })
+
+  test('should return 403 if already email in use', async () => {
+    const { sut, getAccountByEmailStub } = makeSut()
+    jest.spyOn(getAccountByEmailStub, 'execute').mockReturnValueOnce(Promise.resolve(fakeAccount))
+    const response = await sut.execute(request)
+    expect(response).toEqual(resourceConflict('This email already in use'))
   })
 })
