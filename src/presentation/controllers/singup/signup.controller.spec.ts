@@ -5,18 +5,21 @@ import { MissingParamError } from '../../errors'
 import { badRequest, serverError } from '../../helpers/http.helper'
 import { ValidationInterface } from '../../interfaces/validation.interface'
 import SignupController from './signup.controller'
+import { GetAccountByEmailInterface } from '../../../domain/use-cases/signup/get-account-by-email.interface'
 
 interface SutType {
   sut: SignupController
   addAccountStubUseCase: AddAccountInterface
   validationStub: ValidationInterface
+  getAccountByEmailStub: GetAccountByEmailInterface
 }
 
 const makeSut = (): SutType => {
   const addAccountStubUseCase = makeAddAccountStub()
   const validationStub = makeValidation()
-  const sut = new SignupController(addAccountStubUseCase, validationStub)
-  return { sut, addAccountStubUseCase, validationStub }
+  const getAccountByEmailStub = makeGetAccountByEmailStub()
+  const sut = new SignupController(addAccountStubUseCase, validationStub, getAccountByEmailStub)
+  return { sut, addAccountStubUseCase, validationStub, getAccountByEmailStub }
 }
 
 const makeAddAccountStub = (): AddAccountInterface => {
@@ -34,9 +37,18 @@ const makeAddAccountStub = (): AddAccountInterface => {
   return new AddAccountStub()
 }
 
+const makeGetAccountByEmailStub = (): GetAccountByEmailInterface => {
+  class GetAccountByEmailStub implements GetAccountByEmailInterface {
+    async execute (email: string): Promise<AccountModel | null> {
+      return null
+    }
+  }
+  return new GetAccountByEmailStub()
+}
+
 const makeValidation = (): ValidationInterface => {
   class ValidationStub implements ValidationInterface {
-    validate (input: any): Error {
+    validate (input: any): Error | null {
       return null
     }
   }
@@ -108,5 +120,12 @@ describe('SignupController', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('anyField'))
     const response = await sut.execute(request)
     expect(response).toEqual(badRequest(new MissingParamError('anyField')))
+  })
+
+  test('should call GetAccountByEmail with correct email', async () => {
+    const { sut, getAccountByEmailStub } = makeSut()
+    const spy = jest.spyOn(getAccountByEmailStub, 'execute')
+    await sut.execute(request)
+    expect(spy).toHaveBeenCalledWith(request.body.email)
   })
 })
