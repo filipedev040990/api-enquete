@@ -36,7 +36,7 @@ export default class SignupController implements ControllerInterface {
       if (newAccount) {
         const token = await this.authenticationUseCase.execute({
           email: newAccount.email,
-          password: newAccount.password
+          password
         })
 
         return success({

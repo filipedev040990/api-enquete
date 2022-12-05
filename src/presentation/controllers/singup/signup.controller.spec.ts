@@ -140,7 +140,7 @@ describe('SignupController', () => {
     await sut.execute(request)
     expect(spy).toHaveBeenCalledWith({
       email: 'anyEmail@email.com',
-      password: 'hashedPassword'
+      password: 'anyPassword'
     })
   })
 
@@ -150,5 +150,14 @@ describe('SignupController', () => {
     expect(response.statusCode).toBe(201)
     expect(response.body.name).toBe('anyName')
     expect(response.body.token).toBe('anyToken')
+  })
+
+  test('should return 500 AuthenticationUseCase throw an exception', async () => {
+    const { sut, authenticationUseCaseStub } = makeSut()
+    jest.spyOn(authenticationUseCaseStub, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.execute(request)
+    expect(response).toEqual(serverError(new Error()))
   })
 })
