@@ -92,20 +92,6 @@ describe('SignupController', () => {
     })
   })
 
-  test('should return an account on success', async () => {
-    const { sut } = makeSut()
-    const response = await sut.execute(request)
-    expect(response.statusCode).toBe(201)
-    expect(response.body).toHaveProperty('id')
-    expect(response.body.id).not.toBeNull()
-    expect(response.body).toHaveProperty('name')
-    expect(response.body.name).not.toBeNull()
-    expect(response.body).toHaveProperty('email')
-    expect(response.body.email).not.toBeNull()
-    expect(response.body).toHaveProperty('password')
-    expect(response.body.password).not.toBeNull()
-  })
-
   test('should return 500 if AddAcountUseCase throw an exception', async () => {
     const { sut, addAccountStubUseCase } = makeSut()
     jest.spyOn(addAccountStubUseCase, 'execute').mockImplementationOnce(() => {
@@ -156,5 +142,13 @@ describe('SignupController', () => {
       email: 'anyEmail@email.com',
       password: 'hashedPassword'
     })
+  })
+
+  test('should return a name and access token on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute(request)
+    expect(response.statusCode).toBe(201)
+    expect(response.body.name).toBe('anyName')
+    expect(response.body.token).toBe('anyToken')
   })
 })
