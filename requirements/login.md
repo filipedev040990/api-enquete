@@ -11,7 +11,7 @@
 
 > ## Exceções
 
-1. ❌ Retorna erro **404** se a API não existir
+1. ✅ Retorna erro **404** se a API não existir
 2. ✅ Retorna erro **400** se email ou password não forem fornecidos pelo client
 3. ✅ Retorna erro **400** se o campo email for um e-mail inválido
 4. ✅ Retorna erro **401** se não encontrar um usuário com os dados fornecidos
