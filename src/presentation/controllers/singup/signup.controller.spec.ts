@@ -6,20 +6,23 @@ import { badRequest, resourceConflict, serverError } from '../../helpers/http.he
 import { ValidationInterface } from '../../interfaces/validation.interface'
 import SignupController from './signup.controller'
 import { GetAccountByEmailInterface } from '../../../domain/use-cases/signup/get-account-by-email.interface'
+import { AuthenticationUseCaseInterface, AuthenticationRequest } from '../../../domain/use-cases/authentication/authentication.interface'
 
 interface SutType {
   sut: SignupController
   addAccountStubUseCase: AddAccountInterface
   validationStub: ValidationInterface
   getAccountByEmailStub: GetAccountByEmailInterface
+  authenticationUseCaseStub: AuthenticationUseCaseInterface
 }
 
 const makeSut = (): SutType => {
   const addAccountStubUseCase = makeAddAccountStub()
   const validationStub = makeValidation()
   const getAccountByEmailStub = makeGetAccountByEmailStub()
-  const sut = new SignupController(addAccountStubUseCase, validationStub, getAccountByEmailStub)
-  return { sut, addAccountStubUseCase, validationStub, getAccountByEmailStub }
+  const authenticationUseCaseStub = makeAuthenticationUseCaseStub()
+  const sut = new SignupController(addAccountStubUseCase, validationStub, getAccountByEmailStub, authenticationUseCaseStub)
+  return { sut, addAccountStubUseCase, validationStub, getAccountByEmailStub, authenticationUseCaseStub }
 }
 
 const fakeAccount = {
@@ -53,6 +56,15 @@ const makeValidation = (): ValidationInterface => {
     }
   }
   return new ValidationStub()
+}
+
+const makeAuthenticationUseCaseStub = (): AuthenticationUseCaseInterface => {
+  class AuthenticationUseCaseStub implements AuthenticationUseCaseInterface {
+    async execute (request: AuthenticationRequest): Promise<string> {
+      return await Promise.resolve('anyToken')
+    }
+  }
+  return new AuthenticationUseCaseStub()
 }
 
 let request
@@ -134,5 +146,15 @@ describe('SignupController', () => {
     jest.spyOn(getAccountByEmailStub, 'execute').mockReturnValueOnce(Promise.resolve(fakeAccount))
     const response = await sut.execute(request)
     expect(response).toEqual(resourceConflict('This email already in use'))
+  })
+
+  test('should call AuthenticationUseCase with correct values', async () => {
+    const { sut, authenticationUseCaseStub } = makeSut()
+    const spy = jest.spyOn(authenticationUseCaseStub, 'execute')
+    await sut.execute(request)
+    expect(spy).toHaveBeenCalledWith({
+      email: 'anyEmail@email.com',
+      password: 'hashedPassword'
+    })
   })
 })

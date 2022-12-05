@@ -1,3 +1,4 @@
+import { AuthenticationUseCaseInterface } from '../../../data/use-cases/authentication'
 import { AddAccountInterface } from '../../../domain/use-cases/signup/add-account.interface'
 import { GetAccountByEmailInterface } from '../../../domain/use-cases/signup/get-account-by-email.interface'
 import { badRequest, resourceConflict, serverError, success } from '../../helpers/http.helper'
@@ -7,7 +8,8 @@ export default class SignupController implements ControllerInterface {
   constructor (
     private readonly addAccount: AddAccountInterface,
     private readonly validation: ValidationInterface,
-    private readonly getAccountByEmail: GetAccountByEmailInterface
+    private readonly getAccountByEmail: GetAccountByEmailInterface,
+    private readonly authenticationUseCase: AuthenticationUseCaseInterface
   ) {}
 
   async execute (request: HttpRequest): Promise<HttpResponse> {
@@ -30,6 +32,14 @@ export default class SignupController implements ControllerInterface {
         email,
         password
       })
+
+      if (newAccount) {
+        await this.authenticationUseCase.execute({
+          email: newAccount.email,
+          password: newAccount.password
+        })
+      }
+
       return success(newAccount, 201)
     } catch (error) {
       return serverError(error)
