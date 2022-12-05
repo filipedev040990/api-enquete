@@ -52,5 +52,13 @@ describe('Signup Routes', () => {
           .expect(200)
       })
     })
+
+    describe('404', () => {
+      test('should 404', async () => {
+        await request(app)
+          .post('/api/invalidRoute')
+          .expect(404)
+      })
+    })
   })
 })
