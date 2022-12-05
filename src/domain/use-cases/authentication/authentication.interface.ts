@@ -3,5 +3,5 @@ export type AuthenticationRequest = {
   password: string
 }
 export interface AuthenticationUseCaseInterface {
-  execute (request: AuthenticationRequest): Promise<string>
+  execute (request: AuthenticationRequest): Promise<string | null>
 }

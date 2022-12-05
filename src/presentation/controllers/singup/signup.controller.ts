@@ -27,23 +27,17 @@ export default class SignupController implements ControllerInterface {
         return resourceConflict('This email already in use')
       }
 
-      const newAccount = await this.addAccount.execute({
+      await this.addAccount.execute({
         name,
         email,
         password
       })
 
-      if (newAccount) {
-        const token = await this.authenticationUseCase.execute({
-          email: newAccount.email,
-          password
-        })
-
-        return success({
-          name: newAccount.name,
-          token
-        }, 201)
-      }
+      const token = await this.authenticationUseCase.execute({ email, password })
+      return success({
+        name,
+        token
+      }, 201)
     } catch (error) {
       return serverError(error)
     }

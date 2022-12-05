@@ -32,7 +32,7 @@ const makeEmailValidatorStub = (): EmailValidatorInterface => {
 
 const makeAuthenticationUseCaseStub = (): AuthenticationUseCaseInterface => {
   class AuthenticationUseCaseStub implements AuthenticationUseCaseInterface {
-    async execute (request: AuthenticationRequest): Promise<string> {
+    async execute (request: AuthenticationRequest): Promise<string | null> {
       return await Promise.resolve('anyToken')
     }
   }
@@ -41,7 +41,7 @@ const makeAuthenticationUseCaseStub = (): AuthenticationUseCaseInterface => {
 
 const makeValidation = (): ValidationInterface => {
   class ValidationStub implements ValidationInterface {
-    validate (input: any): Error {
+    validate (input: any): Error | null {
       return null
     }
   }
@@ -69,7 +69,7 @@ describe('', () => {
 
   test('should return 401 if authentication failed', async () => {
     const { sut, authenticationUseCaseStub } = makeSut()
-    jest.spyOn(authenticationUseCaseStub, 'execute').mockReturnValueOnce(null)
+    jest.spyOn(authenticationUseCaseStub, 'execute').mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.execute(httpRequest)
     expect(response).toEqual(unauthorized())
   })
