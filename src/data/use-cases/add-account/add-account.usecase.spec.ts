@@ -48,7 +48,8 @@ describe('DbAddAccountUseCase', () => {
     accountData = {
       email: 'anyEmail@email.com',
       name: 'AnyName',
-      password: 'anyPassword'
+      password: 'anyPassword',
+      token: ''
     }
   })
 
