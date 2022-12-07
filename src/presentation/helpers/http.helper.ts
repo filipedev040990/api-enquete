@@ -15,3 +15,15 @@ export const success = (body: any, statusCode = 200): HttpResponse => ({
   statusCode,
   body
 })
+
+export const unauthorized = (): HttpResponse => ({
+  statusCode: 401,
+  body: {
+    message: 'Unauthorized'
+  }
+})
+
+export const resourceConflict = (message: string): HttpResponse => ({
+  statusCode: 403,
+  body: message
+})

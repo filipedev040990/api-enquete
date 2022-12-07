@@ -1,31 +1,35 @@
-import { AccountRepositoryInterface } from '../../interfaces/account-repository.interface'
-import { AccountModel, AddAccountRequest, EncrypterAdapterInterface } from './'
-import { AddAccountUseCase } from './add-account'
+import { AddAccountRepositoryInterface } from '../../interfaces/add-account-repository.interface'
+import { AccountModel, AddAccountRequest, HasherHashAdapterInterface } from '.'
+import { AddAccountUseCase } from './add-account.usecase'
 
 type SutType = {
   sut: AddAccountUseCase
-  encrypterStub: EncrypterAdapterInterface
-  accountRepositoryStub: AccountRepositoryInterface
+  hasherStub: HasherHashAdapterInterface
+  accountRepositoryStub: AddAccountRepositoryInterface
 }
 
 const makeSut = (): SutType => {
-  const encrypterStub = makeEncrypter()
+  const hasherStub = makeHasher()
   const accountRepositoryStub = makeAccountRepositoryStub()
-  const sut = new AddAccountUseCase(encrypterStub, accountRepositoryStub)
-  return { sut, encrypterStub, accountRepositoryStub }
+  const sut = new AddAccountUseCase(hasherStub, accountRepositoryStub)
+  return { sut, hasherStub, accountRepositoryStub }
 }
 
-const makeEncrypter = (): EncrypterAdapterInterface => {
-  class EncrypterStub implements EncrypterAdapterInterface {
+const makeHasher = (): HasherHashAdapterInterface => {
+  class HasherStub implements HasherHashAdapterInterface {
     async hash (value: string): Promise<string> {
       return await Promise.resolve('hashedPassword')
     }
   }
-  return new EncrypterStub()
+  return new HasherStub()
 }
 
-const makeAccountRepositoryStub = (): AccountRepositoryInterface => {
-  class AccountRepositoryStub implements AccountRepositoryInterface {
+const makeAccountRepositoryStub = (): AddAccountRepositoryInterface => {
+  class AccountRepositoryStub implements AddAccountRepositoryInterface {
+    async getByEmail (email: string): Promise<AccountModel> {
+      return null
+    }
+
     async create (account: AddAccountRequest): Promise<AccountModel> {
       const fakeAccount = {
         id: 'anyId',
@@ -48,16 +52,16 @@ describe('DbAddAccountUseCase', () => {
     }
   })
 
-  test('should call Encrypter.hash with correct password', async () => {
-    const { sut, encrypterStub } = makeSut()
-    const spy = jest.spyOn(encrypterStub, 'hash')
+  test('should call Hasher.hash with correct password', async () => {
+    const { sut, hasherStub } = makeSut()
+    const spy = jest.spyOn(hasherStub, 'hash')
     await sut.execute(accountData)
     expect(spy).toHaveBeenCalledWith(accountData.password)
   })
 
-  test('should return server error if Encrypter.hash throw an exception', async () => {
-    const { sut, encrypterStub } = makeSut()
-    jest.spyOn(encrypterStub, 'hash').mockImplementationOnce(() => {
+  test('should return server error if Hasher.hash throw an exception', async () => {
+    const { sut, hasherStub } = makeSut()
+    jest.spyOn(hasherStub, 'hash').mockImplementationOnce(() => {
       throw new Error()
     })
     const response = sut.execute(accountData)

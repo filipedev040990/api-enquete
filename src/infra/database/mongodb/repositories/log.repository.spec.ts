@@ -11,7 +11,7 @@ const makeSut = (): SutType => {
   return { sut }
 }
 
-describe('', () => {
+describe('LogRepository', () => {
   let errorCollection: Collection
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)

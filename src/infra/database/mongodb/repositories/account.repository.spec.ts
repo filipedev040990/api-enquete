@@ -9,8 +9,8 @@ const makeSut = (): SutType => {
   const sut = new AccountRepository()
   return { sut }
 }
-
-describe('', () => {
+let accountCollection
+describe('Account Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
@@ -20,18 +20,48 @@ describe('', () => {
   })
 
   beforeEach(async () => {
-    const accountCollection = await MongoHelper.getCollection('accounts')
+    accountCollection = await MongoHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
   })
 
-  test('should return an account on success', async () => {
-    const { sut } = makeSut()
-    const response = await sut.create({
-      name: 'anyname',
-      email: 'anyEmail@email.com',
-      password: 'hashedPassword'
+  describe('create', () => {
+    test('should return an account on success', async () => {
+      const { sut } = makeSut()
+      const response = await sut.create({
+        name: 'anyname',
+        email: 'anyEmail@email.com',
+        password: 'hashedPassword'
+      })
+
+      expect(response).toBeTruthy()
+      expect(response.name).toBe('anyname')
+      expect(response.email).toBe('anyEmail@email.com')
+      expect(response.password).toBe('hashedPassword')
+    })
+  })
+
+  describe('getByEmail', () => {
+    test('should return an account if email exists', async () => {
+      const { sut } = makeSut()
+
+      await accountCollection.insertOne({
+        name: 'anyname',
+        email: 'anyEmail@email.com',
+        password: 'hashedPassword'
+      })
+
+      const response = await sut.getByEmail('anyEmail@email.com')
+
+      expect(response).toBeTruthy()
+      expect(response.name).toBe('anyname')
+      expect(response.email).toBe('anyEmail@email.com')
+      expect(response.password).toBe('hashedPassword')
     })
 
-    expect(response).toBeTruthy()
+    test('should return null if AccountRepository returns null', async () => {
+      const { sut } = makeSut()
+      const response = await sut.getByEmail('anyEmail@email.com')
+      expect(response).toBeNull()
+    })
   })
 })
