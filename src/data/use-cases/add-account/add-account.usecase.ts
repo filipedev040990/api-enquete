@@ -13,7 +13,8 @@ export class AddAccountUseCase implements AddAccountInterface {
     return await this.addAccountRepository.create({
       name,
       email,
-      password: passwordHashed
+      password: passwordHashed,
+      token: ''
     })
   }
 }

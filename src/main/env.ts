@@ -1,6 +1,6 @@
 export default {
   mongodb: {
-    mongoUrl: process.env.ME_CONFIG_MONGODB_URL || 'mongodb://root:05Ad00sp*@mongo:27017/api-enquete?authSource=admin'
+    mongoUrl: process.env.ME_CONFIG_MONGODB_URL || 'mongodb://root:12345678@mongo:27017/api-enquete?authSource=admin'
   },
   hasher: {
     salt: 12
