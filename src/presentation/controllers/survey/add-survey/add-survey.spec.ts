@@ -2,16 +2,19 @@ import { ValidationInterface } from '../../../interfaces'
 import { AddSurveyController } from './add-survey'
 import { badRequest } from '../../../helpers/http.helper'
 import { MissingParamError } from '../../../errors/missing-param.error'
+import { AddSurveyRequest, AddSurveyUseCaseInterface } from '../../../../domain/use-cases/survey/add-survey.interface'
 
 type SutType = {
   sut: AddSurveyController
   validationStub: ValidationInterface
+  addSurveyUseCaseStub: AddSurveyUseCaseInterface
 }
 
 const makeSut = (): SutType => {
   const validationStub = makeValidationStub()
-  const sut = new AddSurveyController(validationStub)
-  return { sut, validationStub }
+  const addSurveyUseCaseStub = makeAddSurveyUseCaseStub()
+  const sut = new AddSurveyController(validationStub, addSurveyUseCaseStub)
+  return { sut, validationStub, addSurveyUseCaseStub }
 }
 
 const makeValidationStub = (): ValidationInterface => {
@@ -21,6 +24,15 @@ const makeValidationStub = (): ValidationInterface => {
     }
   }
   return new Validation()
+}
+
+const makeAddSurveyUseCaseStub = (): AddSurveyUseCaseInterface => {
+  class AddSurveyUseCaseStub implements AddSurveyUseCaseInterface {
+    async execute (survey: AddSurveyRequest): Promise<void> {
+
+    }
+  }
+  return new AddSurveyUseCaseStub()
 }
 
 let request
@@ -50,5 +62,13 @@ describe('AddSurveyController', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('anyField'))
     const response = await sut.execute(request)
     expect(response).toEqual(badRequest(new MissingParamError('anyField')))
+  })
+
+  test('should call AddSurveyUseCase once and with correct values', async () => {
+    const { sut, addSurveyUseCaseStub } = makeSut()
+    const spy = jest.spyOn(addSurveyUseCaseStub, 'execute')
+    await sut.execute(request)
+    expect(spy).toBeCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(request.body)
   })
 })
