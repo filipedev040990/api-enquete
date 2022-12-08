@@ -26,7 +26,7 @@ const makeHasher = (): HasherHashAdapterInterface => {
 
 const makeAccountRepositoryStub = (): AddAccountRepositoryInterface => {
   class AccountRepositoryStub implements AddAccountRepositoryInterface {
-    async getByEmail (email: string): Promise<AccountModel> {
+    async getByEmail (email: string): Promise<AccountModel | null> {
       return null
     }
 
