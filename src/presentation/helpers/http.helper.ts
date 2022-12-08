@@ -24,6 +24,6 @@ export const unauthorized = (): HttpResponse => ({
 })
 
 export const resourceConflict = (message: string): HttpResponse => ({
-  statusCode: 403,
+  statusCode: 409,
   body: message
 })
