@@ -33,6 +33,7 @@ describe('AddSurveyUseCase', () => {
       }
     }
   })
+
   test('should call SurveyRepository once and with correct values', async () => {
     const { sut, surveyRepositoryStub } = makeSut()
     const spy = jest.spyOn(surveyRepositoryStub, 'create')
@@ -45,5 +46,13 @@ describe('AddSurveyUseCase', () => {
         answer: 'anyAnswer'
       }
     })
+  })
+  test('should throw an exception if SurveyRepository throws', async () => {
+    const { sut, surveyRepositoryStub } = makeSut()
+    jest.spyOn(surveyRepositoryStub, 'create').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute(request)
+    await expect(response).rejects.toThrow()
   })
 })
