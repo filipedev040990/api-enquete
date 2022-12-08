@@ -1,4 +1,4 @@
-import { LogRepository } from '../../../infra/database/mongodb/repositories/log.repository'
+import { LogRepository } from '../../../infra/database/mongodb/repositories/log/log.repository'
 import { AuthenticationController } from '../../../presentation/controllers/authentication/authentication.controller'
 import { ControllerInterface } from '../../../presentation/interfaces'
 import { LogControllerDecorator } from '../../decorators/log.decorator'

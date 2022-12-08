@@ -1,5 +1,5 @@
 import { LogRepository } from './log.repository'
-import { MongoHelper } from '../helpers/mongo.helper'
+import { MongoHelper } from '../../helpers/mongo.helper'
 import { Collection } from 'mongodb'
 
  type SutType = {
