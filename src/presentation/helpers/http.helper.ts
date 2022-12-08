@@ -27,3 +27,8 @@ export const resourceConflict = (message: string): HttpResponse => ({
   statusCode: 409,
   body: message
 })
+
+export const noContent = (): HttpResponse => ({
+  statusCode: 204,
+  body: null
+})

@@ -1,6 +1,6 @@
 import { ValidationInterface } from '../../../interfaces'
 import { AddSurveyController } from './add-survey'
-import { badRequest } from '../../../helpers/http.helper'
+import { badRequest, serverError } from '../../../helpers/http.helper'
 import { MissingParamError } from '../../../errors/missing-param.error'
 import { AddSurveyRequest, AddSurveyUseCaseInterface } from '../../../../domain/use-cases/survey/add-survey.interface'
 
@@ -70,5 +70,14 @@ describe('AddSurveyController', () => {
     await sut.execute(request)
     expect(spy).toBeCalledTimes(1)
     expect(spy).toHaveBeenCalledWith(request.body)
+  })
+
+  test('should return 500 if AddSurveyUseCase throw an exception', async () => {
+    const { sut, addSurveyUseCaseStub } = makeSut()
+    jest.spyOn(addSurveyUseCaseStub, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.execute(request)
+    expect(response).toEqual(serverError(new Error()))
   })
 })
