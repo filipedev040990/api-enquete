@@ -1,6 +1,6 @@
 
-import { AddAccountUseCase } from '../../../data/use-cases/add-account/add-account.usecase'
-import { GetAccountByEmailUseCase } from '../../../data/use-cases/add-account/get-account-by-email.usecase'
+import { AddAccountUseCase } from '../../../data/use-cases/account/add-account/add-account.usecase'
+import { GetAccountByEmailUseCase } from '../../../data/use-cases/account/get-account-by-email/get-account-by-email.usecase'
 import { BcryptAdapter } from '../../../infra/criptography/bcrypt-adapter'
 import { AccountRepository } from '../../../infra/database/mongodb/repositories/account.repository'
 import { LogRepository } from '../../../infra/database/mongodb/repositories/log.repository'

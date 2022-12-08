@@ -1,0 +1,6 @@
+export * from './add-account.usecase'
+export * from '../../../../domain/models/account.model'
+export * from '../../../../domain/use-cases/signup/add-account.interface'
+export * from '../../../interfaces/hasher-hash-adapter.interface'
+export * from '../../../interfaces/add-account-repository.interface'
+export * from '../../authentication'

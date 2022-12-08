@@ -1,5 +1,4 @@
-import { AddAccountRepositoryInterface } from '../../interfaces/add-account-repository.interface'
-import { AccountModel, AddAccountInterface, AddAccountRequest, HasherHashAdapterInterface } from './'
+import { AccountModel, AddAccountInterface, AddAccountRequest, AddAccountRepositoryInterface, HasherHashAdapterInterface } from './'
 
 export class AddAccountUseCase implements AddAccountInterface {
   constructor (

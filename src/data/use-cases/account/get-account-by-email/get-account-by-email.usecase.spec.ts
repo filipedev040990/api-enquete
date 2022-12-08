@@ -1,6 +1,6 @@
+import { AccountModel } from '../../../../domain/models/account.model'
+import { GetAccountByEmailRepositoryInterface } from '../../authentication'
 import { GetAccountByEmailUseCase } from './get-account-by-email.usecase'
-import { GetAccountByEmailRepositoryInterface } from '../../interfaces/get-account-by-email-repository.interface'
-import { AccountModel } from '../../../domain/models/account.model'
 
 type SutType = {
   sut: GetAccountByEmailUseCase

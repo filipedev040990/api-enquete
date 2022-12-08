@@ -1,10 +1,10 @@
 import { AddAccountRepositoryInterface } from '../../../../data/interfaces/add-account-repository.interface'
-import { AddAccountRequest } from '../../../../data/use-cases/add-account'
 import { AccountModel } from '../../../../domain/models/account.model'
 import { MongoHelper } from '../helpers/mongo.helper'
 import { map } from '../helpers/mapping.helper'
 import { GetAccountByEmailRepositoryInterface } from '../../../../data/interfaces/get-account-by-email-repository.interface'
 import { TokenRepositoryInterface, TokenRepositoryProps } from '../../../../data/use-cases/authentication'
+import { AddAccountRequest } from '../../../../data/use-cases/account/add-account'
 
 export class AccountRepository implements AddAccountRepositoryInterface, GetAccountByEmailRepositoryInterface, TokenRepositoryInterface {
   async getByEmail (email: string): Promise<AccountModel> {

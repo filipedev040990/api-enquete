@@ -1,5 +1,4 @@
-import { AddAccountRepositoryInterface } from '../../interfaces/add-account-repository.interface'
-import { AccountModel, AddAccountRequest, HasherHashAdapterInterface } from '.'
+import { AccountModel, AddAccountRepositoryInterface, AddAccountRequest, HasherHashAdapterInterface } from '.'
 import { AddAccountUseCase } from './add-account.usecase'
 
 type SutType = {
