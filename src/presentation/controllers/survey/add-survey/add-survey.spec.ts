@@ -2,7 +2,8 @@ import { ValidationInterface } from '../../../interfaces'
 import { AddSurveyController } from './add-survey'
 import { badRequest, serverError } from '../../../helpers/http.helper'
 import { MissingParamError } from '../../../errors/missing-param.error'
-import { AddSurveyRequest, AddSurveyUseCaseInterface } from '../../../../domain/use-cases/survey/add-survey.interface'
+import { AddSurveyUseCaseInterface } from '../../../../domain/use-cases/survey/add-survey.interface'
+import { SurveyModel } from '../../../../domain/models/survey.model'
 
 type SutType = {
   sut: AddSurveyController
@@ -28,7 +29,7 @@ const makeValidationStub = (): ValidationInterface => {
 
 const makeAddSurveyUseCaseStub = (): AddSurveyUseCaseInterface => {
   class AddSurveyUseCaseStub implements AddSurveyUseCaseInterface {
-    async execute (survey: AddSurveyRequest): Promise<void> {
+    async execute (survey: SurveyModel): Promise<void> {
 
     }
   }
@@ -41,10 +42,10 @@ describe('AddSurveyController', () => {
     request = {
       body: {
         question: 'anyQuestion',
-        answers: {
+        answers: [{
           image: '',
           answer: 'anyAnswer'
-        }
+        }]
       }
     }
   })

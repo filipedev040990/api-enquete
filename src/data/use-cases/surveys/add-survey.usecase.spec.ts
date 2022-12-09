@@ -1,6 +1,6 @@
 import { AddSurveyUseCase } from './add-survey.usecase'
 import { AddSurveyRepositoryInterface } from '../../../data/interfaces/add-survey-repository.interface'
-import { AddSurveyRequest } from '../../../domain/use-cases/survey/add-survey.interface'
+import { SurveyModel } from '../../../domain/models/survey.model'
 
 type SutType = {
   sut: AddSurveyUseCase
@@ -15,7 +15,7 @@ const makeSut = (): SutType => {
 
 const makeSurveyRepositoryStub = (): AddSurveyRepositoryInterface => {
   class SurveyRepositoryStub implements AddSurveyRepositoryInterface {
-    async create (survey: AddSurveyRequest): Promise<void> {
+    async create (survey: SurveyModel): Promise<void> {
 
     }
   }
@@ -27,10 +27,10 @@ describe('AddSurveyUseCase', () => {
   beforeEach(() => {
     request = {
       question: 'anyQuestion',
-      answers: {
+      answers: [{
         image: '',
         answer: 'anyAnswer'
-      }
+      }]
     }
   })
 
@@ -41,10 +41,10 @@ describe('AddSurveyUseCase', () => {
     expect(spy).toBeCalledTimes(1)
     expect(spy).toHaveBeenCalledWith({
       question: 'anyQuestion',
-      answers: {
+      answers: [{
         image: '',
         answer: 'anyAnswer'
-      }
+      }]
     })
   })
   test('should throw an exception if SurveyRepository throws', async () => {
