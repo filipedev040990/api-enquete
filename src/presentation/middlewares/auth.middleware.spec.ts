@@ -10,9 +10,9 @@ type SutType = {
   getAccountByTokenUseCaseStub: GetAccountByTokenUseCaseInterface
 }
 
-const makeSut = (): SutType => {
+const makeSut = (role?: string): SutType => {
   const getAccountByTokenUseCaseStub = makeGetAccountByTokenUseCaseStub()
-  const sut = new AuthMiddleware(getAccountByTokenUseCaseStub)
+  const sut = new AuthMiddleware(getAccountByTokenUseCaseStub, role)
   return { sut, getAccountByTokenUseCaseStub }
 }
 
@@ -47,11 +47,12 @@ describe('Auth Middleware', () => {
   })
 
   test('should call getAccountByToken once and with correct values', async () => {
-    const { sut, getAccountByTokenUseCaseStub } = makeSut()
+    const role = 'anyRole'
+    const { sut, getAccountByTokenUseCaseStub } = makeSut(role)
     const spy = jest.spyOn(getAccountByTokenUseCaseStub, 'execute')
     await sut.execute(makeRequest())
     expect(spy).toBeCalledTimes(1)
-    expect(spy).toHaveBeenCalledWith('anyToken')
+    expect(spy).toHaveBeenCalledWith('anyToken', role)
   })
 
   test('should return 403 if getAccountByToken return null', async () => {

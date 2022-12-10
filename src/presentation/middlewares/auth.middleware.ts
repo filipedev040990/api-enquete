@@ -6,14 +6,15 @@ import { AuthMiddlewareInterface } from '../interfaces/middleware.interface'
 
 export class AuthMiddleware implements AuthMiddlewareInterface {
   constructor (
-    private readonly getAccountByTokenUseCase: GetAccountByTokenUseCaseInterface
+    private readonly getAccountByTokenUseCase: GetAccountByTokenUseCaseInterface,
+    private readonly role?: string
   ) {}
 
   async execute (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       if (httpRequest.headers?.authorization) {
         const token = httpRequest.headers.authorization?.split(' ')[1]
-        const account = await this.getAccountByTokenUseCase.execute(token)
+        const account = await this.getAccountByTokenUseCase.execute(token, this.role)
         if (account) {
           return success({ accountId: account.id })
         }
