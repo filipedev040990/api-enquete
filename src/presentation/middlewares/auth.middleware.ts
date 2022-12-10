@@ -2,9 +2,9 @@ import { GetAccountByTokenUseCaseInterface } from '../../domain/use-cases/accoun
 import { AccessDeniedError } from '../errors/access-denied.error'
 import { forbidden } from '../helpers/http.helper'
 import { HttpRequest, HttpResponse } from '../interfaces'
-import { AuthMIddlewareInterface } from '../interfaces/middleware.interface'
+import { AuthMiddlewareInterface } from '../interfaces/middleware.interface'
 
-export class AuthMIddleware implements AuthMIddlewareInterface {
+export class AuthMiddleware implements AuthMiddlewareInterface {
   constructor (
     private readonly getAccountByTokenUseCase: GetAccountByTokenUseCaseInterface
   ) {}

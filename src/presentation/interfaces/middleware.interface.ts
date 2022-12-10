@@ -1,5 +1,5 @@
 import { HttpRequest, HttpResponse } from './http.interface'
 
-export interface AuthMIddlewareInterface {
+export interface AuthMiddlewareInterface {
   execute(httpRequest: HttpRequest): Promise<HttpResponse>
 }

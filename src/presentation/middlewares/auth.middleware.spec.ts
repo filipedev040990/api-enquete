@@ -1,4 +1,4 @@
-import { AuthMIddleware } from './auth.middleware'
+import { AuthMiddleware } from './auth.middleware'
 import { forbidden } from '../helpers/http.helper'
 import { AccessDeniedError } from '../errors/access-denied.error'
 import { HttpRequest } from '../interfaces'
@@ -6,13 +6,13 @@ import { AccountModel } from '../../domain/models/account.model'
 import { GetAccountByTokenUseCaseInterface } from '../../domain/use-cases/account/get-account-by-token.interface'
 
 type SutType = {
-  sut: AuthMIddleware
+  sut: AuthMiddleware
   getAccountByTokenUseCaseStub: GetAccountByTokenUseCaseInterface
 }
 
 const makeSut = (): SutType => {
   const getAccountByTokenUseCaseStub = makeGetAccountByTokenUseCaseStub()
-  const sut = new AuthMIddleware(getAccountByTokenUseCaseStub)
+  const sut = new AuthMiddleware(getAccountByTokenUseCaseStub)
   return { sut, getAccountByTokenUseCaseStub }
 }
 
