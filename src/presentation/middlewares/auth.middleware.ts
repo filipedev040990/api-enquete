@@ -1,6 +1,6 @@
 import { GetAccountByTokenUseCaseInterface } from '../../domain/use-cases/account/get-account-by-token.interface'
 import { AccessDeniedError } from '../errors/access-denied.error'
-import { forbidden } from '../helpers/http.helper'
+import { forbidden, success } from '../helpers/http.helper'
 import { HttpRequest, HttpResponse } from '../interfaces'
 import { AuthMiddlewareInterface } from '../interfaces/middleware.interface'
 
@@ -12,7 +12,10 @@ export class AuthMiddleware implements AuthMiddlewareInterface {
   async execute (httpRequest: HttpRequest): Promise<HttpResponse> {
     if (httpRequest.headers?.authorization) {
       const token = httpRequest.headers.authorization?.split(' ')[1]
-      await this.getAccountByTokenUseCase.execute(token)
+      const account = await this.getAccountByTokenUseCase.execute(token)
+      if (account) {
+        return success({ accountId: account.id })
+      }
     }
     return forbidden(new AccessDeniedError())
   }
