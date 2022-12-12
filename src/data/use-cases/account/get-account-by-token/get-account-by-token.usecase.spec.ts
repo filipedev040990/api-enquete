@@ -52,7 +52,7 @@ describe('AccountRepository', () => {
 
   test('should return null if Decrypter return null', async () => {
     const { sut, decrypterStub } = makeSut()
-    jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(null)
+    jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.execute('anyToken', 'anyRole')
     expect(response).toBeNull()
   })
@@ -75,11 +75,7 @@ describe('AccountRepository', () => {
   test('should return an account', async () => {
     const { sut } = makeSut()
     const response = await sut.execute('anyToken', 'anyRole')
-    expect(response).toBeTruthy()
-    expect(response).toHaveProperty('id')
-    expect(response).toHaveProperty('name')
-    expect(response).toHaveProperty('email')
-    expect(response).toHaveProperty('password')
+    expect(response).toEqual(fakeAccount)
   })
 
   test('should return server error if AccountRepository throw an exception', async () => {
