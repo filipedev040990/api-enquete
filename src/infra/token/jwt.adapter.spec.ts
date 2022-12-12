@@ -61,5 +61,12 @@ describe('JwtAdapter', () => {
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith('anyToken', secretKey)
     })
+
+    test('should call JwtAdapter with correct values and without expiresIn in constructor', async () => {
+      const sut = new JwtAdapter(secretKey)
+      const spy = jest.spyOn(jwt, 'verify')
+      await sut.decrypt('anyToken')
+      expect(spy).toHaveBeenCalledWith('anyToken', secretKey)
+    })
   })
 })
