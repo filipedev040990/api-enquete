@@ -50,6 +50,13 @@ describe('AccountRepository', () => {
     expect(spy).toHaveBeenCalledWith('anyToken')
   })
 
+  test('should return null if Decrypter return null', async () => {
+    const { sut, decrypterStub } = makeSut()
+    jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(null)
+    const response = await sut.execute('anyToken')
+    expect(response).toBeNull()
+  })
+
   test('should call AccountRepository once and with correct values', async () => {
     const { sut, accountRepositoryStub } = makeSut()
     const spy = jest.spyOn(accountRepositoryStub, 'getByToken')

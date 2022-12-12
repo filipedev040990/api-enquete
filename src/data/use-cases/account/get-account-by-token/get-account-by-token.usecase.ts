@@ -10,8 +10,13 @@ export class GetAccountByTokenUseCase implements GetAccountByTokenUseCaseInterfa
   ) {}
 
   async execute (token: string, role?: string): Promise<AccountModel> {
-    await this.decrypter.decrypt(token)
-    const account = await this.accountRepository.getByToken(token)
-    return account || null
+    const isValidToken = await this.decrypter.decrypt(token)
+    if (isValidToken) {
+      const account = await this.accountRepository.getByToken(token)
+      if (account) {
+        return account
+      }
+    }
+    return null
   }
 }
