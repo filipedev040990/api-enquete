@@ -64,4 +64,25 @@ describe('Account Repository', () => {
       expect(response).toBeNull()
     })
   })
+
+  describe('getByToken', () => {
+    test('should return an account without role', async () => {
+      const { sut } = makeSut()
+
+      await accountCollection.insertOne({
+        name: 'anyname',
+        email: 'anyEmail@email.com',
+        password: 'hashedPassword',
+        token: 'anyToken'
+      })
+
+      const response = await sut.getByToken('anyToken')
+
+      expect(response).toBeTruthy()
+      expect(response.name).toBe('anyname')
+      expect(response.email).toBe('anyEmail@email.com')
+      expect(response.password).toBe('hashedPassword')
+      expect(response.token).toBe('anyToken')
+    })
+  })
 })
