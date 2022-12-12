@@ -15,7 +15,7 @@ const makeSut = (): SutType => {
 
 const makeGetAccountByEmailRepositoryStub = (): GetAccountByEmailRepositoryInterface => {
   class GetAccountByEmailRepositoryStub implements GetAccountByEmailRepositoryInterface {
-    async getByEmail (email: string): Promise<AccountModel> {
+    async getByEmail (email: string): Promise<AccountModel | null> {
       return await Promise.resolve(fakeAccount)
     }
   }
