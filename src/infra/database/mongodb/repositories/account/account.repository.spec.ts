@@ -104,5 +104,11 @@ describe('Account Repository', () => {
       expect(response.password).toBe('hashedPassword')
       expect(response.token).toBe('anyToken')
     })
+
+    test('should return null if AccountRepository returns null', async () => {
+      const { sut } = makeSut()
+      const response = await sut.getByEmail('anyToken')
+      expect(response).toBeNull()
+    })
   })
 })
