@@ -37,4 +37,11 @@ describe('AccountRepository', () => {
     expect(spy).toBeCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('anyToken')
   })
+
+  test('should return null if AccountRepository return null', async () => {
+    const { sut, accountRepositoryStub } = makeSut()
+    jest.spyOn(accountRepositoryStub, 'getByToken').mockReturnValueOnce(Promise.resolve(null))
+    const response = await sut.execute('anyToken')
+    expect(response).toBeNull()
+  })
 })
