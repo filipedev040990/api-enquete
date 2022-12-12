@@ -54,4 +54,13 @@ describe('AccountRepository', () => {
     expect(response).toHaveProperty('email')
     expect(response).toHaveProperty('password')
   })
+
+  test('should return server error if AccountRepository throw an exception', async () => {
+    const { sut, accountRepositoryStub } = makeSut()
+    jest.spyOn(accountRepositoryStub, 'getByToken').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute('anyToken')
+    await expect(response).rejects.toThrow()
+  })
 })
