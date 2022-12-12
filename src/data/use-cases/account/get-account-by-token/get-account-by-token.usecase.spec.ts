@@ -1,16 +1,19 @@
 import { GetAccountByTokenUseCase } from './get-account-by-token.usecase'
 import { GetAccountByTokenRepositoryInterface } from '../../../../data/interfaces/get-account-by-token-repository.interface'
 import { AccountModel } from '../../../../domain/models/account.model'
+import { DecrypterAdapterInterface } from '../../../interfaces/decrypter.adapter.interface'
 
 type SutType = {
   sut: GetAccountByTokenUseCase
   accountRepositoryStub: GetAccountByTokenRepositoryInterface
+  decrypterStub: DecrypterAdapterInterface
 }
 
 const makeSut = (): SutType => {
   const accountRepositoryStub = makeGetAccountByTokenRepositoryStub()
-  const sut = new GetAccountByTokenUseCase(accountRepositoryStub)
-  return { sut, accountRepositoryStub }
+  const decrypterStub = makeDecrypterStub()
+  const sut = new GetAccountByTokenUseCase(accountRepositoryStub, decrypterStub)
+  return { sut, accountRepositoryStub, decrypterStub }
 }
 
 const makeGetAccountByTokenRepositoryStub = (): GetAccountByTokenRepositoryInterface => {
@@ -22,6 +25,15 @@ const makeGetAccountByTokenRepositoryStub = (): GetAccountByTokenRepositoryInter
   return new GetAccountByTokenRepositoryStub()
 }
 
+const makeDecrypterStub = (): DecrypterAdapterInterface => {
+  class DecrypterAdapterStub implements DecrypterAdapterInterface {
+    async decrypt (value: string): Promise<string> {
+      return await Promise.resolve('anyDecryptedToken')
+    }
+  }
+  return new DecrypterAdapterStub()
+}
+
 const fakeAccount = {
   id: 'anyId',
   name: 'anyName',
@@ -30,6 +42,14 @@ const fakeAccount = {
 }
 
 describe('AccountRepository', () => {
+  test('should call Decrypter once and with correct token', async () => {
+    const { sut, decrypterStub } = makeSut()
+    const spy = jest.spyOn(decrypterStub, 'decrypt')
+    await sut.execute('anyToken')
+    expect(spy).toBeCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith('anyToken')
+  })
+
   test('should call AccountRepository once and with correct values', async () => {
     const { sut, accountRepositoryStub } = makeSut()
     const spy = jest.spyOn(accountRepositoryStub, 'getByToken')
