@@ -62,7 +62,7 @@ describe('Signup Routes', () => {
     })
 
     describe('survey', () => {
-      test('should return 403 on add survey success', async () => {
+      test('should return 403 if token is not provided', async () => {
         await request(app)
           .post('/api/survey')
           .send({
