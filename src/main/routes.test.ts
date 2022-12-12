@@ -62,7 +62,7 @@ describe('Signup Routes', () => {
     })
 
     describe('survey', () => {
-      test('should return 204 on add survey success', async () => {
+      test('should return 403 on add survey success', async () => {
         await request(app)
           .post('/api/survey')
           .send({
@@ -77,6 +77,7 @@ describe('Signup Routes', () => {
               }
             ]
           })
+          .expect(403)
       })
     })
   })

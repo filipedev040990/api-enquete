@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
-import { AuthMiddleware } from '../../presentation/middlewares/auth.middleware'
+import { AuthMiddlewareInterface } from '../../presentation/interfaces/middleware.interface'
 
-export const adaptMiddleware = (middleware: AuthMiddleware) => {
+export const adaptMiddleware = (middleware: AuthMiddlewareInterface) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const httpRequest = {
       headers: req.headers
