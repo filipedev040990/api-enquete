@@ -13,8 +13,7 @@ export class JwtAdapter implements EncrypterAdapterInterface, DecrypterAdapterIn
     return jwt.sign(payload, this.secretKey, { expiresIn: this.expiresIn || env.encrypter.expiresIn })
   }
 
-  async decrypt (value: string): Promise<string> {
-    jwt.verify(value, this.secretKey)
-    return null
+  async decrypt (token: string): Promise<string | object | null> {
+    return jwt.verify(token, this.secretKey)
   }
 }
