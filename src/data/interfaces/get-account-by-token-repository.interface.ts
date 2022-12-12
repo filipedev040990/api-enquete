@@ -1,5 +1,5 @@
 import { AccountModel } from '../../domain/models/account.model'
 
 export interface GetAccountByTokenRepositoryInterface {
-  getByToken (token: string): Promise<AccountModel | null>
+  getByToken (token: string, role?: string): Promise<AccountModel | null>
 }

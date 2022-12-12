@@ -18,7 +18,7 @@ const makeSut = (): SutType => {
 
 const makeGetAccountByTokenRepositoryStub = (): GetAccountByTokenRepositoryInterface => {
   class GetAccountByTokenRepositoryStub implements GetAccountByTokenRepositoryInterface {
-    async getByToken (token: string): Promise<AccountModel | null> {
+    async getByToken (token: string, role?: string): Promise<AccountModel | null> {
       return await Promise.resolve(fakeAccount)
     }
   }
@@ -27,7 +27,7 @@ const makeGetAccountByTokenRepositoryStub = (): GetAccountByTokenRepositoryInter
 
 const makeDecrypterStub = (): DecrypterAdapterInterface => {
   class DecrypterAdapterStub implements DecrypterAdapterInterface {
-    async decrypt (value: string): Promise<string> {
+    async decrypt (value: string): Promise<string | null> {
       return await Promise.resolve('anyDecryptedToken')
     }
   }
@@ -45,7 +45,7 @@ describe('AccountRepository', () => {
   test('should call Decrypter once and with correct token', async () => {
     const { sut, decrypterStub } = makeSut()
     const spy = jest.spyOn(decrypterStub, 'decrypt')
-    await sut.execute('anyToken')
+    await sut.execute('anyToken', 'anyRole')
     expect(spy).toBeCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('anyToken')
   })
@@ -53,28 +53,28 @@ describe('AccountRepository', () => {
   test('should return null if Decrypter return null', async () => {
     const { sut, decrypterStub } = makeSut()
     jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(null)
-    const response = await sut.execute('anyToken')
+    const response = await sut.execute('anyToken', 'anyRole')
     expect(response).toBeNull()
   })
 
   test('should call AccountRepository once and with correct values', async () => {
     const { sut, accountRepositoryStub } = makeSut()
     const spy = jest.spyOn(accountRepositoryStub, 'getByToken')
-    await sut.execute('anyToken')
+    await sut.execute('anyToken', 'anyRole')
     expect(spy).toBeCalledTimes(1)
-    expect(spy).toHaveBeenCalledWith('anyToken')
+    expect(spy).toHaveBeenCalledWith('anyToken', 'anyRole')
   })
 
   test('should return null if AccountRepository return null', async () => {
     const { sut, accountRepositoryStub } = makeSut()
     jest.spyOn(accountRepositoryStub, 'getByToken').mockReturnValueOnce(Promise.resolve(null))
-    const response = await sut.execute('anyToken')
+    const response = await sut.execute('anyToken', 'anyRole')
     expect(response).toBeNull()
   })
 
   test('should return an account', async () => {
     const { sut } = makeSut()
-    const response = await sut.execute('anyToken')
+    const response = await sut.execute('anyToken', 'anyRole')
     expect(response).toBeTruthy()
     expect(response).toHaveProperty('id')
     expect(response).toHaveProperty('name')
@@ -87,7 +87,7 @@ describe('AccountRepository', () => {
     jest.spyOn(accountRepositoryStub, 'getByToken').mockImplementationOnce(() => {
       throw new Error()
     })
-    const response = sut.execute('anyToken')
+    const response = sut.execute('anyToken', 'anyRole')
     await expect(response).rejects.toThrow()
   })
 })
