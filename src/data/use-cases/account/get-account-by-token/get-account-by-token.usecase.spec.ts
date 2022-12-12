@@ -41,7 +41,7 @@ const fakeAccount = {
   password: 'hashedPassword'
 }
 
-describe('AccountRepository', () => {
+describe('GetAccountByTokenRepository', () => {
   test('should call Decrypter once and with correct token', async () => {
     const { sut, decrypterStub } = makeSut()
     const spy = jest.spyOn(decrypterStub, 'decrypt')
@@ -55,6 +55,15 @@ describe('AccountRepository', () => {
     jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.execute('anyToken', 'anyRole')
     expect(response).toBeNull()
+  })
+
+  test('should return server error if Decrypter throw an exception', async () => {
+    const { sut, decrypterStub } = makeSut()
+    jest.spyOn(decrypterStub, 'decrypt').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute('anyToken', 'anyRole')
+    await expect(response).rejects.toThrow()
   })
 
   test('should call AccountRepository once and with correct values', async () => {
