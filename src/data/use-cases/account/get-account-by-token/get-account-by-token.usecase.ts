@@ -8,7 +8,7 @@ export class GetAccountByTokenUseCase implements GetAccountByTokenUseCaseInterfa
   ) {}
 
   async execute (token: string, role?: string): Promise<AccountModel> {
-    await this.accountRepository.getByToken(token)
-    return null
+    const account = await this.accountRepository.getByToken(token)
+    return account || null
   }
 }

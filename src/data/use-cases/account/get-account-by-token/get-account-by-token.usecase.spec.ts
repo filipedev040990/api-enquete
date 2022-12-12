@@ -44,4 +44,14 @@ describe('AccountRepository', () => {
     const response = await sut.execute('anyToken')
     expect(response).toBeNull()
   })
+
+  test('should return an account', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute('anyToken')
+    expect(response).toBeTruthy()
+    expect(response).toHaveProperty('id')
+    expect(response).toHaveProperty('name')
+    expect(response).toHaveProperty('email')
+    expect(response).toHaveProperty('password')
+  })
 })
