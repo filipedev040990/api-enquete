@@ -68,5 +68,12 @@ describe('JwtAdapter', () => {
       await sut.decrypt('anyToken')
       expect(spy).toHaveBeenCalledWith('anyToken', secretKey)
     })
+
+    test('should throw if JwtAdapter throws', async () => {
+      const { sut } = makeSut()
+      jest.spyOn(jwt, 'verify').mockImplementationOnce(() => { throw new Error() })
+      const response = sut.decrypt('anyToken')
+      await expect(response).rejects.toThrow()
+    })
   })
 })
