@@ -60,5 +60,24 @@ describe('Signup Routes', () => {
           .expect(404)
       })
     })
+
+    describe('survey', () => {
+      test('should return 204 on add survey success', async () => {
+        await request(app)
+          .post('/api/survey')
+          .send({
+            question: 'Question Test',
+            answers: [
+              {
+                answer: 'Answer 1',
+                image: 'imageTest'
+              },
+              {
+                answer: 'Answer 2'
+              }
+            ]
+          })
+      })
+    })
   })
 })
