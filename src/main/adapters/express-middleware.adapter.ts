@@ -7,9 +7,9 @@ export const adaptMiddleware = (middleware: AuthMiddlewareInterface) => {
       headers: req.headers
     }
     const httpResponse = await middleware.execute(httpRequest)
-    if (httpResponse.statusCode === 200) {
+    if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
       req.accountId = httpResponse.body
-      next()
+      return next()
     }
     res.status(httpResponse.statusCode).json({
       error: httpResponse.body
