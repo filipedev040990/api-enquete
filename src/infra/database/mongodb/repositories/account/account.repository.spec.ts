@@ -85,7 +85,7 @@ describe('Account Repository', () => {
       expect(response.token).toBe('anyToken')
     })
 
-    test('should return an account with role', async () => {
+    test('should return an account on getByToken with role', async () => {
       const { sut } = makeSut()
 
       await accountCollection.insertOne({
@@ -93,10 +93,45 @@ describe('Account Repository', () => {
         email: 'anyEmail@email.com',
         password: 'hashedPassword',
         token: 'anyToken',
-        role: 'anyRole'
+        role: 'admin'
       })
 
-      const response = await sut.getByToken('anyToken', 'anyRole')
+      const response = await sut.getByToken('anyToken', 'admin')
+
+      expect(response).toBeTruthy()
+      expect(response.name).toBe('anyname')
+      expect(response.email).toBe('anyEmail@email.com')
+      expect(response.password).toBe('hashedPassword')
+      expect(response.token).toBe('anyToken')
+    })
+
+    test('should return null on getByToken with invalid role', async () => {
+      const { sut } = makeSut()
+
+      await accountCollection.insertOne({
+        name: 'anyname',
+        email: 'anyEmail@email.com',
+        password: 'hashedPassword',
+        token: 'anyToken'
+      })
+
+      const response = await sut.getByToken('anyToken', 'admin')
+
+      expect(response).toBeNull()
+    })
+
+    test('should return an account on getByToken if user is admin', async () => {
+      const { sut } = makeSut()
+
+      await accountCollection.insertOne({
+        name: 'anyname',
+        email: 'anyEmail@email.com',
+        password: 'hashedPassword',
+        token: 'anyToken',
+        role: 'admin'
+      })
+
+      const response = await sut.getByToken('anyToken')
 
       expect(response).toBeTruthy()
       expect(response.name).toBe('anyname')

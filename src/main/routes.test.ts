@@ -6,6 +6,8 @@ import env from './env'
 import { Collection } from 'mongodb'
 
 let accountCollection: Collection
+let surveyCollection: Collection
+
 describe('Signup Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -18,6 +20,9 @@ describe('Signup Routes', () => {
   beforeEach(async () => {
     accountCollection = await MongoHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
+
+    surveyCollection = await MongoHelper.getCollection('surveys')
+    await surveyCollection.deleteMany({})
   })
   describe('Routes', () => {
     describe('Signup', () => {
@@ -62,7 +67,7 @@ describe('Signup Routes', () => {
     })
 
     describe('survey', () => {
-      test('should return 403 if token is not provided', async () => {
+      test('should return 403 on add survey without token', async () => {
         await request(app)
           .post('/api/survey')
           .send({
