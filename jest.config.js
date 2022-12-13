@@ -7,7 +7,8 @@ module.exports = {
     '!<rootDir>/src/**/index.ts',
     '!<rootDir>/src/**/app.ts',
     '!<rootDir>/src/**/main/**',
-    '!**/interfaces/**'
+    '!**/interfaces/**',
+    '!**/@types/**'
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
