@@ -1,4 +1,4 @@
-import { AddSurveyUseCase } from '../../../../data/use-cases/surveys/add-survey.usecase'
+import { AddSurveyUseCase } from '../../../../data/use-cases/surveys/add/add-survey.usecase'
 import { LogRepository } from '../../../../infra/database/mongodb/repositories/log/log.repository'
 import { SurveyRepository } from '../../../../infra/database/mongodb/repositories/survey/survey.repository'
 import { AddSurveyController } from '../../../../presentation/controllers/survey/add/add-survey.controller'

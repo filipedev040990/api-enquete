@@ -1,7 +1,7 @@
 import { AddSurveyUseCase } from './add-survey.usecase'
-import { AddSurveyRepositoryInterface } from '../../../data/interfaces/add-survey-repository.interface'
+import { AddSurveyRepositoryInterface } from '../../../interfaces/add-survey-repository.interface'
 import MockDate from 'mockdate'
-import { SurveyModel } from '../../../domain/models/survey.model'
+import { SurveyModel } from '../../../../domain/models/survey.model'
 
 type SutType = {
   sut: AddSurveyUseCase
