@@ -4,6 +4,7 @@ import { ListAllSurveysRepositoryInterface } from '../../../../data/interfaces/l
 
 const fakeSurveys = [
   {
+    _id: 'anyId',
     question: 'Question 01',
     answers: [
       {
@@ -57,5 +58,14 @@ describe('ListAllSurveysUseCase', () => {
     const response = await sut.execute()
     expect(response).toBeTruthy()
     expect(response).toEqual(fakeSurveys)
+  })
+
+  test('should return server error if SurveyRepository.listAll throw an exception', async () => {
+    const { sut, listAllsurveysRepositoryStub } = makeSut()
+    jest.spyOn(listAllsurveysRepositoryStub, 'listAll').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute()
+    await expect(response).rejects.toThrow()
   })
 })

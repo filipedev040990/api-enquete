@@ -26,6 +26,7 @@ const makeListAllSurveysUseCaseStub = (): ListAllSurveysUseCaseInterface => {
 
 const fakeSurveys = [
   {
+    _id: 'anyId',
     question: 'Question 01',
     answers: [
       {
