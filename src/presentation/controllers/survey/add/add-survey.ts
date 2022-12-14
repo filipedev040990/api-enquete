@@ -18,7 +18,8 @@ export class AddSurveyController implements ControllerInterface {
       const { question, answers } = request.body
       await this.addSurveyUseCase.execute({
         question,
-        answers
+        answers,
+        date: new Date()
       })
       return noContent()
     } catch (error) {

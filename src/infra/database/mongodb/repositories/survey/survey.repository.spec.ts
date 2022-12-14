@@ -37,7 +37,8 @@ describe('Survey Repository', () => {
           {
             answer: 'Another Answer'
           }
-        ]
+        ],
+        date: new Date()
       })
 
       const question = await SurveyCollection.findOne({ question: 'Question Example' })

@@ -5,4 +5,5 @@ export type Answer = {
 export type SurveyModel = {
   question: string
   answers: Answer []
+  date: Date
 }

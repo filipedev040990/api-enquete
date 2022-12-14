@@ -7,7 +7,8 @@ export class AddSurveyUseCase implements AddSurveyUseCaseInterface {
   async execute (survey: SurveyModel): Promise<void> {
     await this.surveyRepository.create({
       question: survey.question,
-      answers: survey.answers
+      answers: survey.answers,
+      date: new Date()
     })
   }
 }

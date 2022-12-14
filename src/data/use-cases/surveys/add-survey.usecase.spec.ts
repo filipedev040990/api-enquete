@@ -1,5 +1,6 @@
 import { AddSurveyUseCase } from './add-survey.usecase'
 import { AddSurveyRepositoryInterface } from '../../../data/interfaces/add-survey-repository.interface'
+import MockDate from 'mockdate'
 import { SurveyModel } from '../../../domain/models/survey.model'
 
 type SutType = {
@@ -24,13 +25,21 @@ const makeSurveyRepositoryStub = (): AddSurveyRepositoryInterface => {
 
 let request
 describe('AddSurveyUseCase', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
   beforeEach(() => {
     request = {
       question: 'anyQuestion',
       answers: [{
         image: '',
         answer: 'anyAnswer'
-      }]
+      }],
+      date: new Date()
     }
   })
 
@@ -44,7 +53,8 @@ describe('AddSurveyUseCase', () => {
       answers: [{
         image: '',
         answer: 'anyAnswer'
-      }]
+      }],
+      date: new Date()
     })
   })
   test('should throw an exception if SurveyRepository throws', async () => {

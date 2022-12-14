@@ -4,6 +4,7 @@ import { badRequest, serverError } from '../../../helpers/http.helper'
 import { MissingParamError } from '../../../errors/missing-param.error'
 import { AddSurveyUseCaseInterface } from '../../../../domain/use-cases/survey/add-survey.interface'
 import { SurveyModel } from '../../../../domain/models/survey.model'
+import MockDate from 'mockdate'
 
 type SutType = {
   sut: AddSurveyController
@@ -38,6 +39,13 @@ const makeAddSurveyUseCaseStub = (): AddSurveyUseCaseInterface => {
 
 let request
 describe('AddSurveyController', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
   beforeEach(() => {
     request = {
       body: {
@@ -45,7 +53,8 @@ describe('AddSurveyController', () => {
         answers: [{
           image: '',
           answer: 'anyAnswer'
-        }]
+        }],
+        date: new Date()
       }
     }
   })
