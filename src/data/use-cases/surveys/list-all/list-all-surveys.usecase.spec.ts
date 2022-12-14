@@ -51,4 +51,11 @@ describe('ListAllSurveysUseCase', () => {
     const response = await sut.execute()
     expect(response).toBeNull()
   })
+
+  test('should return all surveys', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute()
+    expect(response).toBeTruthy()
+    expect(response).toEqual(fakeSurveys)
+  })
 })

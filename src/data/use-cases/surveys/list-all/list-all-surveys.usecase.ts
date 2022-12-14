@@ -5,7 +5,7 @@ import { ListAllSurveysRepositoryInterface } from '../../../interfaces/list-all-
 export class ListAllSurveysUseCase implements ListAllSurveysUseCaseInterface {
   constructor (private readonly listAllsurveysRepository: ListAllSurveysRepositoryInterface) {}
   async execute (): Promise<SurveyModel[] | null> {
-    await this.listAllsurveysRepository.listAll()
-    return null
+    const surveys = await this.listAllsurveysRepository.listAll()
+    return surveys || null
   }
 }
