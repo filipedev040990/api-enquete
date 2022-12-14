@@ -1,5 +1,5 @@
 import { ValidationInterface } from '../../../interfaces'
-import { AddSurveyController } from './add-survey'
+import { AddSurveyController } from './add-survey.controller'
 import { badRequest, serverError } from '../../../helpers/http.helper'
 import { MissingParamError } from '../../../errors/missing-param.error'
 import { AddSurveyUseCaseInterface } from '../../../../domain/use-cases/survey/add-survey.interface'
