@@ -1,7 +1,8 @@
 import { ListAllSurveysController } from './list-all-surveys.controller'
 import { ListAllSurveysUseCaseInterface } from '../../../../domain/use-cases/survey/list-all-surveys.interface'
 import { SurveyModel } from '../../../../domain/models/survey.model'
-import { noContent } from '../../../helpers/http.helper'
+import { noContent, success } from '../../../helpers/http.helper'
+import MockDate from 'mockdate'
 
 type SutType = {
   sut: ListAllSurveysController
@@ -39,6 +40,13 @@ const fakeSurveys = [
 ]
 
 describe('ListAllSurveysController', () => {
+  beforeAll(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
   test('should call ListAllSurveysUseCase once', async () => {
     const { sut, listAllSurveysUseCaseStub } = makeSut()
     const spy = jest.spyOn(listAllSurveysUseCaseStub, 'execute')
@@ -51,5 +59,12 @@ describe('ListAllSurveysController', () => {
     jest.spyOn(listAllSurveysUseCaseStub, 'execute').mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.execute({})
     expect(response).toEqual(noContent())
+  })
+
+  test('should return all surveys', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute({})
+    expect(response.body).toBeTruthy()
+    expect(response).toEqual(success(fakeSurveys))
   })
 })
