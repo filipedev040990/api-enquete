@@ -1,6 +1,7 @@
 import { ListAllSurveysController } from './list-all-surveys.controller'
 import { ListAllSurveysUseCaseInterface } from '../../../../domain/use-cases/survey/list-all-surveys.interface'
 import { SurveyModel } from '../../../../domain/models/survey.model'
+import { noContent } from '../../../helpers/http.helper'
 
 type SutType = {
   sut: ListAllSurveysController
@@ -43,5 +44,12 @@ describe('ListAllSurveysController', () => {
     const spy = jest.spyOn(listAllSurveysUseCaseStub, 'execute')
     await sut.execute({})
     expect(spy).toBeCalledTimes(1)
+  })
+
+  test('should return 204 if ListAllSurveysUseCase return null', async () => {
+    const { sut, listAllSurveysUseCaseStub } = makeSut()
+    jest.spyOn(listAllSurveysUseCaseStub, 'execute').mockReturnValueOnce(Promise.resolve(null))
+    const response = await sut.execute({})
+    expect(response).toEqual(noContent())
   })
 })
