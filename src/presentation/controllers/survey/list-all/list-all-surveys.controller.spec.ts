@@ -1,7 +1,7 @@
 import { ListAllSurveysController } from './list-all-surveys.controller'
 import { ListAllSurveysUseCaseInterface } from '../../../../domain/use-cases/survey/list-all-surveys.interface'
 import { SurveyModel } from '../../../../domain/models/survey.model'
-import { noContent, success } from '../../../helpers/http.helper'
+import { noContent, serverError, success } from '../../../helpers/http.helper'
 import MockDate from 'mockdate'
 
 type SutType = {
@@ -66,5 +66,14 @@ describe('ListAllSurveysController', () => {
     const response = await sut.execute({})
     expect(response.body).toBeTruthy()
     expect(response).toEqual(success(fakeSurveys))
+  })
+
+  test('should return 500 if ListAllSurveysUseCase throw an exception', async () => {
+    const { sut, listAllSurveysUseCaseStub } = makeSut()
+    jest.spyOn(listAllSurveysUseCaseStub, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.execute({})
+    expect(response).toEqual(serverError(new Error()))
   })
 })
