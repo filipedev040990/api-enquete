@@ -44,4 +44,11 @@ describe('ListAllSurveysUseCase', () => {
     await sut.execute()
     expect(spy).toBeCalledTimes(1)
   })
+
+  test('should return null if SurveyRepository.listAll returns null', async () => {
+    const { sut, listAllsurveysRepositoryStub } = makeSut()
+    jest.spyOn(listAllsurveysRepositoryStub, 'listAll').mockReturnValueOnce(Promise.resolve(null))
+    const response = await sut.execute()
+    expect(response).toBeNull()
+  })
 })
