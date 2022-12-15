@@ -4,7 +4,7 @@ import { ListAllSurveysRepositoryInterface } from '../../../../data/interfaces/l
 
 const fakeSurveys = [
   {
-    _id: 'anyId',
+    id: 'anyId',
     question: 'Question 01',
     answers: [
       {

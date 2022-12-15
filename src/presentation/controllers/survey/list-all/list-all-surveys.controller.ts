@@ -12,6 +12,7 @@ export class ListAllSurveysController implements ControllerInterface {
       }
       return noContent()
     } catch (error) {
+      console.log(error)
       return serverError(error)
     }
   }
