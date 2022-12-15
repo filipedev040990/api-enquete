@@ -1,5 +1,5 @@
-import { SurveyModel } from '../../models/survey.model'
+import { AddSurveyModel } from '../../models/add-survey.model'
 
 export interface AddSurveyUseCaseInterface {
-  execute(survey: SurveyModel): Promise<void>
+  execute(survey: AddSurveyModel): Promise<void>
 }

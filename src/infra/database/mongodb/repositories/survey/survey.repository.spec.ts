@@ -9,7 +9,7 @@ const makeSut = (): SutType => {
   const sut = new SurveyRepository()
   return { sut }
 }
-let SurveyCollection
+let surveyCollection
 describe('Survey Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -20,8 +20,8 @@ describe('Survey Repository', () => {
   })
 
   beforeEach(async () => {
-    SurveyCollection = await MongoHelper.getCollection('surveys')
-    await SurveyCollection.deleteMany({})
+    surveyCollection = await MongoHelper.getCollection('surveys')
+    await surveyCollection.deleteMany({})
   })
 
   describe('create', () => {
@@ -41,8 +41,45 @@ describe('Survey Repository', () => {
         date: new Date()
       })
 
-      const question = await SurveyCollection.findOne({ question: 'Question Example' })
+      const question = await surveyCollection.findOne({ question: 'Question Example' })
       expect(question).toBeTruthy()
+    })
+  })
+
+  describe('listAll', () => {
+    test('should list all surveys', async () => {
+      const { sut } = makeSut()
+
+      await surveyCollection.insertMany([{
+        question: 'Question Example',
+        answers: [
+          {
+            image: 'anyImage',
+            answer: 'any Answer'
+          },
+          {
+            answer: 'Another Answer'
+          }
+        ],
+        date: new Date()
+      }, {
+        question: 'Question Example 2',
+        answers: [
+          {
+            image: 'anyImage',
+            answer: 'any Answer'
+          },
+          {
+            answer: 'Another Answer'
+          }
+        ],
+        date: new Date()
+      }])
+
+      const response = await sut.listAll()
+      expect(response.length).toBe(2)
+      expect(response[0].question).toBe('Question Example')
+      expect(response[1].question).toBe('Question Example 2')
     })
   })
 })

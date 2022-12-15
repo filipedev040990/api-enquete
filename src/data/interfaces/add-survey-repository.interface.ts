@@ -1,5 +1,5 @@
-import { SurveyModel } from '../../domain/models/survey.model'
+import { AddSurveyModel } from '../../domain/models/add-survey.model'
 
 export interface AddSurveyRepositoryInterface {
-  create(survey: SurveyModel): Promise<void>
+  create(survey: AddSurveyModel): Promise<void>
 }
