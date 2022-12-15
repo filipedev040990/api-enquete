@@ -84,6 +84,12 @@ describe('Signup Routes', () => {
           })
           .expect(403)
       })
+
+      test('should return 403 on list all survey without token', async () => {
+        await request(app)
+          .get('/api/survey')
+          .expect(403)
+      })
     })
   })
 })
