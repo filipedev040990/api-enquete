@@ -1,8 +1,8 @@
-import { GetAccountByTokenUseCaseInterface } from '../../domain/use-cases/account/get-account-by-token.interface'
-import { AccessDeniedError } from '../errors/access-denied.error'
-import { forbidden, serverError, success } from '../helpers/http.helper'
-import { HttpRequest, HttpResponse } from '../interfaces'
-import { AuthMiddlewareInterface } from '../interfaces/middleware.interface'
+import { GetAccountByTokenUseCaseInterface } from '@/domain/use-cases/account/get-account-by-token.interface'
+import { AccessDeniedError } from '@/presentation/errors/access-denied.error'
+import { forbidden, serverError, success } from '@/presentation/helpers/http.helper'
+import { HttpRequest, HttpResponse } from '@/presentation/interfaces'
+import { AuthMiddlewareInterface } from '@/presentation/interfaces/middleware.interface'
 
 export class AuthMiddleware implements AuthMiddlewareInterface {
   constructor (

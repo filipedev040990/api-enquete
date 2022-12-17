@@ -1,6 +1,6 @@
-import { LogRepositoryInterface } from '../../data/interfaces/log-repository.interface'
-import { serverError } from '../../presentation/helpers/http.helper'
-import { ControllerInterface, HttpRequest, HttpResponse } from '../../presentation/interfaces'
+import { LogRepositoryInterface } from '@/data/interfaces/log-repository.interface'
+import { serverError } from '@/presentation/helpers/http.helper'
+import { ControllerInterface, HttpRequest, HttpResponse } from '@/presentation/interfaces'
 import { LogControllerDecorator } from './log.decorator'
 
 type SutType = {

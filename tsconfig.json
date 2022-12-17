@@ -5,13 +5,14 @@
         "target": "es2020",
         "esModuleInterop": true,
         "strictNullChecks": false,
-        "rootDir": "src"
+        "rootDir": "src",
+        "baseUrl": "src",
+        "paths": {
+            "@/*": ["*"]
+        }
     },
     "include": [
         "src"
     ],
-    "exclude": [
-        "**/*.test.ts",
-        "**/*.spec.ts"
-    ]
+    "exclude": []
 }

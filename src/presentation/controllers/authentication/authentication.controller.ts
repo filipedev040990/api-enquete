@@ -1,8 +1,8 @@
-import { AuthenticationUseCaseInterface } from '../../../domain/use-cases/authentication/authentication.interface'
-import env from '../../../main/env'
-import { badRequest, serverError, success, unauthorized } from '../../helpers/http.helper'
-import { ControllerInterface, HttpRequest, HttpResponse } from '../../interfaces'
-import { ValidationInterface } from '../../interfaces/validation.interface'
+import { AuthenticationUseCaseInterface } from '@/domain/use-cases/authentication/authentication.interface'
+import env from '@/main/env'
+import { badRequest, serverError, success, unauthorized } from '@/presentation/helpers/http.helper'
+import { ControllerInterface, HttpRequest, HttpResponse } from '@/presentation/interfaces'
+import { ValidationInterface } from '@/presentation/interfaces/validation.interface'
 
 export class AuthenticationController implements ControllerInterface {
   constructor (

@@ -1,9 +1,9 @@
-import { AuthenticationUseCaseInterface, AuthenticationRequest } from '../../../domain/use-cases/authentication/authentication.interface'
-import env from '../../../main/env'
-import { MissingParamError } from '../../errors'
-import { badRequest, serverError, success, unauthorized } from '../../helpers/http.helper'
-import { EmailValidatorInterface, HttpRequest } from '../../interfaces'
-import { ValidationInterface } from '../../interfaces/validation.interface'
+import { AuthenticationUseCaseInterface, AuthenticationRequest } from '@/domain/use-cases/authentication/authentication.interface'
+import env from '@/main/env'
+import { MissingParamError } from '@/presentation/errors'
+import { badRequest, serverError, success, unauthorized } from '@/presentation/helpers/http.helper'
+import { EmailValidatorInterface, HttpRequest } from '@/presentation/interfaces'
+import { ValidationInterface } from '@/presentation/interfaces/validation.interface'
 import { AuthenticationController } from './authentication.controller'
 
 type SutType = {

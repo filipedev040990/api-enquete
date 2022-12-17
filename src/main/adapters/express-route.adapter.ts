@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { ControllerInterface, HttpRequest, HttpResponse } from '../../presentation/interfaces'
-import { logger } from '../../infra/logger/logger'
+import { ControllerInterface, HttpRequest, HttpResponse } from '@/presentation/interfaces'
+import { logger } from '@/infra/logger/logger'
 
 export const adaptRoute = (controller: ControllerInterface) => {
   return async (req: Request, res: Response) => {

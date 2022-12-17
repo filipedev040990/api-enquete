@@ -1,6 +1,6 @@
-import { HasherHashAdapterInterface } from '../../data/interfaces/hasher-hash-adapter.interface'
+import { HasherHashAdapterInterface } from '@/data/interfaces/hasher-hash-adapter.interface'
 import bcrypt from 'bcrypt'
-import { HasherCompareAdapterInterface } from '../../data/interfaces/hasher-compare-adapter.interface'
+import { HasherCompareAdapterInterface } from '@/data/interfaces/hasher-compare-adapter.interface'
 
 export class BcryptAdapter implements HasherHashAdapterInterface, HasherCompareAdapterInterface {
   constructor (private readonly salt: number) {}

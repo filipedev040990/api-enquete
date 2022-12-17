@@ -1,6 +1,6 @@
-import { LogRepositoryInterface } from '../../data/interfaces/log-repository.interface'
-import { ControllerInterface, HttpRequest, HttpResponse } from '../../presentation/interfaces'
-import { logger } from '../../infra/logger/logger'
+import { LogRepositoryInterface } from '@/data/interfaces/log-repository.interface'
+import { ControllerInterface, HttpRequest, HttpResponse } from '@/presentation/interfaces'
+import { logger } from '@/infra/logger/logger'
 
 export class LogControllerDecorator implements ControllerInterface {
   constructor (

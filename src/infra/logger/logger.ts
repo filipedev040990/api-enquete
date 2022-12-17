@@ -1,6 +1,6 @@
 import pino from 'pino'
 import pretty from 'pino-pretty'
-import config from '../../main/config/config'
+import config from '@/main/config/config'
 
 const loggerConfig = config.logger
 

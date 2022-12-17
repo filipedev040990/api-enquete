@@ -1,8 +1,8 @@
-import { AuthenticationUseCaseInterface } from '../../../data/use-cases/authentication'
-import { AddAccountInterface } from '../../../domain/use-cases/signup/add-account.interface'
-import { GetAccountByEmailInterface } from '../../../domain/use-cases/signup/get-account-by-email.interface'
-import { badRequest, resourceConflict, serverError, success } from '../../helpers/http.helper'
-import { ControllerInterface, HttpRequest, HttpResponse, ValidationInterface } from '../../interfaces'
+import { AuthenticationUseCaseInterface } from '@/data/use-cases/authentication'
+import { AddAccountInterface } from '@/domain/use-cases/signup/add-account.interface'
+import { GetAccountByEmailInterface } from '@/domain/use-cases/signup/get-account-by-email.interface'
+import { badRequest, resourceConflict, serverError, success } from '@/presentation/helpers/http.helper'
+import { ControllerInterface, HttpRequest, HttpResponse, ValidationInterface } from '@/presentation/interfaces'
 
 export default class SignupController implements ControllerInterface {
   constructor (

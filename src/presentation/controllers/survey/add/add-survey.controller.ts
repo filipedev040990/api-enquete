@@ -1,6 +1,6 @@
-import { AddSurveyUseCaseInterface } from '../../../../domain/use-cases/survey/add-survey.interface'
-import { badRequest, noContent, serverError } from '../../../helpers/http.helper'
-import { ControllerInterface, HttpRequest, HttpResponse, ValidationInterface } from '../../../interfaces'
+import { AddSurveyUseCaseInterface } from '@/domain/use-cases/survey/add-survey.interface'
+import { badRequest, noContent, serverError } from '@/presentation/helpers/http.helper'
+import { ControllerInterface, HttpRequest, HttpResponse, ValidationInterface } from '@/presentation/interfaces'
 
 export class AddSurveyController implements ControllerInterface {
   constructor (

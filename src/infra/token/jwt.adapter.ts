@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { DecrypterAdapterInterface } from '../../data/interfaces/decrypter.adapter.interface'
-import { EncrypterAdapterInterface } from '../../data/interfaces/encrypter.adapter.interface'
+import { DecrypterAdapterInterface } from '@/data/interfaces/decrypter.adapter.interface'
+import { EncrypterAdapterInterface } from '@/data/interfaces/encrypter.adapter.interface'
 import env from '../../main/env'
 
 export class JwtAdapter implements EncrypterAdapterInterface, DecrypterAdapterInterface {
@@ -17,7 +17,7 @@ export class JwtAdapter implements EncrypterAdapterInterface, DecrypterAdapterIn
     try {
       return jwt.verify(token, this.secretKey)
     } catch (error) {
-      return null
+      throw new Error(error)
     }
   }
 }

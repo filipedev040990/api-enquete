@@ -1,5 +1,5 @@
-import { ServerError } from '../errors/server.error'
-import { HttpResponse } from '../interfaces/http.interface'
+import { ServerError } from '@/presentation/errors/server.error'
+import { HttpResponse } from '@/presentation/interfaces/http.interface'
 
 export const badRequest = (error: Error): HttpResponse => ({
   statusCode: 400,
@@ -35,5 +35,5 @@ export const noContent = (): HttpResponse => ({
 
 export const forbidden = (error: Error): HttpResponse => ({
   statusCode: 403,
-  body: error
+  body: error.message
 })

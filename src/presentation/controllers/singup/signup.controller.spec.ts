@@ -1,12 +1,12 @@
 
-import { AccountModel } from '../../../domain/models/account.model'
-import { AddAccountInterface, AddAccountRequest } from '../../../domain/use-cases/signup/add-account.interface'
-import { MissingParamError } from '../../errors'
-import { badRequest, resourceConflict, serverError } from '../../helpers/http.helper'
-import { ValidationInterface } from '../../interfaces/validation.interface'
+import { AccountModel } from '@/domain/models/account.model'
+import { AddAccountInterface, AddAccountRequest } from '@/domain/use-cases/signup/add-account.interface'
+import { MissingParamError } from '@/presentation/errors'
+import { badRequest, resourceConflict, serverError } from '@/presentation/helpers/http.helper'
+import { ValidationInterface } from '@/presentation/interfaces/validation.interface'
 import SignupController from './signup.controller'
-import { GetAccountByEmailInterface } from '../../../domain/use-cases/signup/get-account-by-email.interface'
-import { AuthenticationUseCaseInterface, AuthenticationRequest } from '../../../domain/use-cases/authentication/authentication.interface'
+import { GetAccountByEmailInterface } from '@/domain/use-cases/signup/get-account-by-email.interface'
+import { AuthenticationUseCaseInterface, AuthenticationRequest } from '@/domain/use-cases/authentication/authentication.interface'
 
 interface SutType {
   sut: SignupController

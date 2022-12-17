@@ -1,5 +1,5 @@
 import { SurveyRepository } from './survey.repository'
-import { MongoHelper } from '../../helpers/mongo.helper'
+import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo.helper'
 
  type SutType = {
    sut: SurveyRepository

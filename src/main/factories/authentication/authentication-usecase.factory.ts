@@ -1,9 +1,9 @@
-import { AuthenticationUseCaseInterface } from '../../../data/use-cases/authentication'
-import { AuthenticationUseCase } from '../../../data/use-cases/authentication/authentication.usecase'
-import { BcryptAdapter } from '../../../infra/criptography/bcrypt-adapter'
-import { AccountRepository } from '../../../infra/database/mongodb/repositories/account/account.repository'
-import { JwtAdapter } from '../../../infra/token/jwt.adapter'
-import env from '../../env'
+import { AuthenticationUseCaseInterface } from '@/data/use-cases/authentication'
+import { AuthenticationUseCase } from '@/data/use-cases/authentication/authentication.usecase'
+import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter'
+import { AccountRepository } from '@/infra/database/mongodb/repositories/account/account.repository'
+import { JwtAdapter } from '@/infra/token/jwt.adapter'
+import env from '@/main/env'
 
 export const makeAuthenticationUseCaseFactory = (): AuthenticationUseCaseInterface => {
   const accountRepository = new AccountRepository()

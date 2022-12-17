@@ -1,6 +1,6 @@
-import { ListAllSurveysUseCaseInterface } from '../../../../domain/use-cases/survey/list-all-surveys.interface'
-import { noContent, serverError, success } from '../../../helpers/http.helper'
-import { ControllerInterface, HttpRequest, HttpResponse } from '../../../interfaces'
+import { ListAllSurveysUseCaseInterface } from '@/domain/use-cases/survey/list-all-surveys.interface'
+import { noContent, serverError, success } from '@/presentation/helpers/http.helper'
+import { ControllerInterface, HttpRequest, HttpResponse } from '@/presentation/interfaces'
 
 export class ListAllSurveysController implements ControllerInterface {
   constructor (private readonly listAllSurveysUseCase: ListAllSurveysUseCaseInterface) {}
@@ -12,7 +12,6 @@ export class ListAllSurveysController implements ControllerInterface {
       }
       return noContent()
     } catch (error) {
-      console.log(error)
       return serverError(error)
     }
   }

@@ -1,7 +1,7 @@
 import { ListAllSurveysController } from './list-all-surveys.controller'
-import { ListAllSurveysUseCaseInterface } from '../../../../domain/use-cases/survey/list-all-surveys.interface'
-import { SurveyModel } from '../../../../domain/models/survey.model'
-import { noContent, serverError, success } from '../../../helpers/http.helper'
+import { ListAllSurveysUseCaseInterface } from '@/domain/use-cases/survey/list-all-surveys.interface'
+import { SurveyModel } from '@/domain/models/survey.model'
+import { noContent, serverError, success } from '@/presentation/helpers/http.helper'
 import MockDate from 'mockdate'
 
 type SutType = {

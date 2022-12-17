@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { MongoHelper } from '../infra/database/mongodb/helpers/mongo.helper'
+import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo.helper'
 import { app } from './app'
 import bcrypt from 'bcrypt'
 import env from './env'

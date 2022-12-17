@@ -1,7 +1,7 @@
-import { InvalidParamError } from '../errors'
-import { EmailValidatorInterface } from '../interfaces'
+import { InvalidParamError } from '@/presentation/errors'
+import { EmailValidatorInterface } from '@/presentation/interfaces'
 import { EmailValidation } from './email.validation'
-import { ValidationInterface } from '../interfaces/validation.interface'
+import { ValidationInterface } from '@/presentation/interfaces/validation.interface'
 
 interface SutType {
   sut: ValidationInterface

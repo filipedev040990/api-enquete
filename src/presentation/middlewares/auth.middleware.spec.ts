@@ -1,9 +1,9 @@
 import { AuthMiddleware } from './auth.middleware'
-import { forbidden, serverError, success } from '../helpers/http.helper'
-import { AccessDeniedError } from '../errors/access-denied.error'
-import { HttpRequest } from '../interfaces'
-import { AccountModel } from '../../domain/models/account.model'
-import { GetAccountByTokenUseCaseInterface } from '../../domain/use-cases/account/get-account-by-token.interface'
+import { forbidden, serverError, success } from '@/presentation/helpers/http.helper'
+import { AccessDeniedError } from '@/presentation/errors/access-denied.error'
+import { HttpRequest } from '@/presentation/interfaces'
+import { AccountModel } from '@/domain/models/account.model'
+import { GetAccountByTokenUseCaseInterface } from '@/domain/use-cases/account/get-account-by-token.interface'
 
 type SutType = {
   sut: AuthMiddleware

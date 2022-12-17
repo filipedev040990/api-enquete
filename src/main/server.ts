@@ -1,5 +1,6 @@
+import 'module-alias/register'
 import { app } from './app'
-import { MongoHelper } from '../infra/database/mongodb/helpers/mongo.helper'
+import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo.helper'
 import env from './env'
 
 const start = async (): Promise<any> => {

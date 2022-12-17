@@ -1,9 +1,9 @@
-import { ValidationInterface } from '../../../interfaces'
+import { ValidationInterface } from '@/presentation/interfaces'
 import { AddSurveyController } from './add-survey.controller'
-import { badRequest, serverError } from '../../../helpers/http.helper'
-import { MissingParamError } from '../../../errors/missing-param.error'
-import { AddSurveyUseCaseInterface } from '../../../../domain/use-cases/survey/add-survey.interface'
-import { SurveyModel } from '../../../../domain/models/survey.model'
+import { badRequest, serverError } from '@/presentation/helpers/http.helper'
+import { MissingParamError } from '@/presentation/errors/missing-param.error'
+import { AddSurveyUseCaseInterface } from '@/domain/use-cases/survey/add-survey.interface'
+import { SurveyModel } from '@/domain/models/survey.model'
 import MockDate from 'mockdate'
 
 type SutType = {
