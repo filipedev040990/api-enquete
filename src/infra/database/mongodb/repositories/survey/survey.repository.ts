@@ -1,11 +1,10 @@
 import { AddSurveyRepositoryInterface } from '@/data/interfaces/add-survey-repository.interface'
 import { ListAllSurveysRepositoryInterface } from '@/data/interfaces/list-all-surveys-repository.interface'
-import { AddSurveyModel } from '@/domain/models/add-survey.model'
 import { SurveyModel } from '@/domain/models/survey.model'
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo.helper'
 
 export class SurveyRepository implements AddSurveyRepositoryInterface, ListAllSurveysRepositoryInterface {
-  async create (survey: AddSurveyModel): Promise<void> {
+  async create (survey: Omit<SurveyModel, 'id'>): Promise<void> {
     const surveysCollection = await MongoHelper.getCollection('surveys')
     await surveysCollection.insertOne(survey)
   }
