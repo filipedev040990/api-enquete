@@ -82,4 +82,25 @@ describe('Survey Repository', () => {
       expect(response[1].question).toBe('Question Example 2')
     })
   })
+
+  describe('getById', () => {
+    test('should list survey by id', async () => {
+      const { sut } = makeSut()
+
+      const surveyResult = await surveyCollection.insertOne({
+        question: 'Question Example',
+        answers: [
+          {
+            answer: 'Yes'
+          },
+          {
+            answer: 'No'
+          }
+        ],
+        date: new Date()
+      })
+      const response = await sut.getById(surveyResult.insertedId)
+      expect(response).toBeTruthy()
+    })
+  })
 })

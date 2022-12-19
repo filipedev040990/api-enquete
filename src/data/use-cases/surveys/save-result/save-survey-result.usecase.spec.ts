@@ -53,8 +53,7 @@ describe('SaveSurveyResultUseCase', () => {
 
   test('should return SurveyResult on success', async () => {
     const { sut } = makeSut()
-    const fakeSurveyResult = makeFakeSurveyResult()
-    const response = await sut.execute(fakeSurveyResult)
+    const response = await sut.execute(makeFakeSurveyResult())
     expect(response).toEqual({
       id: 'anyId',
       surveyId: 'anySurveyId',
@@ -69,8 +68,7 @@ describe('SaveSurveyResultUseCase', () => {
     jest.spyOn(surveyResultRepositoryStub, 'save').mockImplementationOnce(() => {
       throw new Error()
     })
-    const fakeSurveyResult = makeFakeSurveyResult()
-    const response = sut.execute(fakeSurveyResult)
+    const response = sut.execute(makeFakeSurveyResult())
     await expect(response).rejects.toThrow()
   })
 })
