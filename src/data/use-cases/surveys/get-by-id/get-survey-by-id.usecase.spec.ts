@@ -40,4 +40,11 @@ describe('GetSurveyByIdUseCase', () => {
     expect(spy).toBeCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('anySurveyId')
   })
+
+  test('should return null if SurveyRepository.getById return null', async () => {
+    const { sut, surveyRepositoryStub } = makeSut()
+    jest.spyOn(surveyRepositoryStub, 'getById').mockReturnValueOnce(Promise.resolve(null))
+    const response = await sut.execute('anySurveyId')
+    expect(response).toBeNull()
+  })
 })
