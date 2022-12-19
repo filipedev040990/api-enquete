@@ -42,6 +42,7 @@ describe('SaveSurveyResultUseCase', () => {
   afterAll(() => {
     MockDate.reset()
   })
+
   test('should call SurveyResultRepository.save once and with correct values', async () => {
     const { sut, surveyResultRepositoryStub } = makeSut()
     const spy = jest.spyOn(surveyResultRepositoryStub, 'save')
@@ -61,5 +62,15 @@ describe('SaveSurveyResultUseCase', () => {
       answer: 'Any Answer',
       date: new Date()
     })
+  })
+
+  test('should return server error if SurveyResultRepository.save throw an exception', async () => {
+    const { sut, surveyResultRepositoryStub } = makeSut()
+    jest.spyOn(surveyResultRepositoryStub, 'save').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const fakeSurveyResult = makeFakeSurveyResult()
+    const response = sut.execute(fakeSurveyResult)
+    await expect(response).rejects.toThrow()
   })
 })
