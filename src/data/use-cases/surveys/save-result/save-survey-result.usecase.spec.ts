@@ -49,4 +49,17 @@ describe('SaveSurveyResultUseCase', () => {
     await sut.execute(fakeSurveyResult)
     expect(spy).toHaveBeenCalledWith(fakeSurveyResult)
   })
+
+  test('should return SurveyResult on success', async () => {
+    const { sut } = makeSut()
+    const fakeSurveyResult = makeFakeSurveyResult()
+    const response = await sut.execute(fakeSurveyResult)
+    expect(response).toEqual({
+      id: 'anyId',
+      surveyId: 'anySurveyId',
+      accountId: 'anyAccountId',
+      answer: 'Any Answer',
+      date: new Date()
+    })
+  })
 })

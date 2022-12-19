@@ -5,12 +5,11 @@ import { SaveSurveyResultModel, SaveSurveyResultUseCaseInterface } from '@/domai
 export class SaveSurveyResultUseCase implements SaveSurveyResultUseCaseInterface {
   constructor (private readonly surveyResultRepository: SaveSurveyResultRepositoryInterface) {}
   async execute (data: SaveSurveyResultModel): Promise<SurveyResultModel> {
-    await this.surveyResultRepository.save({
+    return await this.surveyResultRepository.save({
       accountId: data.accountId,
       surveyId: data.surveyId,
       answer: data.answer,
       date: data.date
     })
-    return null
   }
 }
