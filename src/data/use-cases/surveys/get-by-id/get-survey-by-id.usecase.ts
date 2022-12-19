@@ -5,7 +5,6 @@ import { GetSurveyByIdUseCaseInterface } from '@/domain/use-cases/survey/get-sur
 export class GetSurveyByIdUseCase implements GetSurveyByIdUseCaseInterface {
   constructor (private readonly surveyRepository: GetSurveyByIdRepositoryInterface) {}
   async execute (id: string): Promise<SurveyModel> {
-    await this.surveyRepository.getById(id)
-    return null
+    return await this.surveyRepository.getById(id)
   }
 }
