@@ -69,4 +69,13 @@ describe('GetSurveyByIdUseCase', () => {
       date: new Date()
     })
   })
+
+  test('should return server error if SurveyRepository.getById throw an exception', async () => {
+    const { sut, surveyRepositoryStub } = makeSut()
+    jest.spyOn(surveyRepositoryStub, 'getById').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = sut.execute('anySurveyId')
+    await expect(response).rejects.toThrow()
+  })
 })
