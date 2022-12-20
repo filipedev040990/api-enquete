@@ -9,9 +9,14 @@ export class SaveSurveyResultController implements ControllerInterface {
   ) {}
 
   async execute (request: HttpRequest): Promise<HttpResponse> {
-    const answers = await this.getSurveyByIdUseCase.execute(request.params.surveyId)
-    if (!answers) {
+    const surveyId = request.params.surveyId
+    const { answer } = request.body
+
+    const survey = await this.getSurveyByIdUseCase.execute(surveyId)
+    if (!survey) {
       return forbidden(new InvalidParamError('survey_id'))
+    } else if (!survey.answers.includes(answer)) {
+      return forbidden(new InvalidParamError('answer'))
     }
     return null
   }
