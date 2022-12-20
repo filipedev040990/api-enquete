@@ -31,6 +31,7 @@ export class SaveSurveyResultController implements ControllerInterface {
         return forbidden(new InvalidParamError('survey_id'))
       }
     } catch (error) {
+      console.log(error)
       return serverError(error)
     }
   }

@@ -3,6 +3,7 @@ import { GetSurveyByIdRepositoryInterface } from '@/data/interfaces/get-survey-r
 import { ListAllSurveysRepositoryInterface } from '@/data/interfaces/list-all-surveys-repository.interface'
 import { SurveyModel } from '@/domain/models/survey.model'
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo.helper'
+import { ObjectId } from 'mongodb'
 import { map, mapCollection } from '../../helpers/mapping.helper'
 
 export class SurveyRepository implements AddSurveyRepositoryInterface, ListAllSurveysRepositoryInterface, GetSurveyByIdRepositoryInterface {
@@ -19,7 +20,7 @@ export class SurveyRepository implements AddSurveyRepositoryInterface, ListAllSu
 
   async getById (id: string): Promise<SurveyModel> {
     const surveysCollection = await MongoHelper.getCollection('surveys')
-    const survey = await surveysCollection.findOne({ _id: id })
+    const survey = await surveysCollection.findOne({ _id: new ObjectId(id) })
     return map(survey)
   }
 }

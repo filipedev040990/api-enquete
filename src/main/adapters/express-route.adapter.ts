@@ -5,7 +5,9 @@ import { logger } from '@/infra/logger/logger'
 export const adaptRoute = (controller: ControllerInterface) => {
   return async (req: Request, res: Response) => {
     const httpRequest: HttpRequest = {
-      body: req.body
+      body: req.body,
+      params: req.params,
+      accountId: req.accountId
     }
 
     const infoLog = {
