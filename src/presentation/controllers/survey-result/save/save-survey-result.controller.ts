@@ -1,7 +1,7 @@
 import { GetSurveyByIdUseCaseInterface } from '@/domain/use-cases/survey/get-survey-by-id.interface'
 import { SaveSurveyResultUseCaseInterface } from '@/domain/use-cases/survey/save-survey-result.interface'
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers/http.helper'
+import { forbidden, serverError, success } from '@/presentation/helpers/http.helper'
 import { ControllerInterface, HttpRequest, HttpResponse } from '@/presentation/interfaces'
 
 export class SaveSurveyResultController implements ControllerInterface {
@@ -19,16 +19,17 @@ export class SaveSurveyResultController implements ControllerInterface {
           return forbidden(new InvalidParamError('answer'))
         }
 
-        await this.saveSurveyResultUseCase.execute({
+        const surveyResult = await this.saveSurveyResultUseCase.execute({
           surveyId: request.params.surveyId,
           accountId: request.accountId,
           date: new Date(),
           answer: request.body.answer
         })
+
+        return success(surveyResult)
       } else {
         return forbidden(new InvalidParamError('survey_id'))
       }
-      return null
     } catch (error) {
       return serverError(error)
     }

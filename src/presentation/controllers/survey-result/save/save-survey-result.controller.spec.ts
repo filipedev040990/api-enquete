@@ -3,7 +3,7 @@ import { SurveyModel } from '@/domain/models/survey.model'
 import { GetSurveyByIdUseCaseInterface } from '@/domain/use-cases/survey/get-survey-by-id.interface'
 import { SaveSurveyResultModel, SaveSurveyResultUseCaseInterface } from '@/domain/use-cases/survey/save-survey-result.interface'
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers/http.helper'
+import { forbidden, serverError, success } from '@/presentation/helpers/http.helper'
 import { HttpRequest } from '@/presentation/interfaces'
 import { SaveSurveyResultController } from './save-survey-result.controller'
 import MockDate from 'mockdate'
@@ -128,5 +128,11 @@ describe('SaveSurveyResultController', () => {
     })
     const response = await sut.execute(makeFakeRequest())
     expect(response).toEqual(serverError(new Error()))
+  })
+
+  test('should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const response = await sut.execute(makeFakeRequest())
+    expect(response).toEqual(success(makeFakeSurveyResult()))
   })
 })
