@@ -1,7 +1,7 @@
 import { SurveyModel } from '@/domain/models/survey.model'
 import { GetSurveyByIdUseCaseInterface } from '@/domain/use-cases/survey/get-survey-by-id.interface'
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden } from '@/presentation/helpers/http.helper'
+import { forbidden, serverError } from '@/presentation/helpers/http.helper'
 import { HttpRequest } from '@/presentation/interfaces'
 import { SaveSurveyResultController } from './save-survey-result.controller'
 
@@ -67,5 +67,14 @@ describe('SaveSurveyResultController', () => {
     fakeRequest.body.answer = 'invalidAnswer'
     const response = await sut.execute(fakeRequest)
     expect(response).toEqual(forbidden(new InvalidParamError('answer')))
+  })
+
+  test('should return 500 if SurveyRepository.getById throw an exception', async () => {
+    const { sut, getSurveyByIdUseCaseStub } = makeSut()
+    jest.spyOn(getSurveyByIdUseCaseStub, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.execute(makeFakeRequest())
+    expect(response).toEqual(serverError(new Error()))
   })
 })
