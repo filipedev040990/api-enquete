@@ -91,5 +91,16 @@ describe('Signup Routes', () => {
           .expect(403)
       })
     })
+
+    describe('survey result', () => {
+      test('should return 403 on save survey result without token', async () => {
+        await request(app)
+          .put('/api/survey/anyId/results')
+          .send({
+            answer: 'anyAnswer'
+          })
+          .expect(403)
+      })
+    })
   })
 })
