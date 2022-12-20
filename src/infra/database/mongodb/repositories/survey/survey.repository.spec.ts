@@ -78,6 +78,7 @@ describe('Survey Repository', () => {
 
       const response = await sut.listAll()
       expect(response.length).toBe(2)
+      expect(response[0].id).toBeTruthy()
       expect(response[0].question).toBe('Question Example')
       expect(response[1].question).toBe('Question Example 2')
     })
@@ -101,6 +102,7 @@ describe('Survey Repository', () => {
       })
       const response = await sut.getById(surveyResult.insertedId)
       expect(response).toBeTruthy()
+      expect(response.id).toBeTruthy()
     })
   })
 })
