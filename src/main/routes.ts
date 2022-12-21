@@ -1,12 +1,7 @@
 import { Router } from 'express'
 import { adaptMiddleware } from './adapters/express-middleware.adapter'
 import { adaptRoute } from './adapters/express-route.adapter'
-import { makeAuthenticationController } from './factories/authentication/authentication.factory'
-import { makeAuthMiddleware } from './factories/middlewares/auth-middleware.factory'
-import { makeSignupControler } from './factories/signup/signup.factory'
-import { makeSaveSurveyResultController } from './factories/survey-result/save/save-survey-result.factory'
-import { makeAddSurveyController } from './factories/survey/add/add-survey.factory'
-import { makeListAllSurveysController } from './factories/survey/list-all/list-all-surveys.factory'
+import { makeAddSurveyController, makeListAllSurveysController, makeSaveSurveyResultController, makeSignupControler, makeAuthenticationController, makeAuthMiddleware } from './factories'
 
 const router = Router()
 
