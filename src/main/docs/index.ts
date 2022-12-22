@@ -1,6 +1,8 @@
 import { badRequestComponent, unauthorizedComponent, notFoundComponent, serverErrorComponent, forbiddenComponent } from './components'
-import { authenticationPath, surveyPath } from './path'
-import { accountSchema, authenticationParamsSchema, errorSchema, surveyAnswerSchema, surveySchema, surveysSchema } from './schemas'
+import { conflictComponent } from './components/conflict.component'
+import { authenticationPath, signupPath, surveyPath } from './path'
+import { accountSchema, authenticationParamsSchema, errorSchema, signupParamsSchema, surveyAnswerSchema, surveySchema, surveysSchema } from './schemas'
+import { newAccountSchema } from './schemas/new-account.schema'
 
 export default {
   openapi: '3.0.0',
@@ -27,7 +29,8 @@ export default {
   }],
   paths: {
     '/authentication': authenticationPath,
-    '/survey': surveyPath
+    '/survey': surveyPath,
+    '/signup': signupPath
   },
   schemas: {
     account: accountSchema,
@@ -35,7 +38,9 @@ export default {
     error: errorSchema,
     survey: surveySchema,
     surveys: surveysSchema,
-    surveyAnswer: surveyAnswerSchema
+    surveyAnswer: surveyAnswerSchema,
+    signupParams: signupParamsSchema,
+    newAccount: newAccountSchema
   },
   components: {
     securitySchemes: {
@@ -49,6 +54,7 @@ export default {
     unauthorized: unauthorizedComponent,
     notFound: notFoundComponent,
     serverError: serverErrorComponent,
-    forbidden: forbiddenComponent
+    forbidden: forbiddenComponent,
+    conflict: conflictComponent
   }
 }
