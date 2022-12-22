@@ -1,43 +1,27 @@
-export const authenticationPath = {
-  post: {
-    tags: ['Login'],
-    summary: 'Rota para autenticação de usuários.',
-    requestBody: {
-      content: {
-        'application/json': {
-          schema: {
-            $ref: '#schemas/authenticationParams'
-          }
-        }
-      }
-    },
+export const surveyPath = {
+  get: {
+    security: [{
+      bearerAuth: []
+    }],
+    tags: ['Enquete'],
+    summary: 'Rota para listar enquetes.',
     responses: {
       200: {
         description: 'Sucesso',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/account'
+              $ref: '#/schemas/surveys'
             }
           }
         }
       },
-      400: {
-        description: 'Requisição inválida',
+      403: {
+        description: 'Acesso negado',
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/badRequest'
-            }
-          }
-        }
-      },
-      401: {
-        description: 'Não autorizado',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#components/unauthorized'
+              $ref: '#/components/forbidden'
             }
           }
         }

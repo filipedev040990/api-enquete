@@ -1,13 +1,12 @@
-import { badRequestComponent, unauthorizedComponent, notFoundComponent, serverErrorComponent } from './components'
-import { authenticationPath } from './path'
-import { accountSchema, authenticationParamsSchema } from './schemas'
-import { errorSchema } from './schemas/error.schema'
+import { badRequestComponent, unauthorizedComponent, notFoundComponent, serverErrorComponent, forbiddenComponent } from './components'
+import { authenticationPath, surveyPath } from './path'
+import { accountSchema, authenticationParamsSchema, errorSchema, surveyAnswerSchema, surveySchema, surveysSchema } from './schemas'
 
 export default {
   openapi: '3.0.0',
   info: {
-    title: 'Clean Node API',
-    description: 'API desenvolvida no curso do Rodrigo Manguinho',
+    title: 'API Enquete',
+    description: 'API para realização de enquete com perguntas sobre programadores',
     version: '1.0.0'
   },
   licence: {
@@ -23,19 +22,33 @@ export default {
   }],
   tags: [{
     name: 'Login'
+  }, {
+    name: 'Enquete'
   }],
   paths: {
-    '/authentication': authenticationPath
+    '/authentication': authenticationPath,
+    '/survey': surveyPath
   },
   schemas: {
     account: accountSchema,
     authenticationParams: authenticationParamsSchema,
-    error: errorSchema
+    error: errorSchema,
+    survey: surveySchema,
+    surveys: surveysSchema,
+    surveyAnswer: surveyAnswerSchema
   },
   components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
+      }
+    },
     badRequest: badRequestComponent,
     unauthorized: unauthorizedComponent,
     notFound: notFoundComponent,
-    serverError: serverErrorComponent
+    serverError: serverErrorComponent,
+    forbidden: forbiddenComponent
   }
 }
