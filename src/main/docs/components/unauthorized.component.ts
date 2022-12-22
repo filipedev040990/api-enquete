@@ -3,7 +3,7 @@ export const unauthorizedComponent = {
   content: {
     'application/json': {
       schema: {
-        $ref: '#schemas/error'
+        $ref: '#/schemas/error'
       }
     }
   },

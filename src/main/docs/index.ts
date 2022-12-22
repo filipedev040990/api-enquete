@@ -2,9 +2,9 @@ import { badRequestComponent, unauthorizedComponent, notFoundComponent, serverEr
 import { badRequestSurveyComponent } from './components/bad-request-survey.component'
 import { conflictComponent } from './components/conflict.component'
 import { authenticationPath, signupPath, surveyPath } from './path'
-import { accountSchema, authenticationParamsSchema, errorSchema, signupParamsSchema, surveyAnswerSchema, surveySchema, surveysSchema } from './schemas'
-import { addSurveyParamsSchema } from './schemas/add-survey-params.schema'
-import { newAccountSchema } from './schemas/new-account.schema'
+import { surveyResultPath } from './path/survey-result.path'
+import { accountSchema, authenticationParamsSchema, errorSchema, signupParamsSchema, surveySchema, surveysSchema, addSurveyParamsSchema, newAccountSchema, saveSurveyResultParamsSchema, surveyResultSchema, surveyResultAnswerSchema } from './schemas'
+import { saveSurveyResultSchema } from './schemas/save-survey-result.schema'
 
 export default {
   openapi: '3.0.0',
@@ -32,7 +32,8 @@ export default {
   paths: {
     '/authentication': authenticationPath,
     '/survey': surveyPath,
-    '/signup': signupPath
+    '/signup': signupPath,
+    '/survey/:surveyId/results': surveyResultPath
   },
   schemas: {
     account: accountSchema,
@@ -40,10 +41,13 @@ export default {
     error: errorSchema,
     survey: surveySchema,
     surveys: surveysSchema,
-    surveyAnswer: surveyAnswerSchema,
     signupParams: signupParamsSchema,
     newAccount: newAccountSchema,
-    addSurveyParams: addSurveyParamsSchema
+    addSurveyParams: addSurveyParamsSchema,
+    saveSurveyResultParams: saveSurveyResultParamsSchema,
+    surveyResult: surveyResultSchema,
+    surveyResultAnswer: surveyResultAnswerSchema,
+    saveSurveyResult: saveSurveyResultSchema
   },
   components: {
     securitySchemes: {

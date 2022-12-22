@@ -1,23 +1,35 @@
-export const signupPath = {
-  post: {
-    tags: ['Login'],
-    summary: 'Rota para cadastrar usuários.',
+export const surveyResultPath = {
+  put: {
+    security: [{
+      bearerAuth: []
+    }],
+    tags: ['Enquete'],
+    summary: 'Rota para criar a resposta de uma enquete.',
     requestBody: {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/signupParams'
+            $ref: '#/schemas/saveSurveyResultParams'
           }
         }
       }
     },
+    parameters: [{
+      in: 'path',
+      name: 'surveyId',
+      required: true,
+      schema: {
+        type: 'string'
+      },
+      description: 'Id da enquete.'
+    }],
     responses: {
       200: {
         description: 'Sucesso',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/newAccount'
+              $ref: '#/schemas/saveSurveyResult'
             }
           }
         }
@@ -27,7 +39,17 @@ export const signupPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/badRequest'
+              $ref: '#/components/badRequestSurvey'
+            }
+          }
+        }
+      },
+      403: {
+        description: 'Acesso negado',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/forbidden'
             }
           }
         }
@@ -38,16 +60,6 @@ export const signupPath = {
           'application/json': {
             schema: {
               $ref: '#/components/notFound'
-            }
-          }
-        }
-      },
-      409: {
-        description: 'Conflito',
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/components/conflict'
             }
           }
         }

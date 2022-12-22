@@ -31,7 +31,7 @@ export const surveyPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/notFound'
+              $ref: '#/components/notFound'
             }
           }
         }
@@ -41,7 +41,7 @@ export const surveyPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/serverError'
+              $ref: '#/components/serverError'
             }
           }
         }
@@ -58,7 +58,7 @@ export const surveyPath = {
       content: {
         'application/json': {
           schema: {
-            $ref: '#schemas/addSurveyParams'
+            $ref: '#/schemas/addSurveyParams'
           }
         }
       }
@@ -72,7 +72,7 @@ export const surveyPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/badRequestSurvey'
+              $ref: '#/components/badRequestSurvey'
             }
           }
         }
@@ -92,7 +92,7 @@ export const surveyPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/notFound'
+              $ref: '#/components/notFound'
             }
           }
         }
@@ -102,7 +102,7 @@ export const surveyPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/serverError'
+              $ref: '#/components/serverError'
             }
           }
         }

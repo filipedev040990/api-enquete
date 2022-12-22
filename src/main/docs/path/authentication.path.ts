@@ -6,7 +6,7 @@ export const authenticationPath = {
       content: {
         'application/json': {
           schema: {
-            $ref: '#schemas/authenticationParams'
+            $ref: '#/schemas/authenticationParams'
           }
         }
       }
@@ -27,7 +27,7 @@ export const authenticationPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/badRequest'
+              $ref: '#/components/badRequest'
             }
           }
         }
@@ -37,7 +37,7 @@ export const authenticationPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/unauthorized'
+              $ref: '#/components/unauthorized'
             }
           }
         }
@@ -47,7 +47,7 @@ export const authenticationPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/notFound'
+              $ref: '#/components/notFound'
             }
           }
         }
@@ -57,7 +57,7 @@ export const authenticationPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#components/serverError'
+              $ref: '#/components/serverError'
             }
           }
         }
