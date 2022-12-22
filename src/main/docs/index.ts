@@ -1,7 +1,9 @@
 import { badRequestComponent, unauthorizedComponent, notFoundComponent, serverErrorComponent, forbiddenComponent } from './components'
+import { badRequestSurveyComponent } from './components/bad-request-survey.component'
 import { conflictComponent } from './components/conflict.component'
 import { authenticationPath, signupPath, surveyPath } from './path'
 import { accountSchema, authenticationParamsSchema, errorSchema, signupParamsSchema, surveyAnswerSchema, surveySchema, surveysSchema } from './schemas'
+import { addSurveyParamsSchema } from './schemas/add-survey-params.schema'
 import { newAccountSchema } from './schemas/new-account.schema'
 
 export default {
@@ -40,7 +42,8 @@ export default {
     surveys: surveysSchema,
     surveyAnswer: surveyAnswerSchema,
     signupParams: signupParamsSchema,
-    newAccount: newAccountSchema
+    newAccount: newAccountSchema,
+    addSurveyParams: addSurveyParamsSchema
   },
   components: {
     securitySchemes: {
@@ -55,6 +58,7 @@ export default {
     notFound: notFoundComponent,
     serverError: serverErrorComponent,
     forbidden: forbiddenComponent,
-    conflict: conflictComponent
+    conflict: conflictComponent,
+    badRequestSurvey: badRequestSurveyComponent
   }
 }
