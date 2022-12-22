@@ -1,4 +1,4 @@
-export const surveyResultAnswerSchema = {
+export const surveyAnswerSchema = {
   type: 'object',
   properties: {
     image: {

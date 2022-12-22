@@ -1,3 +1,5 @@
 export * from './authentication.path'
-export * from './survey.path'
+export * from './paths'
 export * from './signup.path'
+export * from './survey-result.path'
+export * from './survey.path'

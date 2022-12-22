@@ -1,10 +1,6 @@
-import { badRequestComponent, unauthorizedComponent, notFoundComponent, serverErrorComponent, forbiddenComponent } from './components'
-import { badRequestSurveyComponent } from './components/bad-request-survey.component'
-import { conflictComponent } from './components/conflict.component'
-import { authenticationPath, signupPath, surveyPath } from './path'
-import { surveyResultPath } from './path/survey-result.path'
-import { accountSchema, authenticationParamsSchema, errorSchema, signupParamsSchema, surveySchema, surveysSchema, addSurveyParamsSchema, newAccountSchema, saveSurveyResultParamsSchema, surveyResultSchema, surveyResultAnswerSchema } from './schemas'
-import { saveSurveyResultSchema } from './schemas/save-survey-result.schema'
+import { components } from './components/components'
+import { paths } from './path/paths'
+import { schemas } from './schemas/schemas'
 
 export default {
   openapi: '3.0.0',
@@ -25,44 +21,13 @@ export default {
     url: '/api'
   }],
   tags: [{
-    name: 'Login'
+    name: 'Login',
+    description: 'Rotas relacionadas com autenticação'
   }, {
-    name: 'Enquete'
+    name: 'Enquete',
+    description: 'Rotas relacionadas com enquete'
   }],
-  paths: {
-    '/authentication': authenticationPath,
-    '/survey': surveyPath,
-    '/signup': signupPath,
-    '/survey/:surveyId/results': surveyResultPath
-  },
-  schemas: {
-    account: accountSchema,
-    authenticationParams: authenticationParamsSchema,
-    error: errorSchema,
-    survey: surveySchema,
-    surveys: surveysSchema,
-    signupParams: signupParamsSchema,
-    newAccount: newAccountSchema,
-    addSurveyParams: addSurveyParamsSchema,
-    saveSurveyResultParams: saveSurveyResultParamsSchema,
-    surveyResult: surveyResultSchema,
-    surveyResultAnswer: surveyResultAnswerSchema,
-    saveSurveyResult: saveSurveyResultSchema
-  },
-  components: {
-    securitySchemes: {
-      bearerAuth: {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT'
-      }
-    },
-    badRequest: badRequestComponent,
-    unauthorized: unauthorizedComponent,
-    notFound: notFoundComponent,
-    serverError: serverErrorComponent,
-    forbidden: forbiddenComponent,
-    conflict: conflictComponent,
-    badRequestSurvey: badRequestSurveyComponent
-  }
+  paths,
+  schemas,
+  components
 }
