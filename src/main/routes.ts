@@ -8,8 +8,8 @@ const router = Router()
 router.post('/signup', adaptRoute(makeSignupControler()))
 router.post('/authentication', adaptRoute(makeAuthenticationController()))
 
-router.post('/survey', adaptMiddleware(makeAuthMiddleware('admin')), adaptRoute(makeAddSurveyController()))
-router.get('/survey', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makeListAllSurveysController()))
-router.put('/survey/:surveyId/saveAnswer', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makesaveSurveyAnswerController()))
+router.post('/surveys', adaptMiddleware(makeAuthMiddleware('admin')), adaptRoute(makeAddSurveyController()))
+router.get('/surveys', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makeListAllSurveysController()))
+router.put('/surveys/:surveyId/save-answer', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makesaveSurveyAnswerController()))
 
 export { router }
