@@ -2,7 +2,7 @@ import { authenticationPath, signupPath, surveyPath, surveyAnswerPath } from '.'
 
 export const paths = {
   '/authentication': authenticationPath,
-  '/survey': surveyPath,
+  '/surveys': surveyPath,
   '/signup': signupPath,
-  '/survey/:surveyId/saveAnswer': surveyAnswerPath
+  '/surveys/:surveyId/save-answer': surveyAnswerPath
 }

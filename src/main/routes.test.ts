@@ -69,7 +69,7 @@ describe('Signup Routes', () => {
     describe('survey', () => {
       test('should return 403 on add survey without token', async () => {
         await request(app)
-          .post('/api/survey')
+          .post('/api/surveys')
           .send({
             question: 'Question Test',
             answers: [
@@ -87,7 +87,7 @@ describe('Signup Routes', () => {
 
       test('should return 403 on list all survey without token', async () => {
         await request(app)
-          .get('/api/survey')
+          .get('/api/surveys')
           .expect(403)
       })
     })
@@ -95,7 +95,7 @@ describe('Signup Routes', () => {
     describe('survey answer', () => {
       test('should return 403 on save survey answer without token', async () => {
         await request(app)
-          .put('/api/survey/anyId/saveAnswer')
+          .put('/api/surveys/anyId/save-answer')
           .send({
             answer: 'anyAnswer'
           })

@@ -4,7 +4,7 @@ export const surveyAnswerPath = {
       bearerAuth: []
     }],
     tags: ['Enquete'],
-    summary: 'Rota para criar a resposta de uma enquete.',
+    summary: 'Rota para salvar a resposta de uma enquete.',
     requestBody: {
       content: {
         'application/json': {
