@@ -57,7 +57,7 @@ describe('LogController Decorator', () => {
     expect(spy).toHaveBeenCalledWith(httpRequest)
   })
 
-  test('should return the same result of controller', async () => {
+  test('should return the same answer of controller', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {

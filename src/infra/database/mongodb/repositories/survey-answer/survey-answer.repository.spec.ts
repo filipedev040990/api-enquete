@@ -2,18 +2,18 @@ import { AccountModel } from '@/domain/models/account.model'
 import { SurveyModel } from '@/domain/models/survey.model'
 import { MongoHelper } from '@/infra/database/mongodb/helpers/mongo.helper'
 import { map } from '../../helpers/mapping.helper'
-import { SurveyResultRepository } from './survey-result.repository'
+import { SurveyAnswerRepository } from './survey-answer.repository'
 
 type SutType = {
-  sut: SurveyResultRepository
+  sut: SurveyAnswerRepository
 }
 
-let surveyResultCollection
+let surveyAnswerCollection
 let accountCollection
 let surveyCollection
 
 const makeSut = (): SutType => {
-  const sut = new SurveyResultRepository()
+  const sut = new SurveyAnswerRepository()
   return { sut }
 }
 
@@ -47,7 +47,7 @@ const makeAccount = async (): Promise<AccountModel> => {
   return map(account)
 }
 
-describe('SurveyResultRepository', () => {
+describe('SurveyAnswerRepository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
@@ -57,8 +57,8 @@ describe('SurveyResultRepository', () => {
   })
 
   beforeEach(async () => {
-    surveyResultCollection = await MongoHelper.getCollection('surveyResults')
-    await surveyResultCollection.deleteMany({})
+    surveyAnswerCollection = await MongoHelper.getCollection('surveyAnswer')
+    await surveyAnswerCollection.deleteMany({})
 
     accountCollection = await MongoHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
@@ -67,43 +67,43 @@ describe('SurveyResultRepository', () => {
     await surveyCollection.deleteMany({})
   })
   describe('save', () => {
-    test('should add a survey result if its new', async () => {
+    test('should add a survey answer if its new', async () => {
       const { sut } = makeSut()
       const survey = await makeSurvey()
       const account = await makeAccount()
 
-      const surveyResult = await sut.save({
+      const surveyAnswer = await sut.save({
         surveyId: survey.id,
         accountId: account.id,
         answer: survey.answers[0].answer,
         date: new Date()
       })
-      expect(surveyResult).toBeTruthy()
-      expect(surveyResult.id).toBeTruthy()
-      expect(surveyResult.answer).toEqual(survey.answers[0].answer)
+      expect(surveyAnswer).toBeTruthy()
+      expect(surveyAnswer.id).toBeTruthy()
+      expect(surveyAnswer.answer).toEqual(survey.answers[0].answer)
     })
   })
 
-  test('should update survey result if its not new', async () => {
+  test('should update survey answer if its not new', async () => {
     const { sut } = makeSut()
     const survey = await makeSurvey()
     const account = await makeAccount()
 
-    const response = await surveyResultCollection.insertOne({
+    const response = await surveyAnswerCollection.insertOne({
       surveyId: survey.id,
       accountId: account.id,
       answer: survey.answers[0].answer,
       date: new Date()
     })
 
-    const surveyResult = await sut.save({
+    const surveyAnswer = await sut.save({
       surveyId: survey.id,
       accountId: account.id,
       answer: survey.answers[1].answer,
       date: new Date()
     })
-    expect(surveyResult).toBeTruthy()
-    expect(surveyResult.id).toEqual(response.insertedId)
-    expect(surveyResult.answer).toEqual(survey.answers[1].answer)
+    expect(surveyAnswer).toBeTruthy()
+    expect(surveyAnswer.id).toEqual(response.insertedId)
+    expect(surveyAnswer.answer).toEqual(survey.answers[1].answer)
   })
 })

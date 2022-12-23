@@ -1,24 +1,24 @@
-import { SurveyResultModel } from '@/domain/models/survey-result.model'
+import { SurveyAnswerModel } from '@/domain/models/survey-answer.model'
 import { SurveyModel } from '@/domain/models/survey.model'
 import { GetSurveyByIdUseCaseInterface } from '@/domain/use-cases/survey/get-survey-by-id.interface'
-import { SaveSurveyResultModel, SaveSurveyResultUseCaseInterface } from '@/domain/use-cases/survey/save-survey-result.interface'
 import { InvalidParamError } from '@/presentation/errors'
 import { forbidden, serverError, success } from '@/presentation/helpers/http.helper'
 import { HttpRequest } from '@/presentation/interfaces'
-import { SaveSurveyResultController } from './save-survey-result.controller'
+import { SaveSurveyAnswerController } from './save-survey-answer.controller'
 import MockDate from 'mockdate'
+import { SaveSurveyAnswerModel, SaveSurveyAnswerUseCaseInterface } from '@/domain/use-cases/survey-answer/save-survey-answer.interface'
 
 type SutType = {
-  sut: SaveSurveyResultController
+  sut: SaveSurveyAnswerController
   getSurveyByIdUseCaseStub: GetSurveyByIdUseCaseInterface
-  saveSurveyResultUseCaseStub: SaveSurveyResultUseCaseInterface
+  saveSurveyAnswerUseCaseStub: SaveSurveyAnswerUseCaseInterface
 }
 
 const makeSut = (): SutType => {
   const getSurveyByIdUseCaseStub = makeSurveyByIdUseCaseStub()
-  const saveSurveyResultUseCaseStub = makeSaveSurveyResultUseCaseStub()
-  const sut = new SaveSurveyResultController(getSurveyByIdUseCaseStub, saveSurveyResultUseCaseStub)
-  return { sut, getSurveyByIdUseCaseStub, saveSurveyResultUseCaseStub }
+  const saveSurveyAnswerUseCaseStub = makesaveSurveyAnswerUseCaseStub()
+  const sut = new SaveSurveyAnswerController(getSurveyByIdUseCaseStub, saveSurveyAnswerUseCaseStub)
+  return { sut, getSurveyByIdUseCaseStub, saveSurveyAnswerUseCaseStub }
 }
 
 const makeSurveyByIdUseCaseStub = (): GetSurveyByIdUseCaseInterface => {
@@ -30,13 +30,13 @@ const makeSurveyByIdUseCaseStub = (): GetSurveyByIdUseCaseInterface => {
   return new GetSurveyByIdUseCaseStub()
 }
 
-const makeSaveSurveyResultUseCaseStub = (): SaveSurveyResultUseCaseInterface => {
-  class SaveSurveyResultUseCaseStub implements SaveSurveyResultUseCaseInterface {
-    async execute (data: SaveSurveyResultModel): Promise<SurveyResultModel> {
-      return await Promise.resolve(makeFakeSurveyResult())
+const makesaveSurveyAnswerUseCaseStub = (): SaveSurveyAnswerUseCaseInterface => {
+  class SaveSurveyAnswerUseCaseStub implements SaveSurveyAnswerUseCaseInterface {
+    async execute (data: SaveSurveyAnswerModel): Promise<SurveyAnswerModel> {
+      return await Promise.resolve(makeFakesurveyAnswer())
     }
   }
-  return new SaveSurveyResultUseCaseStub()
+  return new SaveSurveyAnswerUseCaseStub()
 }
 
 const makeFakeSurvey = (): SurveyModel => ({
@@ -49,7 +49,7 @@ const makeFakeSurvey = (): SurveyModel => ({
   date: new Date()
 })
 
-const makeFakeSurveyResult = (): SurveyResultModel => ({
+const makeFakesurveyAnswer = (): SurveyAnswerModel => ({
   id: 'anyId',
   surveyId: 'anySurveyId',
   accountId: 'anyAccountId',
@@ -68,7 +68,7 @@ const makeFakeRequest = (): HttpRequest => ({
   accountId: 'anyAccountId'
 })
 
-describe('SaveSurveyResultController', () => {
+describe('saveSurveyAnswerController', () => {
   beforeAll(() => {
     MockDate.set(new Date())
   })
@@ -108,9 +108,9 @@ describe('SaveSurveyResultController', () => {
     expect(response).toEqual(serverError(new Error()))
   })
 
-  test('should call SaveSurveyResultUseCase once and with correct values', async () => {
-    const { sut, saveSurveyResultUseCaseStub } = makeSut()
-    const spy = jest.spyOn(saveSurveyResultUseCaseStub, 'execute')
+  test('should call saveSurveyAnswerUseCase once and with correct values', async () => {
+    const { sut, saveSurveyAnswerUseCaseStub } = makeSut()
+    const spy = jest.spyOn(saveSurveyAnswerUseCaseStub, 'execute')
     await sut.execute(makeFakeRequest())
     expect(spy).toBeCalledTimes(1)
     expect(spy).toHaveBeenCalledWith({
@@ -122,8 +122,8 @@ describe('SaveSurveyResultController', () => {
   })
 
   test('should return 500 if SurveyRepository.getById throw an exception', async () => {
-    const { sut, saveSurveyResultUseCaseStub } = makeSut()
-    jest.spyOn(saveSurveyResultUseCaseStub, 'execute').mockImplementationOnce(() => {
+    const { sut, saveSurveyAnswerUseCaseStub } = makeSut()
+    jest.spyOn(saveSurveyAnswerUseCaseStub, 'execute').mockImplementationOnce(() => {
       throw new Error()
     })
     const response = await sut.execute(makeFakeRequest())
@@ -133,6 +133,6 @@ describe('SaveSurveyResultController', () => {
   test('should return 200 on success', async () => {
     const { sut } = makeSut()
     const response = await sut.execute(makeFakeRequest())
-    expect(response).toEqual(success(makeFakeSurveyResult()))
+    expect(response).toEqual(success(makeFakesurveyAnswer()))
   })
 })

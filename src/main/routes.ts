@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { adaptMiddleware } from './adapters/express-middleware.adapter'
 import { adaptRoute } from './adapters/express-route.adapter'
-import { makeAddSurveyController, makeListAllSurveysController, makeSaveSurveyResultController, makeSignupControler, makeAuthenticationController, makeAuthMiddleware } from './factories'
+import { makeAddSurveyController, makeListAllSurveysController, makesaveSurveyAnswerController, makeSignupControler, makeAuthenticationController, makeAuthMiddleware } from './factories'
 
 const router = Router()
 
@@ -10,6 +10,6 @@ router.post('/authentication', adaptRoute(makeAuthenticationController()))
 
 router.post('/survey', adaptMiddleware(makeAuthMiddleware('admin')), adaptRoute(makeAddSurveyController()))
 router.get('/survey', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makeListAllSurveysController()))
-router.put('/survey/:surveyId/results', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makeSaveSurveyResultController()))
+router.put('/survey/:surveyId/saveAnswer', adaptMiddleware(makeAuthMiddleware()), adaptRoute(makesaveSurveyAnswerController()))
 
 export { router }

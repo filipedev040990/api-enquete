@@ -1,4 +1,4 @@
-export const surveyResultPath = {
+export const surveyAnswerPath = {
   put: {
     security: [{
       bearerAuth: []
@@ -9,7 +9,7 @@ export const surveyResultPath = {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/saveSurveyResultParams'
+            $ref: '#/schemas/saveSurveyAnswerParams'
           }
         }
       }
@@ -29,7 +29,7 @@ export const surveyResultPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/saveSurveyResult'
+              $ref: '#/schemas/saveSurveyAnswer'
             }
           }
         }

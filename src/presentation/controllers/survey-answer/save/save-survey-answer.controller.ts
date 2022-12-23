@@ -1,13 +1,13 @@
+import { SaveSurveyAnswerUseCaseInterface } from '@/domain/use-cases/survey-answer/save-survey-answer.interface'
 import { GetSurveyByIdUseCaseInterface } from '@/domain/use-cases/survey/get-survey-by-id.interface'
-import { SaveSurveyResultUseCaseInterface } from '@/domain/use-cases/survey/save-survey-result.interface'
 import { InvalidParamError } from '@/presentation/errors'
 import { forbidden, serverError, success } from '@/presentation/helpers/http.helper'
 import { ControllerInterface, HttpRequest, HttpResponse } from '@/presentation/interfaces'
 
-export class SaveSurveyResultController implements ControllerInterface {
+export class SaveSurveyAnswerController implements ControllerInterface {
   constructor (
     private readonly getSurveyByIdUseCase: GetSurveyByIdUseCaseInterface,
-    private readonly saveSurveyResultUseCase: SaveSurveyResultUseCaseInterface
+    private readonly saveSurveyAnswerUseCase: SaveSurveyAnswerUseCaseInterface
   ) {}
 
   async execute (request: HttpRequest): Promise<HttpResponse> {
@@ -19,14 +19,14 @@ export class SaveSurveyResultController implements ControllerInterface {
           return forbidden(new InvalidParamError('answer'))
         }
 
-        const surveyResult = await this.saveSurveyResultUseCase.execute({
+        const surveyAnswer = await this.saveSurveyAnswerUseCase.execute({
           surveyId: request.params.surveyId,
           accountId: request.accountId,
           date: new Date(),
           answer: request.body.answer
         })
 
-        return success(surveyResult)
+        return success(surveyAnswer)
       } else {
         return forbidden(new InvalidParamError('survey_id'))
       }

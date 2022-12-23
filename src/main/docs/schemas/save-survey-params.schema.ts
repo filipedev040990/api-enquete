@@ -1,4 +1,4 @@
-export const saveSurveyResultParamsSchema = {
+export const saveSurveyAnswerParamsSchema = {
   type: 'object',
   properties: {
     answer: {

@@ -88,7 +88,7 @@ describe('Survey Repository', () => {
     test('should list survey by id', async () => {
       const { sut } = makeSut()
 
-      const surveyResult = await surveyCollection.insertOne({
+      const surveyAnswer = await surveyCollection.insertOne({
         question: 'Question Example',
         answers: [
           {
@@ -100,7 +100,7 @@ describe('Survey Repository', () => {
         ],
         date: new Date()
       })
-      const response = await sut.getById(surveyResult.insertedId)
+      const response = await sut.getById(surveyAnswer.insertedId)
       expect(response).toBeTruthy()
       expect(response.id).toBeTruthy()
     })

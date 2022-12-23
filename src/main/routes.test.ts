@@ -92,10 +92,10 @@ describe('Signup Routes', () => {
       })
     })
 
-    describe('survey result', () => {
-      test('should return 403 on save survey result without token', async () => {
+    describe('survey answer', () => {
+      test('should return 403 on save survey answer without token', async () => {
         await request(app)
-          .put('/api/survey/anyId/results')
+          .put('/api/survey/anyId/saveAnswer')
           .send({
             answer: 'anyAnswer'
           })
