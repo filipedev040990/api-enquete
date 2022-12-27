@@ -1,8 +1,8 @@
-import { SurveyAnswerModel } from '@/domain/models/survey-answer.model'
 import { SaveSurveyAnswerUseCase } from './save-survey-answer.usecase'
 import MockDate from 'mockdate'
 import { SaveSurveyAnswerRepositoryInterface } from '@/data/interfaces/save-survey-answer-repository.interface'
 import { SaveSurveyAnswerModel } from '@/domain/use-cases/survey-answer/save-survey-answer.interface'
+import { SurveyResultModel } from '@/domain/models/survey-result.model'
 
 type SutType = {
   sut: SaveSurveyAnswerUseCase
@@ -17,16 +17,25 @@ const makeSut = (): SutType => {
 
 const makeSurveyAnswerRepositoryStub = (): SaveSurveyAnswerRepositoryInterface => {
   class SurveyAnswerRepositoryStub implements SaveSurveyAnswerRepositoryInterface {
-    async save (data: SaveSurveyAnswerModel): Promise<SurveyAnswerModel> {
-      const fakesurveyAnswer = makeFakesurveyAnswer()
-      return await Promise.resolve({
-        id: 'anyId',
-        ...fakesurveyAnswer
-      })
+    async save (data: SaveSurveyAnswerModel): Promise<SurveyResultModel> {
+      return await Promise.resolve(makeFakeSurveyResult())
     }
   }
   return new SurveyAnswerRepositoryStub()
 }
+
+const makeFakeSurveyResult = (): SurveyResultModel => ({
+  surveyId: 'anySurveyId',
+  question: 'Any Question',
+  answers: [
+    {
+      answer: 'Any Answer',
+      count: 1,
+      percent: 50
+    }
+  ],
+  date: new Date()
+})
 
 const makeFakesurveyAnswer = (): SaveSurveyAnswerModel => ({
   surveyId: 'anySurveyId',
@@ -54,13 +63,7 @@ describe('saveSurveyAnswerUseCase', () => {
   test('should return surveyAnswer on success', async () => {
     const { sut } = makeSut()
     const response = await sut.execute(makeFakesurveyAnswer())
-    expect(response).toEqual({
-      id: 'anyId',
-      surveyId: 'anySurveyId',
-      accountId: 'anyAccountId',
-      answer: 'Any Answer',
-      date: new Date()
-    })
+    expect(response).toEqual(makeFakeSurveyResult())
   })
 
   test('should return server error if SurveyAnswerRepository.save throw an exception', async () => {

@@ -79,8 +79,10 @@ describe('SurveyAnswerRepository', () => {
         date: new Date()
       })
       expect(surveyAnswer).toBeTruthy()
-      expect(surveyAnswer.id).toBeTruthy()
-      expect(surveyAnswer.answer).toEqual(survey.answers[0].answer)
+      expect(surveyAnswer.surveyId).toEqual(survey.id)
+      expect(surveyAnswer.answers[0].answer).toBe(survey.answers[0].answer)
+      expect(surveyAnswer.answers[0].count).toBe(1)
+      expect(surveyAnswer.answers[0].percent).toBe(100)
     })
   })
 
@@ -89,7 +91,7 @@ describe('SurveyAnswerRepository', () => {
     const survey = await makeSurvey()
     const account = await makeAccount()
 
-    const response = await surveyAnswerCollection.insertOne({
+    await surveyAnswerCollection.insertOne({
       surveyId: survey.id,
       accountId: account.id,
       answer: survey.answers[0].answer,
@@ -102,8 +104,11 @@ describe('SurveyAnswerRepository', () => {
       answer: survey.answers[1].answer,
       date: new Date()
     })
+
     expect(surveyAnswer).toBeTruthy()
-    expect(surveyAnswer.id).toEqual(response.insertedId)
-    expect(surveyAnswer.answer).toEqual(survey.answers[1].answer)
+    expect(surveyAnswer.surveyId).toEqual(survey.id)
+    expect(surveyAnswer.answers[0].answer).toBe(survey.answers[1].answer)
+    expect(surveyAnswer.answers[0].count).toBe(1)
+    expect(surveyAnswer.answers[0].percent).toBe(100)
   })
 })

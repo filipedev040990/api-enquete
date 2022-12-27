@@ -1,4 +1,3 @@
-import { SurveyAnswerModel } from '@/domain/models/survey-answer.model'
 import { SurveyModel } from '@/domain/models/survey.model'
 import { GetSurveyByIdUseCaseInterface } from '@/domain/use-cases/survey/get-survey-by-id.interface'
 import { InvalidParamError } from '@/presentation/errors'
@@ -7,6 +6,7 @@ import { HttpRequest } from '@/presentation/interfaces'
 import { SaveSurveyAnswerController } from './save-survey-answer.controller'
 import MockDate from 'mockdate'
 import { SaveSurveyAnswerModel, SaveSurveyAnswerUseCaseInterface } from '@/domain/use-cases/survey-answer/save-survey-answer.interface'
+import { SurveyResultModel } from '@/domain/models/survey-result.model'
 
 type SutType = {
   sut: SaveSurveyAnswerController
@@ -32,12 +32,25 @@ const makeSurveyByIdUseCaseStub = (): GetSurveyByIdUseCaseInterface => {
 
 const makesaveSurveyAnswerUseCaseStub = (): SaveSurveyAnswerUseCaseInterface => {
   class SaveSurveyAnswerUseCaseStub implements SaveSurveyAnswerUseCaseInterface {
-    async execute (data: SaveSurveyAnswerModel): Promise<SurveyAnswerModel> {
-      return await Promise.resolve(makeFakesurveyAnswer())
+    async execute (data: SaveSurveyAnswerModel): Promise<SurveyResultModel> {
+      return await Promise.resolve(makeFakeSurveyResult())
     }
   }
   return new SaveSurveyAnswerUseCaseStub()
 }
+
+const makeFakeSurveyResult = (): SurveyResultModel => ({
+  surveyId: 'anySurveyId',
+  question: 'Any Question',
+  answers: [
+    {
+      answer: 'Any Answer',
+      count: 1,
+      percent: 50
+    }
+  ],
+  date: new Date()
+})
 
 const makeFakeSurvey = (): SurveyModel => ({
   id: 'anySurveyId',
@@ -46,14 +59,6 @@ const makeFakeSurvey = (): SurveyModel => ({
     image: 'anyImage',
     answer: 'Yes'
   }],
-  date: new Date()
-})
-
-const makeFakesurveyAnswer = (): SurveyAnswerModel => ({
-  id: 'anyId',
-  surveyId: 'anySurveyId',
-  accountId: 'anyAccountId',
-  answer: 'Yes',
   date: new Date()
 })
 
@@ -133,6 +138,6 @@ describe('saveSurveyAnswerController', () => {
   test('should return 200 on success', async () => {
     const { sut } = makeSut()
     const response = await sut.execute(makeFakeRequest())
-    expect(response).toEqual(success(makeFakesurveyAnswer()))
+    expect(response).toEqual(success(makeFakeSurveyResult()))
   })
 })
