@@ -49,4 +49,15 @@ describe('ListResultSurveyUseCase', () => {
     expect(spy).toBeCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('anySurveyId', 'anyAccountId')
   })
+
+  test('should return server error if Survey repository throw an exception', async () => {
+    const { sut, surveyRepositoryStub } = makeSut()
+    jest.spyOn(surveyRepositoryStub, 'getBySurveyIdAndAccountId').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const response = sut.execute('anySurveyId', 'anyAccountId')
+
+    await expect(response).rejects.toThrow()
+  })
 })
