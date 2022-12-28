@@ -127,4 +127,15 @@ describe('ListResultSurveyUseCase', () => {
     expect(response.answers[0]).toHaveProperty('count')
     expect(response.answers[0]).toHaveProperty('percent')
   })
+
+  test('should return server error if SurveyRepository.getById throw an exception', async () => {
+    const { sut, surveyAnswerRepositoryStub } = makeSut()
+    jest.spyOn(surveyAnswerRepositoryStub, 'getBySurveyIdAndAccountId').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const response = sut.execute('anySurveyId', 'anyAccountId')
+
+    await expect(response).rejects.toThrow()
+  })
 })
