@@ -11,14 +11,12 @@ const fakeResult = {
     {
       answer: 'Não',
       count: 1,
-      percent: 100,
-      isCurrentAccountAnswer: true
+      percent: 100
     },
     {
       answer: 'Sim',
       count: 0,
-      percent: 0,
-      isCurrentAccountAnswer: false
+      percent: 0
     }
   ]
 }
@@ -96,6 +94,10 @@ describe('ListResultSurveyUseCase', () => {
     expect(response).toHaveProperty('surveyId')
     expect(response).toHaveProperty('question')
     expect(response).toHaveProperty('answers')
+    expect(response).toHaveProperty('date')
+    expect(response.answers[0]).toHaveProperty('answer')
+    expect(response.answers[0]).toHaveProperty('count')
+    expect(response.answers[0]).toHaveProperty('percent')
   })
 
   test('should call SurveyRepository.getById if is empty answers', async () => {
@@ -107,5 +109,22 @@ describe('ListResultSurveyUseCase', () => {
     await sut.execute('anySurveyId', 'anyAccountId')
     expect(spy).toBeCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('anySurveyId')
+  })
+
+  test('should return a survey if is empty answers', async () => {
+    const { sut, surveyAnswerRepositoryStub } = makeSut()
+
+    jest.spyOn(surveyAnswerRepositoryStub, 'getBySurveyIdAndAccountId').mockReturnValueOnce(Promise.resolve(null))
+
+    const response = await sut.execute('anySurveyId', 'anyAccountId')
+
+    expect(response).toBeTruthy()
+    expect(response).toHaveProperty('surveyId')
+    expect(response).toHaveProperty('question')
+    expect(response).toHaveProperty('answers')
+    expect(response).toHaveProperty('date')
+    expect(response.answers[0]).toHaveProperty('answer')
+    expect(response.answers[0]).toHaveProperty('count')
+    expect(response.answers[0]).toHaveProperty('percent')
   })
 })

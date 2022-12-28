@@ -27,8 +27,7 @@ export class ListResultSurveyUseCase implements ListResultSurveyUseCaseInterface
       answers: survey.answers.map(answer => ({
         ...answer,
         count: 0,
-        percent: 0,
-        isCurrentAccountAnswer: false
+        percent: 0
       }))
     }
   }
