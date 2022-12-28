@@ -4,5 +4,5 @@ export const paths = {
   '/authentication': authenticationPath,
   '/surveys': surveyPath,
   '/signup': signupPath,
-  '/surveys/:surveyId/save-answer': surveyAnswerPath
+  '/surveys/{surveyId}/save-answer': surveyAnswerPath
 }

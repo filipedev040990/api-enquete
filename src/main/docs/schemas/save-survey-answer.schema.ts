@@ -1,34 +1,37 @@
 export const savesurveyAnswerchema = {
   type: 'object',
   properties: {
-    accountId: {
-      type: 'object',
-      properties: {
-        accountId: {
-          type: 'string'
-        }
-      }
-    },
     surveyId: {
       type: 'string'
     },
-    answer: {
-      type: 'string'
-    },
+    question: 'string',
     date: {
       type: 'string'
     },
-    id: {
-      type: 'string'
+    answers: {
+      type: 'array',
+      items: {
+        $ref: '#/schemas/surveyAnswer'
+      }
     }
   },
   example: {
-    accountId: {
-      accountId: '6398e5d1c6408b0a2d7b7ea7'
-    },
-    surveyId: '639e6355cadd1d910fcd4c26',
-    answer: 'Sim',
-    date: '2022-12-21T20:51:27.111Z',
-    id: '63a23323821a9b8cbcee4609'
+    surveyId: '63a45ae3cae58f6dd72907f2',
+    question: 'Você já trabalhou com Node JS ?',
+    date: '2022-12-22T13:25:55.548Z',
+    answers: [
+      {
+        image: 'https://www.google.com/error.png',
+        answer: 'Não',
+        count: 2,
+        percent: 66.66666666666666
+      },
+      {
+        image: 'https://www.google.com/check.png',
+        answer: 'Sim',
+        count: 1,
+        percent: 33.33333333333333
+      }
+    ]
   }
 }

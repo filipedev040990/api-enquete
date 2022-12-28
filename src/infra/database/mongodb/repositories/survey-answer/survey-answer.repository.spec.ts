@@ -79,10 +79,6 @@ describe('SurveyAnswerRepository', () => {
         date: new Date()
       })
       expect(surveyAnswer).toBeTruthy()
-      expect(surveyAnswer.surveyId).toEqual(survey.id)
-      expect(surveyAnswer.answers[0].answer).toBe(survey.answers[0].answer)
-      expect(surveyAnswer.answers[0].count).toBe(1)
-      expect(surveyAnswer.answers[0].percent).toBe(100)
     })
   })
 
@@ -106,9 +102,5 @@ describe('SurveyAnswerRepository', () => {
     })
 
     expect(surveyAnswer).toBeTruthy()
-    expect(surveyAnswer.surveyId).toEqual(survey.id)
-    expect(surveyAnswer.answers[0].answer).toBe(survey.answers[1].answer)
-    expect(surveyAnswer.answers[0].count).toBe(1)
-    expect(surveyAnswer.answers[0].percent).toBe(100)
   })
 })
