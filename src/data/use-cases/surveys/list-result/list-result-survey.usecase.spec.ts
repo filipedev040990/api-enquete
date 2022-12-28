@@ -60,4 +60,15 @@ describe('ListResultSurveyUseCase', () => {
 
     await expect(response).rejects.toThrow()
   })
+
+  test('should return a result on success', async () => {
+    const { sut } = makeSut()
+
+    const response = await sut.execute('anySurveyId', 'anyAccountId')
+
+    expect(response).toBeTruthy()
+    expect(response).toHaveProperty('surveyId')
+    expect(response).toHaveProperty('question')
+    expect(response).toHaveProperty('answers')
+  })
 })

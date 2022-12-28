@@ -5,7 +5,6 @@ import { ListResultSurveyUseCaseInterface } from '@/domain/use-cases/survey/list
 export class ListResultSurveyUseCase implements ListResultSurveyUseCaseInterface {
   constructor (private readonly surveyRepository: ListResultSurveyRepositoryInterface) {}
   async execute (surveyId: string, accountId: string): Promise<SurveyResultModel> {
-    await this.surveyRepository.getBySurveyIdAndAccountId(surveyId, accountId)
-    return null
+    return await this.surveyRepository.getBySurveyIdAndAccountId(surveyId, accountId)
   }
 }
