@@ -5,8 +5,9 @@ import { ObjectId } from 'mongodb'
 import { MongoHelper } from '../../helpers/mongo.helper'
 import round from 'mongo-round'
 import { QueryBuilder } from '../../helpers/query-builder'
+import { ListResultSurveyRepositoryInterface } from '@/data/interfaces/list-result-survey-repository.interface'
 
-export class SurveyAnswerRepository implements SaveSurveyAnswerRepositoryInterface {
+export class SurveyAnswerRepository implements SaveSurveyAnswerRepositoryInterface, ListResultSurveyRepositoryInterface {
   async save (data: SaveSurveyAnswerModel): Promise<SurveyResultModel> {
     const surveyAnswerCollection = await MongoHelper.getCollection('surveyAnswer')
     await surveyAnswerCollection.findOneAndUpdate(
@@ -29,7 +30,7 @@ export class SurveyAnswerRepository implements SaveSurveyAnswerRepositoryInterfa
     return surveyResult
   }
 
-  private async getBySurveyIdAndAccountId (surveyId: string, accountId: string): Promise<any> {
+  async getBySurveyIdAndAccountId (surveyId: string, accountId: string): Promise<any> {
     const surveyAnswerCollection = await MongoHelper.getCollection('surveyAnswer')
     const query = new QueryBuilder()
       .match({
