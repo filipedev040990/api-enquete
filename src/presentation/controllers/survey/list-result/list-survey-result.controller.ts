@@ -1,6 +1,7 @@
 
 import { ListResultSurveyUseCaseInterface } from '@/domain/use-cases/survey/list-result-survey.interface'
-import { success } from '@/presentation/helpers/http.helper'
+import { InvalidParamError } from '@/presentation/errors'
+import { forbidden, success } from '@/presentation/helpers/http.helper'
 import { ControllerInterface, HttpRequest, HttpResponse } from '@/presentation/interfaces'
 
 export class ListSurveyResultController implements ControllerInterface {
@@ -8,6 +9,9 @@ export class ListSurveyResultController implements ControllerInterface {
 
   async execute (request: HttpRequest): Promise<HttpResponse> {
     const surveyResult = await this.listResultSurveyUseCase.execute(request.params.surveyId, request.accountId)
+    if (!surveyResult) {
+      return forbidden(new InvalidParamError('surveyId'))
+    }
     return success(surveyResult)
   }
 }
