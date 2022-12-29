@@ -1,4 +1,4 @@
-import { badRequestComponent, forbiddenComponent, notFoundComponent, serverErrorComponent, unauthorizedComponent } from '.'
+import { badRequestComponent, badRequestSurveyResultComponent, forbiddenComponent, notFoundComponent, serverErrorComponent, unauthorizedComponent } from '.'
 import { badRequestSurveyComponent } from './bad-request-survey.component'
 import { conflictComponent } from './conflict.component'
 
@@ -16,5 +16,6 @@ export const components = {
   serverError: serverErrorComponent,
   forbidden: forbiddenComponent,
   conflict: conflictComponent,
-  badRequestSurvey: badRequestSurveyComponent
+  badRequestSurvey: badRequestSurveyComponent,
+  badRequestSurveyResult: badRequestSurveyResultComponent
 }

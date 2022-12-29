@@ -5,16 +5,17 @@ O objetivo do treinamento é mostrar como criar uma API com uma arquitetura bem 
 
 ## Do que se trata
 API de enquete sobre questões de programadores.
+<br />
+
+## [**Link para a documentação da API**](http://localhost:3000/api-docs)
 
 ## Rotas da API
-<ol>
-    <li>Cadastro</li>
-    <li>Login</li>
-    <li>Criar enquete</li>
-    <li>Listar enquete</li>
-    <li>Responder enquete</li>
-    <li>Resultado da enquete</li>
-</ol>
+1. [Cadastro](./requirements/signup.md)
+2. [Login](./requirements/login.md)
+3. [Criar enquete](./requirements/add-survey.md)
+4. [Listar enquetes](./requirements/list-all-surveys.md)
+5. [Responder enquete](./requirements/save-survey-result.md)
+6. [Resultado da enquete](./requirements/list-survey-result.md)
 
 ## Princípios aplicados
 <ul>

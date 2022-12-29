@@ -1,24 +1,18 @@
-export const authenticationPath = {
-  post: {
-    tags: ['Login'],
-    summary: 'Rota para autenticação de usuários.',
-    description: 'Essa rota pode ser executada por **qualquer usuário**',
-    requestBody: {
-      content: {
-        'application/json': {
-          schema: {
-            $ref: '#/schemas/authenticationParams'
-          }
-        }
-      }
-    },
+export const surveyResultPath = {
+  get: {
+    security: [{
+      bearerAuth: []
+    }],
+    tags: ['Enquete'],
+    summary: 'Rota para listar o resultado de uma enquete.',
+    description: 'Essa rota só pode ser executada por **usuários autenticados**',
     responses: {
       200: {
         description: 'Sucesso',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/account'
+              $ref: '#/schemas/saveSurveyAnswer'
             }
           }
         }
@@ -28,17 +22,17 @@ export const authenticationPath = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/badRequest'
+              $ref: '#/components/badRequestSurveyResult'
             }
           }
         }
       },
-      401: {
-        description: 'Não autorizado',
+      403: {
+        description: 'Acesso negado',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/unauthorized'
+              $ref: '#/components/forbidden'
             }
           }
         }

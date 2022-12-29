@@ -5,6 +5,7 @@ export const surveyAnswerPath = {
     }],
     tags: ['Enquete'],
     summary: 'Rota para salvar a resposta de uma enquete.',
+    description: 'Essa rota só pode ser executada por **usuários autenticados**',
     requestBody: {
       content: {
         'application/json': {

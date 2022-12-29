@@ -1,3 +1,4 @@
+export * from './bad-request-survey-result.component'
 export * from './bad-request.component'
 export * from './unauthorized.component'
 export * from './not-found.components'

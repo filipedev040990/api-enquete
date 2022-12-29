@@ -2,6 +2,7 @@ export const signupPath = {
   post: {
     tags: ['Login'],
     summary: 'Rota para cadastrar usuários.',
+    description: 'Essa rota pode ser executada por **qualquer usuário**',
     requestBody: {
       content: {
         'application/json': {
