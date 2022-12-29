@@ -1,7 +1,7 @@
 import { SurveyResultModel } from '@/domain/models/survey-result.model'
 import { ListResultSurveyUseCaseInterface } from '@/domain/use-cases/survey/list-result-survey.interface'
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, success } from '@/presentation/helpers/http.helper'
+import { forbidden, serverError, success } from '@/presentation/helpers/http.helper'
 import { HttpRequest } from '@/presentation/interfaces'
 import { ListSurveyResultController } from './list-survey-result.controller'
 
@@ -74,5 +74,15 @@ describe('ListSurveyResultController', () => {
     const response = await sut.execute(makeFakeRequest())
 
     expect(response).toEqual(forbidden(new InvalidParamError('surveyId')))
+  })
+
+  test('should return 500 if ListResultSurveyUseCase throw an exception', async () => {
+    const { sut, listResultSurveyUseCaseStub } = makeSut()
+    jest.spyOn(listResultSurveyUseCaseStub, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.execute(makeFakeRequest())
+
+    expect(response).toEqual(serverError(new Error()))
   })
 })
