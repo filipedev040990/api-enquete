@@ -103,4 +103,10 @@ describe('SurveyAnswerRepository', () => {
 
     expect(surveyAnswer).toBeTruthy()
   })
+
+  test('should return null if surveyId is invalid', async () => {
+    const { sut } = makeSut()
+    const exists = await sut.getBySurveyIdAndAccountId('639e6355cadd1d910fcd4c26', '639e6355cadd1d910fcd4c12')
+    expect(exists).toBeNull()
+  })
 })
