@@ -1,7 +1,6 @@
 import { SurveyResultModel } from '@/domain/models/survey-result.model'
 import { ListResultSurveyUseCaseInterface } from '@/domain/use-cases/survey/list-result-survey.interface'
-import { MissingParamError } from '@/presentation/errors'
-import { badRequest } from '@/presentation/helpers/http.helper'
+import { success } from '@/presentation/helpers/http.helper'
 import { HttpRequest } from '@/presentation/interfaces'
 import { ListSurveyResultController } from './list-survey-result.controller'
 
@@ -60,11 +59,11 @@ describe('ListSurveyResultController', () => {
     expect(spy).toHaveBeenCalledWith('anySurveyId', 'anyAccountId')
   })
 
-  test('should return 400 if surveyId is not provided', async () => {
+  test('should return survey result on success', async () => {
     const { sut } = makeSut()
-    const request = makeFakeRequest()
-    request.params = {}
-    const response = await sut.execute(request)
-    expect(response).toEqual(badRequest(new MissingParamError('surveyId')))
+    const response = await sut.execute(makeFakeRequest())
+
+    expect(response).toBeTruthy()
+    expect(response).toEqual(success(fakeResult))
   })
 })
