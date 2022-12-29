@@ -1,4 +1,6 @@
 import { SurveyResultModel } from '@/domain/models/survey-result.model'
+import { SurveyModel } from '@/domain/models/survey.model'
+import { GetSurveyByIdUseCaseInterface } from '@/domain/use-cases/survey/get-survey-by-id.interface'
 import { ListResultSurveyUseCaseInterface } from '@/domain/use-cases/survey/list-result-survey.interface'
 import { InvalidParamError } from '@/presentation/errors'
 import { forbidden, serverError, success } from '@/presentation/helpers/http.helper'
@@ -8,12 +10,14 @@ import { ListSurveyResultController } from './list-survey-result.controller'
 type SutType = {
   sut: ListSurveyResultController
   listResultSurveyUseCaseStub: ListResultSurveyUseCaseInterface
+  getSurveyById: GetSurveyByIdUseCaseInterface
 }
 
 const makeSut = (): SutType => {
   const listResultSurveyUseCaseStub = makeListResultSurveyUseCaseStub()
-  const sut = new ListSurveyResultController(listResultSurveyUseCaseStub)
-  return { sut, listResultSurveyUseCaseStub }
+  const getSurveyById = makeGetSurveyByIdUseCaseStub()
+  const sut = new ListSurveyResultController(listResultSurveyUseCaseStub, getSurveyById)
+  return { sut, listResultSurveyUseCaseStub, getSurveyById }
 }
 
 const makeListResultSurveyUseCaseStub = (): ListResultSurveyUseCaseInterface => {
@@ -23,6 +27,29 @@ const makeListResultSurveyUseCaseStub = (): ListResultSurveyUseCaseInterface => 
     }
   }
   return new ListResultSurveyUseCaseStub()
+}
+
+const makeGetSurveyByIdUseCaseStub = (): GetSurveyByIdUseCaseInterface => {
+  class GetSurveyByIdUseCaseStub implements GetSurveyByIdUseCaseInterface {
+    async execute (id: string): Promise<SurveyModel> {
+      return await Promise.resolve(fakeSurvey)
+    }
+  }
+  return new GetSurveyByIdUseCaseStub()
+}
+
+const fakeSurvey = {
+  id: 'anyId',
+  question: 'Question 01',
+  answers: [
+    {
+      answer: 'Answer 01'
+    },
+    {
+      answer: 'Answer 02'
+    }
+  ],
+  date: new Date()
 }
 
 const fakeResult = {
@@ -69,8 +96,8 @@ describe('ListSurveyResultController', () => {
   })
 
   test('should return 400 if invalid survey_id is provided', async () => {
-    const { sut, listResultSurveyUseCaseStub } = makeSut()
-    jest.spyOn(listResultSurveyUseCaseStub, 'execute').mockReturnValueOnce(Promise.resolve(null))
+    const { sut, getSurveyById } = makeSut()
+    jest.spyOn(getSurveyById, 'execute').mockReturnValueOnce(Promise.resolve(null))
     const response = await sut.execute(makeFakeRequest())
 
     expect(response).toEqual(forbidden(new InvalidParamError('surveyId')))

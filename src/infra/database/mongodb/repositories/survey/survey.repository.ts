@@ -21,6 +21,9 @@ export class SurveyRepository implements AddSurveyRepositoryInterface, ListAllSu
   async getById (id: string): Promise<SurveyModel> {
     const surveysCollection = await MongoHelper.getCollection('surveys')
     const survey = await surveysCollection.findOne({ _id: new ObjectId(id) })
-    return map(survey)
+    if (survey) {
+      return map(survey)
+    }
+    return null
   }
 }
