@@ -25,7 +25,6 @@ export class SaveSurveyAnswerController implements ControllerInterface {
           date: new Date(),
           answer: request.body.answer
         })
-
         return success(surveyAnswer)
       } else {
         return forbidden(new InvalidParamError('survey_id'))

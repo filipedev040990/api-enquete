@@ -8,6 +8,7 @@
         "@typescript-eslint/method-signature-style": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/no-misused-promises": "off",
-        "eslint-disable-next-line new-cap": "off"
+        "eslint-disable-next-line new-cap": "off",
+        "@typescript-eslint/prefer-nullish-coalescing": "off"
     }
 }
