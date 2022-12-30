@@ -6,6 +6,15 @@ export const surveyResultPath = {
     tags: ['Enquete'],
     summary: 'Rota para listar o resultado de uma enquete.',
     description: 'Essa rota só pode ser executada por **usuários autenticados**',
+    parameters: [{
+      in: 'path',
+      name: 'surveyId',
+      required: true,
+      schema: {
+        type: 'string'
+      },
+      description: 'Id da enquete.'
+    }],
     responses: {
       200: {
         description: 'Sucesso',
