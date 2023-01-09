@@ -7,6 +7,12 @@ O objetivo do treinamento é mostrar como criar uma API com uma arquitetura bem 
 API de enquete sobre questões de programadores.
 <br />
 
+## Subindo a aplicação
+É necessário ter o docker instalado em sua máquina.<br />
+Execute o comando docker-compose up para subir os containers necessários.
+<br />
+
+
 ## [**Link para a documentação da API**](http://localhost:3000/api-docs)
 
 ## Rotas da API
